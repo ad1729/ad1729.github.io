@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Akshat Dwivedi",
+    "section": "",
+    "text": "Miscellaneous\n\n\n\n\n\n\n\n\n\n\n\nAug 1, 2022\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/hello-world/index.html",
+    "href": "posts/hello-world/index.html",
+    "title": "Hello, World!",
+    "section": "",
+    "text": "This first post is to check whether the features I want for this blog work as desired.\nThese can be summarized in a non-exhaustive list as:"
+  },
+  {
+    "objectID": "posts/hello-world/index.html#math",
+    "href": "posts/hello-world/index.html#math",
+    "title": "Hello, World!",
+    "section": "Math",
+    "text": "Math\nThe OLS estimator is given by the equation \\(\\hat\\beta_\\text{OLS} = (X^\\mathsf{T} X)^{-1} X^\\mathsf{T} y\\).\nOn the other hand, the ridge estimator is given by the following formula\n\\[\\hat\\beta_\\text{ridge} = (X^\\mathsf{T} X + \\lambda I)^{-1} X^\\mathsf{T} y\\]\nwhere \\(\\lambda \\in [0, \\infty)\\) controls the amount of shrinkage applied to the coefficients."
+  },
+  {
+    "objectID": "posts/hello-world/index.html#r-code",
+    "href": "posts/hello-world/index.html#r-code",
+    "title": "Hello, World!",
+    "section": "R code",
+    "text": "R code\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)\n\np <- iris %>% \n  ggplot(aes(x = Petal.Length, y = Petal.Width, color = Species)) + \n  geom_point() + \n  theme_classic()\n\nvanilla ggplot\n\nplot(p)\n\n\n\n\nplotly plot\n\nplotly::ggplotly(p)"
+  }
+]
