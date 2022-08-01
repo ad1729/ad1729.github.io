@@ -1,19 +1,29 @@
 project:
   type: website
+  execute-dir: file
+  preview:
+    browser: true
+    watch-inputs: true
+    navigate: true
 
 website:
-  title: "QuartoBlog"
+  title: "Akshat Dwivedi"
+  favicon: favicon.png
   navbar:
+    search: true
+    collapse: true
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/ad1729
+      - icon: linkedin
+        href: https://www.linkedin.com/in/akshatd/
+  page-navigation: true
+
 format:
   html:
-    theme: cosmo
+    theme:
+      light: litera
+      dark: darkly
     css: styles.css
-
-
-
+    highlight-style: github

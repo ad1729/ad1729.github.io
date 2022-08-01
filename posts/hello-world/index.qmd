@@ -1,0 +1,52 @@
+---
+title: "Hello, World!"
+date: "2022-08-01"
+categories: [Miscellaneous]
+toc: true
+code-fold: false
+---
+
+This first post is to check whether the features I want for this blog work as desired.
+
+These can be summarized in a non-exhaustive list as: 
+
+- math
+- R / Python code
+- interactive graphs (plotly, leaflet, ...)
+- syntax highlighting
+- markdown
+- ...
+
+## Math
+
+The OLS estimator is given by the equation $\hat\beta_\text{OLS} = (X^\mathsf{T} X)^{-1} X^\mathsf{T} y$.
+
+On the other hand, the _ridge_ estimator is given by the following formula
+
+$$\hat\beta_\text{ridge} = (X^\mathsf{T} X + \lambda I)^{-1} X^\mathsf{T} y$$
+
+where $\lambda \in [0, \infty)$ controls the amount of shrinkage applied to the coefficients.
+
+## R code
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+p <- iris %>% 
+  ggplot(aes(x = Petal.Length, y = Petal.Width, color = Species)) + 
+  geom_point() + 
+  theme_classic()
+```
+
+vanilla ggplot
+
+```{r}
+plot(p)
+```
+
+plotly plot
+
+```{r}
+plotly::ggplotly(p)
+```

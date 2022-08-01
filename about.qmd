@@ -2,18 +2,14 @@
 title: "About"
 image: profile.jpg
 about:
-  template: jolla
+  template: solana
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://linkedin.com/in/akshatd
     - icon: github
       text: Github
-      href: https://github.com
-
+      href: https://github.com/ad1729
 ---
 
 About this blog

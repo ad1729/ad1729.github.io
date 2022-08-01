@@ -2,7 +2,27 @@
 
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
-freeze: true
+freeze: auto
 
 # Enable banner style title blocks
 title-block-banner: true
+
+# Default for table of contents
+toc: true
+toc-title: Table of contents
+toc-location: right
+
+# Default knitr options
+execute:
+  echo: true
+  message: true
+  warning: true
+
+# Fold code by default
+format:
+  html:
+    code-fold: true
+    code-line-numbers: true
+    code-copy: hover
+    code-overflow: scroll
+    code-tools: true
