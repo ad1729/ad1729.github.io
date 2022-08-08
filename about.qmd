@@ -2,7 +2,7 @@
 title: "About"
 image: me.jpeg
 about:
-  template: trestles
+  template: broadside
   links:
     - icon: linkedin
       text: LinkedIn
