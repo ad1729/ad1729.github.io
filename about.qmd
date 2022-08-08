@@ -1,8 +1,8 @@
 ---
 title: "About"
-image: profile.jpg
+image: me.jpeg
 about:
-  template: solana
+  template: trestles
   links:
     - icon: linkedin
       text: LinkedIn
@@ -10,6 +10,18 @@ about:
     - icon: github
       text: Github
       href: https://github.com/ad1729
+    - icon: images
+      text: Photos
+      href: https://500px.com/p/akshatdwivedi?view=photos
 ---
 
-About this blog
+I'm a data scientist / statistician / autodidact currently living in the magical city of Gent, Belgium. I have degrees in mathematics and statistics, as well as more than five years of experience working as a data scientist across multiple industries (advertising, marketing, telecommunications, and (COVID-19) vaccine epidemiology).
+
+My professional interests revolve around statistics / machine learning, programming, distributed computing, writing clean code, and using models to make real-world decisions. 
+
+In my free time, I like to read, cook, cycle, play tennis, and learn languages.
+
+The primary reason for starting this (mostly) technical blog is to work through some (technical) concepts or challenges I encounter. Additional reasons include having my R / Python code in a clean and easy-to-navigate format, and to share recipes once in a while. I've been talking about wanting to have a blog since 2012, so I'm glad that I _finally_ got around to having one in 2022.
+
+You can reach out to me via [LinkedIn](https://linkedin.com/in/akshatd) or via email (my first name [dot] last name [at] gmail).
+
