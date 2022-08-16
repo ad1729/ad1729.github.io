@@ -26,3 +26,4 @@ format:
     code-copy: hover
     code-overflow: scroll
     code-tools: true
+    footnotes-hover: true
