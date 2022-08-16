@@ -8,5 +8,6 @@ This project contains the all the files for the blog.
 - Start writing
 - Run `quarto preview` in the terminal 
 - Run `quarto render` when done with the post
+- Commit changes and push to master / main branch
 - Run `quarto publish gh-pages`
 - Go do something else
