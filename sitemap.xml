@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ad1729.github.io/about.html</loc>
-    <lastmod>2022-08-08T16:25:55.172Z</lastmod>
+    <lastmod>2022-08-16T07:40:02.143Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/index.html</loc>
-    <lastmod>2022-08-08T16:25:55.879Z</lastmod>
+    <lastmod>2022-08-16T07:40:03.039Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/hello-world/index.html</loc>
-    <lastmod>2022-08-08T16:25:57.231Z</lastmod>
+    <lastmod>2022-08-16T07:40:05.046Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ad1729.github.io/posts/how-many-ratings-do-i-need/index.html</loc>
+    <lastmod>2022-08-16T07:40:06.499Z</lastmod>
   </url>
 </urlset>
