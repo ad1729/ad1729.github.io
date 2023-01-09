@@ -26,7 +26,7 @@ website:
         href: https://500px.com/p/akshatdwivedi?view=photos
   page-navigation: true
   page-footer:
-    center: "akshat.blog © 2022 Akshat Dwivedi. Built with [Quarto](https://www.quarto.org) and [GitHub Pages](https://pages.github.com). Read the [license.](https://github.com/ad1729/ad1729.github.io/LICENSE.md)"
+    center: "akshat.blog © 2022-2023 Akshat Dwivedi. Built with [Quarto](https://www.quarto.org) and [GitHub Pages](https://pages.github.com). Read the [license.](https://github.com/ad1729/ad1729.github.io/LICENSE.md)"
   repo-url: https://github.com/ad1729/ad1729.github.io
   repo-actions: [issue]
 
