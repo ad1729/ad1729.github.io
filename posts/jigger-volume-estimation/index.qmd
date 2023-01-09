@@ -1,6 +1,6 @@
 ---
 title: "Determining the volume of my (cocktail) jigger"
-date: "2023-01-11"
+date: "2023-01-09"
 categories: [Miscellaneous, Measurement, R]
 code-fold: true
 toc: false
