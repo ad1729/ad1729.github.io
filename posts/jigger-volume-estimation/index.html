@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-01-11">
+
+<title>Akshat Dwivedi - Determining the volume of my (cocktail) jigger</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Akshat Dwivedi</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ad1729"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"><i class="bi bi-images" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Determining the volume of my (cocktail) jigger</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Miscellaneous</div>
+                <div class="quarto-category">Measurement</div>
+                <div class="quarto-category">R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 11, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<div class="page-columns page-full"><p>In the fall of 2022, I was gifted a cocktail mixing set for my birthday<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it relatively easy to measure the quantity of drinks that go into a cocktail (e.g., 40 ml of vodka, 10 ml of sugar syrup, etc.).</p><div class="no-row-height column-margin column-container"><li id="fn1" role="doc-endnote"><p><sup>1</sup>&nbsp;It was put to use immediately and some delicious <a href="https://en.wikipedia.org/wiki/Whiskey_sour">whiskey sours</a> were made.</p></li></div></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="jigger-photo.webp" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Stock photo of a cocktail jigger</figcaption><p></p>
+</figure>
+</div>
+<p>After a couple of months of not having to use my cocktail set due to travelling, I couldn’t remember the volume of either side (i.e., basin) of the jigger, nor could I find the remains of the packaging material for reference. Googling showed that jiggers come in different sizes, so I decided to measure the volume myself.</p>
+<div class="page-columns page-full"><p>Over the next hour or so, I came up with two methods<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p><div class="no-row-height column-margin column-container"><li id="fn2" role="doc-endnote"><p><sup>2</sup>&nbsp;not original, obviously</p></li></div></div>
+<ul>
+<li>measure the volume using water and a kitchen digital weighing scale</li>
+<li>measure the dimensions of the two basins and use some middle-school math to calculate the volume</li>
+</ul>
+<section id="method-1-weight-based" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="method-1-weight-based">Method 1: Weight-based</h2>
+<p>The digital kitchen scale I own has this nifty feature where it can account for and automatically subtract the weight of the container so that only the weight of the object of interest is shown.</p>
+<p>The scale measures weight in grams (g), but I was interested in the volume in milliliters (ml). Quick Googling reminded me of the nifty fact I learned and forgot a long time ago, that the weight of 1 g of water is approximately equal to the volume occupied by 1 ml of water.</p>
+<div class="page-columns page-full"><p>Placing the jigger on the scale and ensuring that the scale read zero g, I filled up the larger basin to the top with tap water. The scale showed 51g, which was odd as I was expecting it to show a number that would be a multiple of five (i.e., a number ending with a 0 or a 5)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn3" role="doc-endnote"><p><sup>3</sup>&nbsp;although some jigger images online show possible measurements like 22.5 ml (which is 0.75 oz)</p></li></div></div>
+<div class="page-columns page-full"><p>So <em>obviously</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> the next logical step was to take multiple measurements. After making sure to drain the jigger, clean the scale of any spilled water droplets, and ensuring the scale read zero, I took the next measurement which read 48 g. <em>Excellent</em>. I love consistent results.</p><div class="no-row-height column-margin column-container"><li id="fn4" role="doc-endnote"><p><sup>4</sup>&nbsp;obvious to a <em>Statistician</em> or a <em>Data Scientist</em></p></li></div></div>
+<p>So I took another 8 measurements, and repeated this process for the smaller basin of the jigger as well. These measurements are visualized below.</p>
+<p>Each time I filled it to what I perceived to be the top but I got different measurements. I don’t think that this variability is necessarily due to the variability of the digital scale itself but most likely due to the variability in my perception of what counts as ‘filled to the brim’.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>vol_big <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">51</span>, <span class="dv">48</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">49</span>, <span class="dv">50</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">50</span>, <span class="dv">50</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>vol_small <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">32</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">tibble</span>(</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="at">Basin =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Smaller basin"</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="st">"Larger basin"</span>, <span class="dv">10</span>)),</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="st">`</span><span class="at">Volume (in ml)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(vol_small, vol_big)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">mutate</span>(<span class="at">Basin =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(Basin)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Volume (in ml)</span><span class="st">`</span>, <span class="at">fill =</span> Basin, <span class="at">color =</span> Basin)) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">stroke =</span> <span class="dv">2</span>, <span class="at">dotsize =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb1-16"><a href="#cb1-16"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>), </span>
+<span id="cb1-17"><a href="#cb1-17"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>), </span>
+<span id="cb1-18"><a href="#cb1-18"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>)) <span class="sc">+</span> </span>
+<span id="cb1-19"><a href="#cb1-19"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#E69F00"</span>, <span class="st">"darkgreen"</span>)) <span class="sc">+</span> </span>
+<span id="cb1-21"><a href="#cb1-21"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#E69F00"</span>, <span class="st">"darkgreen"</span>)) <span class="sc">+</span> </span>
+<span id="cb1-22"><a href="#cb1-22"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Basin, <span class="at">scales =</span> <span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Averaging these measurements gave me a volume of 50.1 ml for the big basin and 30.6 ml for the smaller basin.</p>
+<div class="page-columns page-full"><p>Interestingly<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, it also indicates<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> that I usually put anywhere between 48-52 (or 28-32) ml of a drink when I’m supposed to add 50 (or 30) ml.</p><div class="no-row-height column-margin column-container"><li id="fn5" role="doc-endnote"><p><sup>5</sup>&nbsp;to me and <em>literally</em> nobody else</p></li><li id="fn6" role="doc-endnote"><p><sup>6</sup>&nbsp;assuming the digital scale is not causing this variability</p></li></div></div>
+</section>
+<section id="method-2-dimension-based" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="method-2-dimension-based">Method 2: Dimension-based</h2>
+<div class="page-columns page-full"><p>The shape of a jigger reminded me of a (partial) cone, so I measured<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> the height <span class="math inline">\(h\)</span> from the mouth of each basin to the point where it joins the other basin, and the diameter <span class="math inline">\(2R\)</span> of the mouth of each basin.</p><div class="no-row-height column-margin column-container"><li id="fn7" role="doc-endnote"><p><sup>7</sup>&nbsp;using a pair of <em><a href="https://en.wikipedia.org/wiki/Calipers#Digital_caliper">digital calipers</a></em> I <em>totally</em> had lying around the house and did not use this exercise as an excuse to buy</p></li></div></div>
+<p>For the smaller basin, the height <span class="math inline">\(h_s\)</span> was measured as 3.48 cm, and a diameter of 3.9 cm (so a radius <span class="math inline">\(R_s\)</span> of 1.95 cm).</p>
+<p>For the larger basin, the height <span class="math inline">\(h_l\)</span> was measured as 5.28 cm, and a diameter of 4.18 cm (so a radius <span class="math inline">\(R_l\)</span> of 2.09 cm).</p>
+<p>The radius <span class="math inline">\(r\)</span> of the base where the two basins are attached to each other is <span class="math inline">\(2.78 / 2 = 1.39\)</span>.</p>
+<div class="page-columns page-full"><p>Plugging these into the <a href="https://www.cuemath.com/measurement/volume-of-a-partial-cone/">formula for a partial cone</a><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn8" role="doc-endnote"><p><sup>8</sup>&nbsp;<a href="https://brilliant.org/wiki/volume-cone/">here’s</a> a derivation (and <a href="https://math.stackexchange.com/questions/891163/volume-of-a-frustum">another</a>) of the volume of a cone using calculus, which I’ve probably derived in school or university and long since forgotten</p></li></div></div>
+<p><span class="math display">\[V = \frac{1}{3} \times \pi \times h \times \Big(R^2 + Rr + r^2\Big)\]</span></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>cone <span class="ot">&lt;-</span> <span class="cf">function</span>(h, r, R) {</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  (pi <span class="sc">*</span> h <span class="sc">*</span> (R<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (R <span class="sc">*</span> r) <span class="sc">+</span> r<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="page-columns page-full"><p>gave a volume<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> of 30.8 ml for the smaller basin and 50.9 for the larger basin which was very similar to the numbers from the other method, but not exactly equal to 30 and 50 ml due to (human) measurement error.</p><div class="no-row-height column-margin column-container"><li id="fn9" role="doc-endnote"><p><sup>9</sup>&nbsp;using the conversion factor of 1 cm^3 to 1 ml for volume of water</p></li></div></div>
+<p>A few days after doing all these measurements, I came across a similar (in spirit?) <a href="https://statmodeling.stat.columbia.edu/2023/01/06/god-is-in-every-leaf-of-every-tree-bathroom-scale-edition/">post</a> on a blog I frequent, which inspired me to write this up.</p>
+
+
+<!-- -->
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="an">title:</span><span class="co"> "Determining the volume of my (cocktail) jigger"</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="an">date:</span><span class="co"> "2023-01-11"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="an">categories:</span><span class="co"> [Miscellaneous, Measurement, R]</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="an">code-fold:</span><span class="co"> true</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="an">toc:</span><span class="co"> false</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">---</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>In the fall of 2022, I was gifted a cocktail mixing set for my birthday<span class="ot">[^8]</span> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it relatively easy to measure the quantity of drinks that go into a cocktail (e.g., 40 ml of vodka, 10 ml of sugar syrup, etc.).</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="ot">[^8]: </span>It was put to use immediately and some delicious <span class="co">[</span><span class="ot">whiskey sours</span><span class="co">](https://en.wikipedia.org/wiki/Whiskey_sour)</span> were made.</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="al">![Stock photo of a cocktail jigger](jigger-photo.webp)</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>After a couple of months of not having to use my cocktail set due to travelling, I couldn't remember the volume of either side (i.e., basin) of the jigger, nor could I find the remains of the packaging material for reference. Googling showed that jiggers come in different sizes, so I decided to measure the volume myself.</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a>Over the next hour or so, I came up with two methods<span class="ot">[^1]</span>:</span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="ot">[^1]: </span>not original, obviously</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="ss">- </span>measure the volume using water and a kitchen digital weighing scale</span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="ss">- </span>measure the dimensions of the two basins and use some middle-school math to calculate the volume</span>
+<span id="cb3-24"><a href="#cb3-24"></a></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="fu">## Method 1: Weight-based</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a></span>
+<span id="cb3-27"><a href="#cb3-27"></a>The digital kitchen scale I own has this nifty feature where it can account for and automatically subtract the weight of the container so that only the weight of the object of interest is shown.</span>
+<span id="cb3-28"><a href="#cb3-28"></a></span>
+<span id="cb3-29"><a href="#cb3-29"></a>The scale measures weight in grams (g), but I was interested in the volume in milliliters (ml). Quick Googling reminded me of the nifty fact I learned and forgot a long time ago, that the weight of 1 g of water is approximately equal to the volume occupied by 1 ml of water.</span>
+<span id="cb3-30"><a href="#cb3-30"></a></span>
+<span id="cb3-31"><a href="#cb3-31"></a>Placing the jigger on the scale and ensuring that the scale read zero g, I filled up the larger basin to the top with tap water. The scale showed 51g, which was odd as I was expecting it to show a number that would be a multiple of five (i.e., a number ending with a 0 or a 5)<span class="ot">[^2]</span>.</span>
+<span id="cb3-32"><a href="#cb3-32"></a></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="ot">[^2]: </span>although some jigger images online show possible measurements like 22.5 ml (which is 0.75 oz)</span>
+<span id="cb3-34"><a href="#cb3-34"></a></span>
+<span id="cb3-35"><a href="#cb3-35"></a>So _obviously_[^3] the next logical step was to take multiple measurements. After making sure to drain the jigger, clean the scale of any spilled water droplets, and ensuring the scale read zero, I took the next measurement which read 48 g. _Excellent_. I love consistent results.</span>
+<span id="cb3-36"><a href="#cb3-36"></a></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="ot">[^3]: </span>obvious to a _Statistician_ or a _Data Scientist_</span>
+<span id="cb3-38"><a href="#cb3-38"></a></span>
+<span id="cb3-39"><a href="#cb3-39"></a>So I took another 8 measurements, and repeated this process for the smaller basin of the jigger as well. These measurements are visualized below.</span>
+<span id="cb3-40"><a href="#cb3-40"></a></span>
+<span id="cb3-41"><a href="#cb3-41"></a>Each time I filled it to what I perceived to be the top but I got different measurements. I don't think that this variability is necessarily due to the variability of the digital scale itself but most likely due to the variability in my perception of what counts as 'filled to the brim'.</span>
+<span id="cb3-42"><a href="#cb3-42"></a></span>
+<span id="cb3-45"><a href="#cb3-45"></a><span class="in">```{r}</span></span>
+<span id="cb3-46"><a href="#cb3-46"></a><span class="co">#| warning: false</span></span>
+<span id="cb3-47"><a href="#cb3-47"></a><span class="co">#| message: false</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a></span>
+<span id="cb3-49"><a href="#cb3-49"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-50"><a href="#cb3-50"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-51"><a href="#cb3-51"></a></span>
+<span id="cb3-52"><a href="#cb3-52"></a>vol_big <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">51</span>, <span class="dv">48</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">49</span>, <span class="dv">50</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">50</span>, <span class="dv">50</span>)</span>
+<span id="cb3-53"><a href="#cb3-53"></a>vol_small <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">32</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>)</span>
+<span id="cb3-54"><a href="#cb3-54"></a></span>
+<span id="cb3-55"><a href="#cb3-55"></a><span class="fu">tibble</span>(</span>
+<span id="cb3-56"><a href="#cb3-56"></a>  <span class="at">Basin =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Smaller basin"</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="st">"Larger basin"</span>, <span class="dv">10</span>)),</span>
+<span id="cb3-57"><a href="#cb3-57"></a>  <span class="st">`</span><span class="at">Volume (in ml)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(vol_small, vol_big)</span>
+<span id="cb3-58"><a href="#cb3-58"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-59"><a href="#cb3-59"></a>  <span class="fu">mutate</span>(<span class="at">Basin =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(Basin)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-60"><a href="#cb3-60"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Volume (in ml)</span><span class="st">`</span>, <span class="at">fill =</span> Basin, <span class="at">color =</span> Basin)) <span class="sc">+</span></span>
+<span id="cb3-61"><a href="#cb3-61"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">stroke =</span> <span class="dv">2</span>, <span class="at">dotsize =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb3-62"><a href="#cb3-62"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb3-63"><a href="#cb3-63"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb3-64"><a href="#cb3-64"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>), </span>
+<span id="cb3-65"><a href="#cb3-65"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>), </span>
+<span id="cb3-66"><a href="#cb3-66"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>)) <span class="sc">+</span> </span>
+<span id="cb3-67"><a href="#cb3-67"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb3-68"><a href="#cb3-68"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#E69F00"</span>, <span class="st">"darkgreen"</span>)) <span class="sc">+</span> </span>
+<span id="cb3-69"><a href="#cb3-69"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#E69F00"</span>, <span class="st">"darkgreen"</span>)) <span class="sc">+</span> </span>
+<span id="cb3-70"><a href="#cb3-70"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Basin, <span class="at">scales =</span> <span class="st">'free'</span>)</span>
+<span id="cb3-71"><a href="#cb3-71"></a><span class="in">```</span></span>
+<span id="cb3-72"><a href="#cb3-72"></a></span>
+<span id="cb3-73"><a href="#cb3-73"></a>Averaging these measurements gave me a volume of <span class="in">`r round(mean(vol_big), 1)`</span> ml for the big basin and <span class="in">`r round(mean(vol_small), 1)`</span> ml for the smaller basin.</span>
+<span id="cb3-74"><a href="#cb3-74"></a></span>
+<span id="cb3-75"><a href="#cb3-75"></a>Interestingly<span class="ot">[^4]</span>, it also indicates<span class="ot">[^5]</span> that I usually put anywhere between <span class="in">`r paste(range(vol_big), collapse = "-")`</span> (or <span class="in">`r paste(range(vol_small), collapse = "-")`</span>) ml of a drink when I'm supposed to add 50 (or 30) ml.</span>
+<span id="cb3-76"><a href="#cb3-76"></a></span>
+<span id="cb3-77"><a href="#cb3-77"></a><span class="ot">[^4]: </span>to me and _literally_ nobody else</span>
+<span id="cb3-78"><a href="#cb3-78"></a></span>
+<span id="cb3-79"><a href="#cb3-79"></a><span class="ot">[^5]: </span>assuming the digital scale is not causing this variability</span>
+<span id="cb3-80"><a href="#cb3-80"></a></span>
+<span id="cb3-81"><a href="#cb3-81"></a><span class="fu">## Method 2: Dimension-based</span></span>
+<span id="cb3-82"><a href="#cb3-82"></a></span>
+<span id="cb3-83"><a href="#cb3-83"></a>The shape of a jigger reminded me of a (partial) cone, so I measured<span class="ot">[^6]</span> the height $h$ from the mouth of each basin to the point where it joins the other basin, and the diameter $2R$ of the mouth of each basin.</span>
+<span id="cb3-84"><a href="#cb3-84"></a></span>
+<span id="cb3-85"><a href="#cb3-85"></a><span class="ot">[^6]: </span>using a pair of _[digital calipers](https://en.wikipedia.org/wiki/Calipers#Digital_caliper)_ I _totally_ had lying around the house and did not use this exercise as an excuse to buy</span>
+<span id="cb3-86"><a href="#cb3-86"></a></span>
+<span id="cb3-87"><a href="#cb3-87"></a>For the smaller basin, the height $h_s$ was measured as 3.48 cm, and a diameter of 3.9 cm (so a radius $R_s$ of 1.95 cm).</span>
+<span id="cb3-88"><a href="#cb3-88"></a></span>
+<span id="cb3-89"><a href="#cb3-89"></a>For the larger basin, the height $h_l$ was measured as 5.28 cm, and a diameter of 4.18 cm (so a radius $R_l$ of 2.09 cm).</span>
+<span id="cb3-90"><a href="#cb3-90"></a></span>
+<span id="cb3-91"><a href="#cb3-91"></a>The radius $r$ of the base where the two basins are attached to each other is $2.78 / 2 = 1.39$.</span>
+<span id="cb3-92"><a href="#cb3-92"></a></span>
+<span id="cb3-93"><a href="#cb3-93"></a>Plugging these into the <span class="co">[</span><span class="ot">formula for a partial cone</span><span class="co">](https://www.cuemath.com/measurement/volume-of-a-partial-cone/)</span><span class="ot">[^9]</span></span>
+<span id="cb3-94"><a href="#cb3-94"></a></span>
+<span id="cb3-95"><a href="#cb3-95"></a><span class="ot">[^9]: </span><span class="co">[</span><span class="ot">here's</span><span class="co">](https://brilliant.org/wiki/volume-cone/)</span> a derivation (and <span class="co">[</span><span class="ot">another</span><span class="co">](https://math.stackexchange.com/questions/891163/volume-of-a-frustum)</span>) of the volume of a cone using calculus, which I've probably derived in school or university and long since forgotten</span>
+<span id="cb3-96"><a href="#cb3-96"></a></span>
+<span id="cb3-97"><a href="#cb3-97"></a>$$V = \frac{1}{3} \times \pi \times h \times \Big(R^2 + Rr + r^2\Big)$$</span>
+<span id="cb3-98"><a href="#cb3-98"></a></span>
+<span id="cb3-101"><a href="#cb3-101"></a><span class="in">```{r}</span></span>
+<span id="cb3-102"><a href="#cb3-102"></a>cone <span class="ot">&lt;-</span> <span class="cf">function</span>(h, r, R) {</span>
+<span id="cb3-103"><a href="#cb3-103"></a>  (pi <span class="sc">*</span> h <span class="sc">*</span> (R<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (R <span class="sc">*</span> r) <span class="sc">+</span> r<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb3-104"><a href="#cb3-104"></a>}</span>
+<span id="cb3-105"><a href="#cb3-105"></a><span class="in">```</span></span>
+<span id="cb3-106"><a href="#cb3-106"></a></span>
+<span id="cb3-107"><a href="#cb3-107"></a>gave a volume<span class="ot">[^7]</span> of <span class="in">`r round(cone(3.48, 1.39, 1.95), 1)`</span> ml for the smaller basin and <span class="in">`r round(cone(5.28, 1.39, 2.09), 1)`</span> for the larger basin which was very similar to the numbers from the other method, but not exactly equal to 30 and 50 ml due to (human) measurement error.</span>
+<span id="cb3-108"><a href="#cb3-108"></a></span>
+<span id="cb3-109"><a href="#cb3-109"></a><span class="ot">[^7]: </span>using the conversion factor of 1 cm^3 to 1 ml for volume of water</span>
+<span id="cb3-110"><a href="#cb3-110"></a></span>
+<span id="cb3-111"><a href="#cb3-111"></a>A few days after doing all these measurements, I came across a similar (in spirit?) <span class="co">[</span><span class="ot">post</span><span class="co">](https://statmodeling.stat.columbia.edu/2023/01/06/god-is-in-every-leaf-of-every-tree-bathroom-scale-edition/)</span> on a blog I frequent, which inspired me to write this up.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">akshat.blog © 2022-2023 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+  </div>
+</footer>
+
+
+
+</body></html>
