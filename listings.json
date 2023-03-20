@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gee-on-aggregated-data/index.html",
       "/posts/jigger-volume-estimation/index.html",
       "/posts/how-many-ratings-do-i-need/index.html",
       "/posts/hello-world/index.html"

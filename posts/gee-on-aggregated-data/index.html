@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-03-20">
+
+<title>Akshat Dwivedi - GEE on aggregated data?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Akshat Dwivedi</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ad1729"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"><i class="bi bi-images" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">GEE on aggregated data?</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">GLM</div>
+                <div class="quarto-category">GEE</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 20, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#real-dataset" id="toc-real-dataset" class="nav-link" data-scroll-target="#real-dataset">Real dataset</a></li>
+  <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations">Simulations</a>
+  <ul class="collapse">
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  </ul></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
+  <ul class="collapse">
+  <li><a href="#computation-time" id="toc-computation-time" class="nav-link" data-scroll-target="#computation-time">Computation time</a></li>
+  <li><a href="#convergence-issues" id="toc-convergence-issues" class="nav-link" data-scroll-target="#convergence-issues">Convergence issues</a></li>
+  <li><a href="#raw-vs-aggregated-data-estimates" id="toc-raw-vs-aggregated-data-estimates" class="nav-link" data-scroll-target="#raw-vs-aggregated-data-estimates">Raw vs aggregated data estimates</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>TL;DR: The geepack R package doesn’t do what it doesn’t claim to do</p>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<div class="page-columns page-full"><p>Running many <em>generalized estimating equation</em> (GEE) models can be quite time consuming when at least one of the clusters has a lot of subjects, as the <a href="https://en.wikipedia.org/wiki/Big_O_notation">time complexity</a> of the GEE model is <span class="math inline">\(O(n^3)\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> due to the full <a href="https://en.wikipedia.org/wiki/Computational_complexity_of_matrix_multiplication">matrix multiplication</a> required for computing the correlation matrix.</p><div class="no-row-height column-margin column-container"><li id="fn1" role="doc-endnote"><p><sup>1</sup>&nbsp;More like <span class="math inline">\(O(m^3)\)</span> where <span class="math inline">\(m\)</span> is the size of largest cluster when the clusters vary in terms of size.</p></li></div></div>
+<p>For relatively simple models – where there are a few categorical predictors, the continuous variables are coarsened, and the response variable is binary – there is a computational trick that can be employed while fitting logistic regression models where the raw data are aggregated and fed into the model. An example of this approach can be found <a href="https://predictivehacks.com/how-to-run-logistic-regression-on-aggregate-data-in-r/">here</a>.</p>
+<p>Does this approach work – in terms of providing the same point estimates and standard errors – for GEE models as well? Based on an example dataset as well as a small simulation study, the answer seems to be ‘it depends’.</p>
+</section>
+<section id="real-dataset" class="level1">
+<h1>Real dataset</h1>
+<p>The first comparison is based on the <code>ohio</code> dataset from the <code>{geepack}</code> R package. This kind of setting where there are very many small clusters (537 clusters with 4 observations per cluster) is where GEEs usually shine.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(furrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: future</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(geepack)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">data</span>(<span class="st">"ohio"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a>ohio <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ohio)</span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="fu">glimpse</span>(ohio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,148
+Columns: 4
+$ resp  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ id    &lt;int&gt; 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5…
+$ age   &lt;int&gt; -2, -1, 0, 1, -2, -1, 0, 1, -2, -1, 0, 1, -2, -1, 0, 1, -2, -1, …
+$ smoke &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+<p>Fitting a model to the full dataset results in the following output</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="at">formula =</span> resp <span class="sc">~</span> smoke, <span class="at">data =</span> ohio, <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = resp ~ smoke, family = "binomial", data = ohio, 
+    id = id, corstr = "exchangeable")
+
+ Coefficients:
+            Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)  -1.8212  0.1099 274.527   &lt;2e-16 ***
+smoke         0.2716  0.1776   2.338    0.126    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = exchangeable 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)        1  0.1103
+  Link = identity 
+
+Estimated Correlation Parameters:
+      Estimate Std.err
+alpha   0.3513 0.06163
+Number of clusters:   537  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p>Fitting the same model to an aggregated version of the same dataset results in identical estimates</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>agg_df <span class="ot">&lt;-</span> ohio <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">group_by</span>(id, smoke) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    <span class="at">resp =</span> <span class="fu">sum</span>(resp),</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">mutate</span>(<span class="at">resp_p =</span> resp <span class="sc">/</span> n)</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb9-11"><a href="#cb9-11"></a>  <span class="at">formula =</span> resp_p <span class="sc">~</span> smoke,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>  <span class="at">weights =</span> n, <span class="at">data =</span> agg_df,</span>
+<span id="cb9-13"><a href="#cb9-13"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>)</span>
+<span id="cb9-15"><a href="#cb9-15"></a></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="fu">summary</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = resp_p ~ smoke, family = "binomial", data = agg_df, 
+    weights = n, id = id, corstr = "exchangeable")
+
+ Coefficients:
+            Estimate Std.err   Wald Pr(&gt;|W|)    
+(Intercept)   -1.821   0.110 274.53   &lt;2e-16 ***
+smoke          0.272   0.178   2.34     0.13    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = exchangeable 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)    0.513  0.0532
+  Link = identity 
+
+Estimated Correlation Parameters:
+      Estimate Std.err
+alpha        0       0
+Number of clusters:   537  Maximum cluster size: 1 </code></pre>
+</div>
+</div>
+<p>So the estimated scale, correlation, and the maximum cluster size statistics are wrong in the second case, but the parameter estimates for the intercept and slope coefficients as well as the corresponding standard errors are nearly identical, which can be compared more easily in this data frame that combines the estimates from both models</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(mod1) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">"raw data"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(mod2) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">"aggregated data"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">arrange</span>(term)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 6
+  term        estimate std.error statistic p.value data           
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          
+1 (Intercept)   -1.82      0.110    275.     0     raw data       
+2 (Intercept)   -1.82      0.110    275.     0     aggregated data
+3 smoke          0.272     0.178      2.34   0.126 raw data       
+4 smoke          0.272     0.178      2.34   0.126 aggregated data</code></pre>
+</div>
+</div>
+<p>But does this also work in settings where there are a small number of large clusters, which is where the GEE calculations take a long time to run?</p>
+</section>
+<section id="simulations" class="level1 page-columns page-full">
+<h1>Simulations</h1>
+<section id="model" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="model">Model</h2>
+<div class="page-columns page-full"><p>The code below simulates data from the following mixed-effects model<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> with random-intercept terms where person <span class="math inline">\(j\)</span> is nested within cluster <span class="math inline">\(i\)</span>. Each cluster has a different proportion of treatment uptake <span class="math inline">\(p_{treated,j}\)</span> varying between 40-60% where <span class="math inline">\(X_{ij}\)</span> indicates whether person <span class="math inline">\(j\)</span> in cluster <span class="math inline">\(i\)</span> received the treatment or not.</p><div class="no-row-height column-margin column-container"><li id="fn2" role="doc-endnote"><p><sup>2</sup>&nbsp;The model syntax is inspired by the statistical rethinking book</p></li></div></div>
+<p><span class="math display">\[
+\begin{gather}
+Y_{ij} \sim \text{Bernoulli}(p_{ij}) \\
+\text{logit}(p_{ij}) = -1.4 + 0.3 \times X_{ij} + \alpha_i \\
+\alpha_i \sim \text{Normal}(0, 1) \\
+X_{ij} \sim \text{Bernoulli}(p_{treated,i}) \\
+p_{treated,i} \sim \text{Uniform(0.4, 0.6)}
+\end{gather}
+\]</span></p>
+<p>The time taken to train the model on the raw as well as the aggregate data, the point estimates, and standard errors for the coefficients are stored for analysis.</p>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>simulate_data_and_get_estimates <span class="ot">&lt;-</span> <span class="cf">function</span>(n, n_clus, seed) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="co"># cluster random intercept</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  rand_intercept <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_clus, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb13-7"><a href="#cb13-7"></a>  sim_data <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(<span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span>n_clus, <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb13-9"><a href="#cb13-9"></a>      <span class="at">id =</span> .x,</span>
+<span id="cb13-10"><a href="#cb13-10"></a>      <span class="at">x =</span> <span class="fu">rbinom</span>(<span class="fu">round</span>(n <span class="sc">/</span> n_clus), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb13-11"><a href="#cb13-11"></a>      <span class="at">y =</span> <span class="fu">rbinom</span>(<span class="fu">round</span>(n <span class="sc">/</span> n_clus), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">1.4</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> x <span class="sc">+</span> rand_intercept[[.x]]))</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    )</span>
+<span id="cb13-13"><a href="#cb13-13"></a>  })</span>
+<span id="cb13-14"><a href="#cb13-14"></a></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  <span class="co"># fit model to raw data</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a>  t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-17"><a href="#cb13-17"></a>  mod1_sim <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb13-18"><a href="#cb13-18"></a>    y <span class="sc">~</span> x,</span>
+<span id="cb13-19"><a href="#cb13-19"></a>    <span class="at">data =</span> sim_data,</span>
+<span id="cb13-20"><a href="#cb13-20"></a>    <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>  )</span>
+<span id="cb13-22"><a href="#cb13-22"></a>  t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-23"><a href="#cb13-23"></a>  t1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(t1, t0, <span class="at">units =</span> <span class="st">"secs"</span>))</span>
+<span id="cb13-24"><a href="#cb13-24"></a></span>
+<span id="cb13-25"><a href="#cb13-25"></a>  <span class="co"># fit GLM model to raw data</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a>  mod1_sim_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> <span class="fu">factor</span>(id) <span class="sc">+</span> x <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb13-27"><a href="#cb13-27"></a>                      <span class="at">data =</span> sim_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb13-28"><a href="#cb13-28"></a></span>
+<span id="cb13-29"><a href="#cb13-29"></a>  <span class="co"># fit model to aggregated data</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a>  agg_data <span class="ot">&lt;-</span> sim_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-31"><a href="#cb13-31"></a>    <span class="fu">group_by</span>(id, x) <span class="sc">%&gt;%</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">y =</span> <span class="fu">sum</span>(y), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-33"><a href="#cb13-33"></a>    <span class="fu">mutate</span>(<span class="at">y_prob =</span> y <span class="sc">/</span> n)</span>
+<span id="cb13-34"><a href="#cb13-34"></a></span>
+<span id="cb13-35"><a href="#cb13-35"></a>  t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-36"><a href="#cb13-36"></a>  mod2_sim <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb13-37"><a href="#cb13-37"></a>    y_prob <span class="sc">~</span> x,</span>
+<span id="cb13-38"><a href="#cb13-38"></a>    <span class="at">data =</span> agg_data, <span class="at">weights =</span> n,</span>
+<span id="cb13-39"><a href="#cb13-39"></a>    <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb13-40"><a href="#cb13-40"></a>  )</span>
+<span id="cb13-41"><a href="#cb13-41"></a>  t3 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-42"><a href="#cb13-42"></a>  t3 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(t3, t2, <span class="at">units =</span> <span class="st">"secs"</span>))</span>
+<span id="cb13-43"><a href="#cb13-43"></a></span>
+<span id="cb13-44"><a href="#cb13-44"></a>  <span class="co"># fit GLM model to aggregated data</span></span>
+<span id="cb13-45"><a href="#cb13-45"></a>  mod2_sim_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y_prob <span class="sc">~</span> <span class="fu">factor</span>(id) <span class="sc">+</span> x <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> agg_data,</span>
+<span id="cb13-46"><a href="#cb13-46"></a>                      <span class="at">weights =</span> n, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb13-47"><a href="#cb13-47"></a></span>
+<span id="cb13-48"><a href="#cb13-48"></a>  results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb13-49"><a href="#cb13-49"></a>    <span class="co"># GEE results</span></span>
+<span id="cb13-50"><a href="#cb13-50"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod1_sim) <span class="sc">%&gt;%</span></span>
+<span id="cb13-51"><a href="#cb13-51"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'raw data'</span>, <span class="at">time_secs =</span> t1, <span class="at">estimator =</span> <span class="st">"GEE"</span>),</span>
+<span id="cb13-52"><a href="#cb13-52"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod2_sim) <span class="sc">%&gt;%</span></span>
+<span id="cb13-53"><a href="#cb13-53"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'aggregated data'</span>, <span class="at">time_secs =</span> t3, <span class="at">estimator =</span> <span class="st">"GEE"</span>),</span>
+<span id="cb13-54"><a href="#cb13-54"></a>    <span class="co"># GLM results</span></span>
+<span id="cb13-55"><a href="#cb13-55"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod1_sim_glm) <span class="sc">%&gt;%</span></span>
+<span id="cb13-56"><a href="#cb13-56"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'raw data'</span>, <span class="at">time_secs =</span> <span class="cn">NA_real_</span>, <span class="at">estimator =</span> <span class="st">"GLM"</span>),</span>
+<span id="cb13-57"><a href="#cb13-57"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod2_sim_glm) <span class="sc">%&gt;%</span></span>
+<span id="cb13-58"><a href="#cb13-58"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'aggregated data'</span>, <span class="at">time_secs =</span> <span class="cn">NA_real_</span>, <span class="at">estimator =</span> <span class="st">"GLM"</span>)</span>
+<span id="cb13-59"><a href="#cb13-59"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-60"><a href="#cb13-60"></a>    <span class="fu">mutate</span>(<span class="at">n =</span> n, <span class="at">n_clus =</span> n_clus, <span class="at">seed =</span> seed) <span class="sc">%&gt;%</span></span>
+<span id="cb13-61"><a href="#cb13-61"></a>    <span class="fu">filter</span>(<span class="sc">!</span>stringr<span class="sc">::</span><span class="fu">str_detect</span>(term, <span class="at">pattern =</span> <span class="st">"id"</span>))</span>
+<span id="cb13-62"><a href="#cb13-62"></a></span>
+<span id="cb13-63"><a href="#cb13-63"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb13-64"><a href="#cb13-64"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s what the output from this function looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">simulate_data_and_get_estimates</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">n_clus =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  term       estim…¹ std.e…² stati…³ p.value data  time_s…⁴ estim…⁵     n n_clus
+  &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1 (Intercep…  -1.59    0.409 15.0    1.07e-4 raw …  0.00748 GEE       100      5
+2 x           -0.144   0.383  0.141  7.07e-1 raw …  0.00748 GEE       100      5
+3 (Intercep…  -1.73    0.395 19.1    1.27e-5 aggr…  0.00326 GEE       100      5
+4 x           -0.107   0.402  0.0702 7.91e-1 aggr…  0.00326 GEE       100      5
+5 x           -0.266   0.596 -0.446  6.55e-1 raw … NA       GLM       100      5
+6 x           -0.266   0.596 -0.446  6.55e-1 aggr… NA       GLM       100      5
+# … with 1 more variable: seed &lt;dbl&gt;, and abbreviated variable names ¹​estimate,
+#   ²​std.error, ³​statistic, ⁴​time_secs, ⁵​estimator</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>simulation_parameters <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">2500</span>, <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>),</span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="at">n_clus =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">250</span>),</span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="at">seed =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-6"><a href="#cb16-6"></a>  <span class="co"># remove runs where number of clusters is larger than total sample size</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>  <span class="fu">filter</span>(n_clus <span class="sc">&lt;</span> n)</span>
+<span id="cb16-8"><a href="#cb16-8"></a></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co"># set up multicore processing</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">15</span>)</span>
+<span id="cb16-11"><a href="#cb16-11"></a></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="co"># parallelize purrr::pmap_dfr by using the {furrr} package</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a>simulation_results <span class="ot">&lt;-</span> <span class="fu">future_pmap_dfr</span>(</span>
+<span id="cb16-14"><a href="#cb16-14"></a>  <span class="at">.l =</span> simulation_parameters,</span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="co"># have to pass args as ..1 or ..2, else it fails</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a>  <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">simulate_data_and_get_estimates</span>(<span class="at">n =</span> ..<span class="dv">1</span>, <span class="at">n_clus =</span> ..<span class="dv">2</span>, <span class="at">seed =</span> ..<span class="dv">3</span>),</span>
+<span id="cb16-17"><a href="#cb16-17"></a>  <span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">NULL</span>)</span>
+<span id="cb16-18"><a href="#cb16-18"></a>)</span>
+<span id="cb16-19"><a href="#cb16-19"></a></span>
+<span id="cb16-20"><a href="#cb16-20"></a><span class="fu">plan</span>(sequential) <span class="co"># turn off multicore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This chunk can take a while to run for some of the parameter combinations, so pre-computed results are loaded and analyzed further.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>simulation_results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"gee_glm_sim.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="at">n_clus_raw =</span> n_clus,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>    <span class="at">n_clus =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"# clusters: "</span>, n_clus),</span>
+<span id="cb17-5"><a href="#cb17-5"></a>                    <span class="at">levels =</span> <span class="fu">paste0</span>(<span class="st">"# clusters: "</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">250</span>))),</span>
+<span id="cb17-6"><a href="#cb17-6"></a>    <span class="at">term =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-7"><a href="#cb17-7"></a>      term <span class="sc">==</span> <span class="st">"(Intercept)"</span> <span class="sc">~</span> <span class="st">"Intercept"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8"></a>      term <span class="sc">==</span> <span class="st">"x"</span> <span class="sc">~</span> <span class="st">"Slope"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> term</span>
+<span id="cb17-10"><a href="#cb17-10"></a>  ))</span>
+<span id="cb17-11"><a href="#cb17-11"></a></span>
+<span id="cb17-12"><a href="#cb17-12"></a><span class="fu">glimpse</span>(simulation_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,400
+Columns: 12
+$ term       &lt;chr&gt; "Intercept", "Slope", "Intercept", "Slope", "Slope", "Slope…
+$ estimate   &lt;dbl&gt; -7.17e-01, -7.38e-02, -5.35e-01, -1.14e-01, -5.92e-02, -5.9…
+$ std.error  &lt;dbl&gt; 4.69e-01, 1.75e-01, 4.09e-01, 1.53e-01, 4.86e-01, 4.86e-01,…
+$ statistic  &lt;dbl&gt; 2.3402, 0.1772, 1.7056, 0.5518, -0.1216, -0.1216, 7.1290, 4…
+$ p.value    &lt;dbl&gt; 1.26e-01, 6.74e-01, 1.92e-01, 4.58e-01, 9.03e-01, 9.03e-01,…
+$ data       &lt;chr&gt; "raw data", "raw data", "aggregated data", "aggregated data…
+$ time_secs  &lt;dbl&gt; 0.01389, 0.01389, 0.00420, 0.00420, NA, NA, 0.00928, 0.0092…
+$ estimator  &lt;chr&gt; "GEE", "GEE", "GEE", "GEE", "GLM", "GLM", "GEE", "GEE", "GE…
+$ n          &lt;dbl&gt; 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,…
+$ n_clus     &lt;fct&gt; # clusters: 5, # clusters: 5, # clusters: 5, # clusters: 5,…
+$ seed       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4,…
+$ n_clus_raw &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="analysis" class="level1">
+<h1>Analysis</h1>
+<section id="computation-time" class="level2">
+<h2 class="anchored" data-anchor-id="computation-time">Computation time</h2>
+<p>First, the time taken to fit the model to the raw dataset is shown as a function of total sample size <span class="math inline">\(n\)</span> where there are <span class="math inline">\(n / n_{clus}\)</span> observations per cluster. Each panel has a different y-axis to allow reading values directly from the plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">filter</span>(data <span class="sc">==</span> <span class="st">"raw data"</span>, estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="co"># distinct here since the data frame contains a row for</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>  <span class="co"># each of the intercept and slope terms but the runtimes are the same</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a>  <span class="co"># for both these terms</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="fu">distinct</span>(seed, time_secs, n, n_clus) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> time_secs, <span class="at">group =</span> n_clus)) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="at">degree =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">I</span>(x <span class="sc">^</span> <span class="dv">3</span>), <span class="at">color =</span> <span class="st">"forestgreen"</span>) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">interaction</span>(n_clus, n)), <span class="at">geom =</span> <span class="st">"point"</span>, </span>
+<span id="cb19-12"><a href="#cb19-12"></a>               <span class="at">fun =</span> mean, <span class="at">color =</span> <span class="st">"darkorange"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb19-13"><a href="#cb19-13"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size (n)"</span>) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a>  <span class="fu">ylab</span>(<span class="st">"Runtime (in seconds)"</span>) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n_clus, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The blue line fits a cubic polynomial <span class="math display">\[time = \beta_0 + \beta_1 n + \beta_2 n^2 + \beta_3 n^3 + \varepsilon\]</span> to the run times as a function of sample size. The green line fits the same model but without the linear and quadratic terms, i.e, <span class="math inline">\(time = \alpha_0 + \alpha_1 n^3 + \varepsilon\)</span>. The yellow points are the mean run times for each level of <span class="math inline">\(n\)</span> within each panel.</p>
+<p>When the number of clusters is very small, an increase in the sample size within the largest cluster leads to a cubic increase in expected run times. The closeness of the blue and green lines in the leftmost panel indicates that the cubic term in the execution time model dominates the lower order terms. In the second and third panels, the <span class="math inline">\(O(n^3)\)</span> limit hasn’t hit yet, as the green and the blue lines are in disagreement.</p>
+<p>For 10000 samples split into 2000 samples in each of the five clusters, it takes approximately <strong>15 minutes</strong> per run. The same total sample size split into 250 samples in each of the 40 clusters, each model takes about <strong>7 seconds</strong> to run, and even less time when there are 250 clusters. This is a massive difference in time between the different settings.</p>
+</section>
+<section id="convergence-issues" class="level2">
+<h2 class="anchored" data-anchor-id="convergence-issues">Convergence issues</h2>
+<p>However, unfortunately some of the models run into convergence issues, where the point estimates and the standard errors explode</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>simulation_results <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(std.error)) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4"></a>  <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 12
+   term      estimate std.e…¹ stati…² p.value data  time_…³ estim…⁴     n n_clus
+   &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;fct&gt; 
+ 1 Intercept  4.24e16 1.22e16  12.1   5.12e-4 aggr… 0.00516 GEE     10000 # clu…
+ 2 Intercept  1.13e17 8.91e15 161.    0       aggr… 0.00621 GEE      7500 # clu…
+ 3 Intercept -1.99e17 7.88e15 641.    0       aggr… 0.0175  GEE      1000 # clu…
+ 4 Intercept  2.32e15 7.25e15   0.102 7.49e-1 aggr… 0.00667 GEE      7500 # clu…
+ 5 Intercept  5.32e15 6.59e15   0.650 4.20e-1 aggr… 0.00582 GEE       100 # clu…
+ 6 Slope     -1.69e15 2.25e15   0.562 4.53e-1 aggr… 0.0110  GEE      2500 # clu…
+ 7 Intercept  9.69e14 2.12e15   0.210 6.47e-1 aggr… 0.00558 GEE     10000 # clu…
+ 8 Slope     -1.03e15 2.09e15   0.241 6.23e-1 aggr… 0.00763 GEE      7500 # clu…
+ 9 Slope     -1.94e15 2.05e15   0.896 3.44e-1 aggr… 0.00503 GEE     10000 # clu…
+10 Slope      3.82e15 1.88e15   4.13  4.23e-2 aggr… 0.00817 GEE      5000 # clu…
+# … with 2 more variables: seed &lt;dbl&gt;, n_clus_raw &lt;dbl&gt;, and abbreviated
+#   variable names ¹​std.error, ²​statistic, ³​time_secs, ⁴​estimator</code></pre>
+</div>
+</div>
+<p>This seems to be a problem when training GEE models on aggregated data when the number of clusters is low irrespective of the total sample size, which leads to about 21% of the estimates from the aggregated data being convergence failures. An estimate is flagged as convergence failure when the stdandard error of the coefficients &gt; 5 on the logit scale.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>simulation_results <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">mutate</span>(<span class="at">high_se =</span> <span class="fu">as.numeric</span>(std.error <span class="sc">&gt;</span> <span class="dv">5</span>)) </span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a>simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">select</span>(<span class="sc">-</span>estimate, <span class="sc">-</span>std.error, <span class="sc">-</span>statistic, <span class="sc">-</span>p.value, <span class="sc">-</span>time_secs) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="co"># put intercept and slope estimates in one row</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="fu">pivot_wider</span>(<span class="fu">everything</span>(), <span class="at">names_from =</span> term, <span class="at">values_from =</span> high_se) <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="co"># if at least one of the intercept or slope terms have a very high se</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="fu">mutate</span>(<span class="at">high_se =</span> <span class="fu">pmin</span>(Intercept <span class="sc">+</span> Slope, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="fu">group_by</span>(data, n_clus, n) <span class="sc">%&gt;%</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="fu">summarize</span>(<span class="at">n_total =</span> <span class="fu">n</span>(), <span class="at">n_failed =</span> <span class="fu">sum</span>(high_se), <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>  <span class="co">#print(n = Inf) %&gt;%</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>  <span class="fu">summarize</span>(<span class="at">n_total =</span> <span class="fu">sum</span>(n_total), <span class="at">n_failed =</span> <span class="fu">sum</span>(n_failed), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a>  <span class="fu">mutate</span>(<span class="at">percent_failed =</span> <span class="dv">100</span> <span class="sc">*</span> n_failed <span class="sc">/</span> n_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  data            n_clus          n_total n_failed percent_failed
+  &lt;chr&gt;           &lt;fct&gt;             &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+1 aggregated data # clusters: 5       140       29           20.7
+2 aggregated data # clusters: 50      140        0            0  
+3 aggregated data # clusters: 250     120        0            0  
+4 raw data        # clusters: 5       140        0            0  
+5 raw data        # clusters: 50      140        0            0  
+6 raw data        # clusters: 250     120        0            0  </code></pre>
+</div>
+</div>
+</section>
+<section id="raw-vs-aggregated-data-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="raw-vs-aggregated-data-estimates">Raw vs aggregated data estimates</h2>
+<p>These rows with convergence failures can be removed and the agreement between the estimates from the raw vs the aggregate datasets can be assessed visually</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>slope_plot_data <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"Slope"</span>, high_se <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="fu">select</span>(seed, term, data, estimate, n_clus, n, estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(seed, term, n_clus, n, estimator),</span>
+<span id="cb24-5"><a href="#cb24-5"></a>                     <span class="at">names_from =</span> data, <span class="at">values_from =</span> estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(n), </span>
+<span id="cb24-7"><a href="#cb24-7"></a>         <span class="at">id =</span> <span class="fu">interaction</span>(estimator, n_clus, <span class="at">sep =</span> <span class="st">", "</span>, <span class="at">lex.order =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb24-8"><a href="#cb24-8"></a></span>
+<span id="cb24-9"><a href="#cb24-9"></a>slope_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb24-10"><a href="#cb24-10"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">raw data</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">aggregated data</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a>  <span class="co"># geom_point(data = tibble(x = 0.3, y = 0.3), </span></span>
+<span id="cb24-15"><a href="#cb24-15"></a>  <span class="co">#            aes(x = x, y = y), </span></span>
+<span id="cb24-16"><a href="#cb24-16"></a>  <span class="co">#            color = "black", size = 3, inherit.aes = FALSE) +</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a>  <span class="fu">xlab</span>(<span class="st">"Slope coefficient from the full dataset"</span>) <span class="sc">+</span></span>
+<span id="cb24-18"><a href="#cb24-18"></a>  <span class="fu">ylab</span>(<span class="st">"Slope coefficient from the aggregated dataset"</span>) <span class="sc">+</span></span>
+<span id="cb24-19"><a href="#cb24-19"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb24-20"><a href="#cb24-20"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb24-21"><a href="#cb24-21"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 29 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot compares the estimated slope coefficient (true value 0.3) from the GEE model on aggregated data vs the estimated slope coefficient from the model on the raw data while varying the number of clusters as well as the total sample size. The agreement between estimates increases as the number of clusters increases (going from the top left panel to the top right panel).</p>
+<p>On the other hand, the estimates from running GLMs on the same aggregated and raw datasets are identical, as indicated by the points lying precisely on the black line in the following plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>slope_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GLM"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">raw data</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">aggregated data</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a>  <span class="co"># geom_point(data = tibble(x = 0.3, y = 0.3), </span></span>
+<span id="cb26-7"><a href="#cb26-7"></a>  <span class="co">#            aes(x = x, y = y), </span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="co">#            color = "black", size = 3, inherit.aes = FALSE) +</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="fu">xlab</span>(<span class="st">"Slope coefficient from the full dataset"</span>) <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">ylab</span>(<span class="st">"Slope coefficient from the aggregated dataset"</span>) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb26-13"><a href="#cb26-13"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As expected, the estimates for <span class="math inline">\(n = 10,000\)</span> are tightly clustered around the true value compared to <span class="math inline">\(n = 100\)</span> in both sets of plots.</p>
+<p>Ok so the estimates aren’t identical for the GEE models unfortunately, but are they approximately similar across the raw and aggregated datasets? This is assessed visually via box plots below for the case of 5 clusters in the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>dist_plot_data <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-3"><a href="#cb27-3"></a>    <span class="at">ci_lower =</span> estimate <span class="sc">-</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> std.error),</span>
+<span id="cb27-4"><a href="#cb27-4"></a>    <span class="at">ci_upper =</span> estimate <span class="sc">+</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> std.error), </span>
+<span id="cb27-5"><a href="#cb27-5"></a>    <span class="at">ci_width =</span> ci_upper <span class="sc">-</span> ci_lower, </span>
+<span id="cb27-6"><a href="#cb27-6"></a>    <span class="at">ci_upper_half_width =</span> ci_upper <span class="sc">-</span> estimate</span>
+<span id="cb27-7"><a href="#cb27-7"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-8"><a href="#cb27-8"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"Slope"</span>, high_se <span class="sc">==</span> <span class="dv">0</span>, estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-9"><a href="#cb27-9"></a>  <span class="fu">select</span>(</span>
+<span id="cb27-10"><a href="#cb27-10"></a>    <span class="at">Estimate =</span> estimate, </span>
+<span id="cb27-11"><a href="#cb27-11"></a>    <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> std.error, </span>
+<span id="cb27-12"><a href="#cb27-12"></a>    <span class="st">`</span><span class="at">95% CI LL</span><span class="st">`</span> <span class="ot">=</span> ci_lower, </span>
+<span id="cb27-13"><a href="#cb27-13"></a>    <span class="st">`</span><span class="at">95% CI UL</span><span class="st">`</span> <span class="ot">=</span> ci_upper,</span>
+<span id="cb27-14"><a href="#cb27-14"></a>    <span class="st">`</span><span class="at">95% CI Width</span><span class="st">`</span> <span class="ot">=</span> ci_width,</span>
+<span id="cb27-15"><a href="#cb27-15"></a>    <span class="st">`</span><span class="at">95% CI Upper HW</span><span class="st">`</span> <span class="ot">=</span> ci_upper_half_width,</span>
+<span id="cb27-16"><a href="#cb27-16"></a>    n, n_clus_raw, n_clus, data, seed) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-17"><a href="#cb27-17"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> Estimate<span class="sc">:</span><span class="st">`</span><span class="at">95% CI Upper HW</span><span class="st">`</span>, </span>
+<span id="cb27-18"><a href="#cb27-18"></a>                      <span class="at">names_to =</span> <span class="st">"statistic"</span>, </span>
+<span id="cb27-19"><a href="#cb27-19"></a>                      <span class="at">values_to =</span> <span class="st">"values"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-20"><a href="#cb27-20"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-21"><a href="#cb27-21"></a>    <span class="at">statistic =</span> <span class="fu">factor</span>(statistic,</span>
+<span id="cb27-22"><a href="#cb27-22"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span>, </span>
+<span id="cb27-23"><a href="#cb27-23"></a>                                  <span class="st">"95% CI LL"</span>, <span class="st">"95% CI UL"</span>, </span>
+<span id="cb27-24"><a href="#cb27-24"></a>                                  <span class="st">"95% CI Width"</span>, <span class="st">"95% CI Upper HW"</span>)), </span>
+<span id="cb27-25"><a href="#cb27-25"></a>    <span class="at">n =</span> <span class="fu">factor</span>(n, <span class="at">ordered =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb27-26"><a href="#cb27-26"></a>    <span class="at">data =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(data)</span>
+<span id="cb27-27"><a href="#cb27-27"></a>  )</span>
+<span id="cb27-28"><a href="#cb27-28"></a></span>
+<span id="cb27-29"><a href="#cb27-29"></a><span class="fu">glimpse</span>(dist_plot_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 4,626
+Columns: 7
+$ n          &lt;ord&gt; 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,…
+$ n_clus_raw &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+$ n_clus     &lt;fct&gt; # clusters: 5, # clusters: 5, # clusters: 5, # clusters: 5,…
+$ data       &lt;chr&gt; "Raw Data", "Raw Data", "Raw Data", "Raw Data", "Raw Data",…
+$ seed       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3,…
+$ statistic  &lt;fct&gt; Estimate, Std. Error, 95% CI LL, 95% CI UL, 95% CI Width, 9…
+$ values     &lt;dbl&gt; -0.0738, 0.1753, -0.4174, 0.2698, 0.6871, 0.3436, -0.1137, …</code></pre>
+</div>
+</div>
+<div class="cell" data-fig.dpi="300">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>dist_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">filter</span>(n_clus_raw <span class="sc">==</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> values, <span class="at">color =</span> data)) <span class="sc">+</span> </span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="co">#geom_point(position = position_dodge(width = 0.2)) +</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size (n)"</span>) <span class="sc">+</span> </span>
+<span id="cb29-7"><a href="#cb29-7"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> statistic, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="720"></p>
+</div>
+</div>
+<p>So based on these box plots, it seems like most of the sampling distributions for these statistics – point estimate, standard errors, CI width, etc. – are pretty comparable but not identical.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>So to conclude, this strategy isn’t really going to be useful when fitting a single GEE model to a real dataset using the R package <code>{geepack}</code>, but it can still be pretty decent when fitting many GEE models to simulated datasets to calculate some statistics. Additionally, all (?) matrix operations performed by GEE eventually boil down to summing some random variables, so it should be possible to have an implementation that works on aggregated data.</p>
+
+
+<!-- -->
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb30" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1"></a><span class="co">---</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="an">title:</span><span class="co"> "GEE on aggregated data?"</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="an">date:</span><span class="co"> "2023-03-20"</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="an">categories:</span><span class="co"> [R, GLM, GEE]</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="an">image:</span><span class="co"> cubic_runtime.png</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="co">---</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a></span>
+<span id="cb30-10"><a href="#cb30-10"></a>TL;DR: The geepack R package doesn't do what it doesn't claim to do</span>
+<span id="cb30-11"><a href="#cb30-11"></a></span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="fu"># Introduction</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a></span>
+<span id="cb30-14"><a href="#cb30-14"></a>Running many _generalized estimating equation_ (GEE) models can be quite time consuming when at least one of the clusters has a lot of subjects, as the <span class="co">[</span><span class="ot">time complexity</span><span class="co">](https://en.wikipedia.org/wiki/Big_O_notation)</span> of the GEE model is $O(n^3)$<span class="ot">[^max_cluster_size]</span> due to the full <span class="co">[</span><span class="ot">matrix multiplication</span><span class="co">](https://en.wikipedia.org/wiki/Computational_complexity_of_matrix_multiplication)</span> required for computing the correlation matrix.</span>
+<span id="cb30-15"><a href="#cb30-15"></a></span>
+<span id="cb30-16"><a href="#cb30-16"></a><span class="ot">[^max_cluster_size]: </span>More like $O(m^3)$ where $m$ is the size of largest cluster when the clusters vary in terms of size.</span>
+<span id="cb30-17"><a href="#cb30-17"></a></span>
+<span id="cb30-18"><a href="#cb30-18"></a>For relatively simple models -- where there are a few categorical predictors, the continuous variables are coarsened, and the response variable is binary -- there is a computational trick that can be employed while fitting logistic regression models where the raw data are aggregated and fed into the model. An example of this approach can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://predictivehacks.com/how-to-run-logistic-regression-on-aggregate-data-in-r/)</span>.</span>
+<span id="cb30-19"><a href="#cb30-19"></a></span>
+<span id="cb30-20"><a href="#cb30-20"></a>Does this approach work -- in terms of providing the same point estimates and standard errors -- for GEE models as well? Based on an example dataset as well as a small simulation study, the answer seems to be 'it depends'.</span>
+<span id="cb30-21"><a href="#cb30-21"></a></span>
+<span id="cb30-22"><a href="#cb30-22"></a><span class="fu"># Real dataset</span></span>
+<span id="cb30-23"><a href="#cb30-23"></a></span>
+<span id="cb30-24"><a href="#cb30-24"></a>The first comparison is based on the <span class="in">`ohio`</span> dataset from the <span class="in">`{geepack}`</span> R package. This kind of setting where there are very many small clusters (537 clusters with 4 observations per cluster) is where GEEs usually shine.</span>
+<span id="cb30-25"><a href="#cb30-25"></a></span>
+<span id="cb30-28"><a href="#cb30-28"></a><span class="in">```{r}</span></span>
+<span id="cb30-29"><a href="#cb30-29"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb30-30"><a href="#cb30-30"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb30-31"><a href="#cb30-31"></a><span class="fu">library</span>(geepack)</span>
+<span id="cb30-32"><a href="#cb30-32"></a></span>
+<span id="cb30-33"><a href="#cb30-33"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb30-34"><a href="#cb30-34"></a></span>
+<span id="cb30-35"><a href="#cb30-35"></a><span class="fu">data</span>(<span class="st">"ohio"</span>)</span>
+<span id="cb30-36"><a href="#cb30-36"></a></span>
+<span id="cb30-37"><a href="#cb30-37"></a>ohio <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ohio)</span>
+<span id="cb30-38"><a href="#cb30-38"></a></span>
+<span id="cb30-39"><a href="#cb30-39"></a><span class="fu">glimpse</span>(ohio)</span>
+<span id="cb30-40"><a href="#cb30-40"></a><span class="in">```</span></span>
+<span id="cb30-41"><a href="#cb30-41"></a></span>
+<span id="cb30-42"><a href="#cb30-42"></a>Fitting a model to the full dataset results in the following output</span>
+<span id="cb30-43"><a href="#cb30-43"></a></span>
+<span id="cb30-46"><a href="#cb30-46"></a><span class="in">```{r}</span></span>
+<span id="cb30-47"><a href="#cb30-47"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb30-48"><a href="#cb30-48"></a>  <span class="at">formula =</span> resp <span class="sc">~</span> smoke, <span class="at">data =</span> ohio, <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb30-49"><a href="#cb30-49"></a>  <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb30-50"><a href="#cb30-50"></a>)</span>
+<span id="cb30-51"><a href="#cb30-51"></a></span>
+<span id="cb30-52"><a href="#cb30-52"></a><span class="fu">summary</span>(mod1)</span>
+<span id="cb30-53"><a href="#cb30-53"></a><span class="in">```</span></span>
+<span id="cb30-54"><a href="#cb30-54"></a></span>
+<span id="cb30-55"><a href="#cb30-55"></a>Fitting the same model to an aggregated version of the same dataset results in identical estimates</span>
+<span id="cb30-56"><a href="#cb30-56"></a></span>
+<span id="cb30-59"><a href="#cb30-59"></a><span class="in">```{r}</span></span>
+<span id="cb30-60"><a href="#cb30-60"></a>agg_df <span class="ot">&lt;-</span> ohio <span class="sc">%&gt;%</span></span>
+<span id="cb30-61"><a href="#cb30-61"></a>  <span class="fu">group_by</span>(id, smoke) <span class="sc">%&gt;%</span></span>
+<span id="cb30-62"><a href="#cb30-62"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb30-63"><a href="#cb30-63"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb30-64"><a href="#cb30-64"></a>    <span class="at">resp =</span> <span class="fu">sum</span>(resp),</span>
+<span id="cb30-65"><a href="#cb30-65"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb30-66"><a href="#cb30-66"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-67"><a href="#cb30-67"></a>  <span class="fu">mutate</span>(<span class="at">resp_p =</span> resp <span class="sc">/</span> n)</span>
+<span id="cb30-68"><a href="#cb30-68"></a></span>
+<span id="cb30-69"><a href="#cb30-69"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb30-70"><a href="#cb30-70"></a>  <span class="at">formula =</span> resp_p <span class="sc">~</span> smoke,</span>
+<span id="cb30-71"><a href="#cb30-71"></a>  <span class="at">weights =</span> n, <span class="at">data =</span> agg_df,</span>
+<span id="cb30-72"><a href="#cb30-72"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb30-73"><a href="#cb30-73"></a>)</span>
+<span id="cb30-74"><a href="#cb30-74"></a></span>
+<span id="cb30-75"><a href="#cb30-75"></a><span class="fu">summary</span>(mod2)</span>
+<span id="cb30-76"><a href="#cb30-76"></a><span class="in">```</span></span>
+<span id="cb30-77"><a href="#cb30-77"></a></span>
+<span id="cb30-78"><a href="#cb30-78"></a>So the estimated scale, correlation, and the maximum cluster size statistics are wrong in the second case, but the parameter estimates for the intercept and slope coefficients as well as the corresponding standard errors are nearly identical, which can be compared more easily in this data frame that combines the estimates from both models</span>
+<span id="cb30-79"><a href="#cb30-79"></a></span>
+<span id="cb30-82"><a href="#cb30-82"></a><span class="in">```{r}</span></span>
+<span id="cb30-83"><a href="#cb30-83"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb30-84"><a href="#cb30-84"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(mod1) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">"raw data"</span>),</span>
+<span id="cb30-85"><a href="#cb30-85"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(mod2) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">"aggregated data"</span>)</span>
+<span id="cb30-86"><a href="#cb30-86"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-87"><a href="#cb30-87"></a>  <span class="fu">arrange</span>(term)</span>
+<span id="cb30-88"><a href="#cb30-88"></a><span class="in">```</span></span>
+<span id="cb30-89"><a href="#cb30-89"></a></span>
+<span id="cb30-90"><a href="#cb30-90"></a>But does this also work in settings where there are a small number of large clusters, which is where the GEE calculations take a long time to run?</span>
+<span id="cb30-91"><a href="#cb30-91"></a></span>
+<span id="cb30-92"><a href="#cb30-92"></a><span class="fu"># Simulations</span></span>
+<span id="cb30-93"><a href="#cb30-93"></a></span>
+<span id="cb30-94"><a href="#cb30-94"></a><span class="fu">## Model</span></span>
+<span id="cb30-95"><a href="#cb30-95"></a></span>
+<span id="cb30-96"><a href="#cb30-96"></a>The code below simulates data from the following mixed-effects model<span class="ot">[^rethinking]</span> with random-intercept terms where person $j$ is nested within cluster $i$. Each cluster has a different proportion of treatment uptake $p_{treated,j}$ varying between 40-60% where $X_{ij}$ indicates whether person $j$ in cluster $i$ received the treatment or not.</span>
+<span id="cb30-97"><a href="#cb30-97"></a></span>
+<span id="cb30-98"><a href="#cb30-98"></a><span class="ot">[^rethinking]: </span>The model syntax is inspired by the statistical rethinking book</span>
+<span id="cb30-99"><a href="#cb30-99"></a></span>
+<span id="cb30-100"><a href="#cb30-100"></a>$$</span>
+<span id="cb30-101"><a href="#cb30-101"></a>\begin{gather}</span>
+<span id="cb30-102"><a href="#cb30-102"></a>Y_{ij} \sim \text{Bernoulli}(p_{ij}) <span class="sc">\\</span></span>
+<span id="cb30-103"><a href="#cb30-103"></a>\text{logit}(p_{ij}) = -1.4 + 0.3 \times X_{ij} + \alpha_i <span class="sc">\\</span></span>
+<span id="cb30-104"><a href="#cb30-104"></a>\alpha_i \sim \text{Normal}(0, 1) <span class="sc">\\</span></span>
+<span id="cb30-105"><a href="#cb30-105"></a>X_{ij} \sim \text{Bernoulli}(p_{treated,i}) <span class="sc">\\</span></span>
+<span id="cb30-106"><a href="#cb30-106"></a>p_{treated,i} \sim \text{Uniform(0.4, 0.6)}</span>
+<span id="cb30-107"><a href="#cb30-107"></a>\end{gather}</span>
+<span id="cb30-108"><a href="#cb30-108"></a>$$</span>
+<span id="cb30-109"><a href="#cb30-109"></a></span>
+<span id="cb30-110"><a href="#cb30-110"></a>The time taken to train the model on the raw as well as the aggregate data, the point estimates, and standard errors for the coefficients are stored for analysis.</span>
+<span id="cb30-111"><a href="#cb30-111"></a></span>
+<span id="cb30-112"><a href="#cb30-112"></a><span class="fu">## Code</span></span>
+<span id="cb30-113"><a href="#cb30-113"></a></span>
+<span id="cb30-116"><a href="#cb30-116"></a><span class="in">```{r}</span></span>
+<span id="cb30-117"><a href="#cb30-117"></a>simulate_data_and_get_estimates <span class="ot">&lt;-</span> <span class="cf">function</span>(n, n_clus, seed) {</span>
+<span id="cb30-118"><a href="#cb30-118"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb30-119"><a href="#cb30-119"></a>  <span class="co"># cluster random intercept</span></span>
+<span id="cb30-120"><a href="#cb30-120"></a>  rand_intercept <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_clus, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb30-121"><a href="#cb30-121"></a></span>
+<span id="cb30-122"><a href="#cb30-122"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb30-123"><a href="#cb30-123"></a>  sim_data <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(<span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span>n_clus, <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb30-124"><a href="#cb30-124"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb30-125"><a href="#cb30-125"></a>      <span class="at">id =</span> .x,</span>
+<span id="cb30-126"><a href="#cb30-126"></a>      <span class="at">x =</span> <span class="fu">rbinom</span>(<span class="fu">round</span>(n <span class="sc">/</span> n_clus), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb30-127"><a href="#cb30-127"></a>      <span class="at">y =</span> <span class="fu">rbinom</span>(<span class="fu">round</span>(n <span class="sc">/</span> n_clus), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">1.4</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> x <span class="sc">+</span> rand_intercept[[.x]]))</span>
+<span id="cb30-128"><a href="#cb30-128"></a>    )</span>
+<span id="cb30-129"><a href="#cb30-129"></a>  })</span>
+<span id="cb30-130"><a href="#cb30-130"></a></span>
+<span id="cb30-131"><a href="#cb30-131"></a>  <span class="co"># fit model to raw data</span></span>
+<span id="cb30-132"><a href="#cb30-132"></a>  t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb30-133"><a href="#cb30-133"></a>  mod1_sim <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb30-134"><a href="#cb30-134"></a>    y <span class="sc">~</span> x,</span>
+<span id="cb30-135"><a href="#cb30-135"></a>    <span class="at">data =</span> sim_data,</span>
+<span id="cb30-136"><a href="#cb30-136"></a>    <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb30-137"><a href="#cb30-137"></a>  )</span>
+<span id="cb30-138"><a href="#cb30-138"></a>  t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb30-139"><a href="#cb30-139"></a>  t1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(t1, t0, <span class="at">units =</span> <span class="st">"secs"</span>))</span>
+<span id="cb30-140"><a href="#cb30-140"></a></span>
+<span id="cb30-141"><a href="#cb30-141"></a>  <span class="co"># fit GLM model to raw data</span></span>
+<span id="cb30-142"><a href="#cb30-142"></a>  mod1_sim_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> <span class="fu">factor</span>(id) <span class="sc">+</span> x <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb30-143"><a href="#cb30-143"></a>                      <span class="at">data =</span> sim_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb30-144"><a href="#cb30-144"></a></span>
+<span id="cb30-145"><a href="#cb30-145"></a>  <span class="co"># fit model to aggregated data</span></span>
+<span id="cb30-146"><a href="#cb30-146"></a>  agg_data <span class="ot">&lt;-</span> sim_data <span class="sc">%&gt;%</span></span>
+<span id="cb30-147"><a href="#cb30-147"></a>    <span class="fu">group_by</span>(id, x) <span class="sc">%&gt;%</span></span>
+<span id="cb30-148"><a href="#cb30-148"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">y =</span> <span class="fu">sum</span>(y), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-149"><a href="#cb30-149"></a>    <span class="fu">mutate</span>(<span class="at">y_prob =</span> y <span class="sc">/</span> n)</span>
+<span id="cb30-150"><a href="#cb30-150"></a></span>
+<span id="cb30-151"><a href="#cb30-151"></a>  t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb30-152"><a href="#cb30-152"></a>  mod2_sim <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(</span>
+<span id="cb30-153"><a href="#cb30-153"></a>    y_prob <span class="sc">~</span> x,</span>
+<span id="cb30-154"><a href="#cb30-154"></a>    <span class="at">data =</span> agg_data, <span class="at">weights =</span> n,</span>
+<span id="cb30-155"><a href="#cb30-155"></a>    <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">id =</span> id, <span class="at">corstr =</span> <span class="st">"exchangeable"</span></span>
+<span id="cb30-156"><a href="#cb30-156"></a>  )</span>
+<span id="cb30-157"><a href="#cb30-157"></a>  t3 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb30-158"><a href="#cb30-158"></a>  t3 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(t3, t2, <span class="at">units =</span> <span class="st">"secs"</span>))</span>
+<span id="cb30-159"><a href="#cb30-159"></a></span>
+<span id="cb30-160"><a href="#cb30-160"></a>  <span class="co"># fit GLM model to aggregated data</span></span>
+<span id="cb30-161"><a href="#cb30-161"></a>  mod2_sim_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y_prob <span class="sc">~</span> <span class="fu">factor</span>(id) <span class="sc">+</span> x <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> agg_data,</span>
+<span id="cb30-162"><a href="#cb30-162"></a>                      <span class="at">weights =</span> n, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb30-163"><a href="#cb30-163"></a></span>
+<span id="cb30-164"><a href="#cb30-164"></a>  results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb30-165"><a href="#cb30-165"></a>    <span class="co"># GEE results</span></span>
+<span id="cb30-166"><a href="#cb30-166"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod1_sim) <span class="sc">%&gt;%</span></span>
+<span id="cb30-167"><a href="#cb30-167"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'raw data'</span>, <span class="at">time_secs =</span> t1, <span class="at">estimator =</span> <span class="st">"GEE"</span>),</span>
+<span id="cb30-168"><a href="#cb30-168"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod2_sim) <span class="sc">%&gt;%</span></span>
+<span id="cb30-169"><a href="#cb30-169"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'aggregated data'</span>, <span class="at">time_secs =</span> t3, <span class="at">estimator =</span> <span class="st">"GEE"</span>),</span>
+<span id="cb30-170"><a href="#cb30-170"></a>    <span class="co"># GLM results</span></span>
+<span id="cb30-171"><a href="#cb30-171"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod1_sim_glm) <span class="sc">%&gt;%</span></span>
+<span id="cb30-172"><a href="#cb30-172"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'raw data'</span>, <span class="at">time_secs =</span> <span class="cn">NA_real_</span>, <span class="at">estimator =</span> <span class="st">"GLM"</span>),</span>
+<span id="cb30-173"><a href="#cb30-173"></a>    broom<span class="sc">::</span><span class="fu">tidy</span>(mod2_sim_glm) <span class="sc">%&gt;%</span></span>
+<span id="cb30-174"><a href="#cb30-174"></a>      <span class="fu">mutate</span>(<span class="at">data =</span> <span class="st">'aggregated data'</span>, <span class="at">time_secs =</span> <span class="cn">NA_real_</span>, <span class="at">estimator =</span> <span class="st">"GLM"</span>)</span>
+<span id="cb30-175"><a href="#cb30-175"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-176"><a href="#cb30-176"></a>    <span class="fu">mutate</span>(<span class="at">n =</span> n, <span class="at">n_clus =</span> n_clus, <span class="at">seed =</span> seed) <span class="sc">%&gt;%</span></span>
+<span id="cb30-177"><a href="#cb30-177"></a>    <span class="fu">filter</span>(<span class="sc">!</span>stringr<span class="sc">::</span><span class="fu">str_detect</span>(term, <span class="at">pattern =</span> <span class="st">"id"</span>))</span>
+<span id="cb30-178"><a href="#cb30-178"></a></span>
+<span id="cb30-179"><a href="#cb30-179"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb30-180"><a href="#cb30-180"></a>}</span>
+<span id="cb30-181"><a href="#cb30-181"></a><span class="in">```</span></span>
+<span id="cb30-182"><a href="#cb30-182"></a></span>
+<span id="cb30-183"><a href="#cb30-183"></a>Here's what the output from this function looks like:</span>
+<span id="cb30-184"><a href="#cb30-184"></a></span>
+<span id="cb30-187"><a href="#cb30-187"></a><span class="in">```{r}</span></span>
+<span id="cb30-188"><a href="#cb30-188"></a><span class="fu">simulate_data_and_get_estimates</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">n_clus =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">3</span>)</span>
+<span id="cb30-189"><a href="#cb30-189"></a><span class="in">```</span></span>
+<span id="cb30-190"><a href="#cb30-190"></a></span>
+<span id="cb30-193"><a href="#cb30-193"></a><span class="in">```{r}</span></span>
+<span id="cb30-194"><a href="#cb30-194"></a><span class="co">#| echo: true</span></span>
+<span id="cb30-195"><a href="#cb30-195"></a><span class="co">#| eval: false</span></span>
+<span id="cb30-196"><a href="#cb30-196"></a></span>
+<span id="cb30-197"><a href="#cb30-197"></a>simulation_parameters <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb30-198"><a href="#cb30-198"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">2500</span>, <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>),</span>
+<span id="cb30-199"><a href="#cb30-199"></a>  <span class="at">n_clus =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">250</span>),</span>
+<span id="cb30-200"><a href="#cb30-200"></a>  <span class="at">seed =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb30-201"><a href="#cb30-201"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-202"><a href="#cb30-202"></a>  <span class="co"># remove runs where number of clusters is larger than total sample size</span></span>
+<span id="cb30-203"><a href="#cb30-203"></a>  <span class="fu">filter</span>(n_clus <span class="sc">&lt;</span> n)</span>
+<span id="cb30-204"><a href="#cb30-204"></a></span>
+<span id="cb30-205"><a href="#cb30-205"></a><span class="co"># set up multicore processing</span></span>
+<span id="cb30-206"><a href="#cb30-206"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">15</span>)</span>
+<span id="cb30-207"><a href="#cb30-207"></a></span>
+<span id="cb30-208"><a href="#cb30-208"></a><span class="co"># parallelize purrr::pmap_dfr by using the {furrr} package</span></span>
+<span id="cb30-209"><a href="#cb30-209"></a>simulation_results <span class="ot">&lt;-</span> <span class="fu">future_pmap_dfr</span>(</span>
+<span id="cb30-210"><a href="#cb30-210"></a>  <span class="at">.l =</span> simulation_parameters,</span>
+<span id="cb30-211"><a href="#cb30-211"></a>  <span class="co"># have to pass args as ..1 or ..2, else it fails</span></span>
+<span id="cb30-212"><a href="#cb30-212"></a>  <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">simulate_data_and_get_estimates</span>(<span class="at">n =</span> ..<span class="dv">1</span>, <span class="at">n_clus =</span> ..<span class="dv">2</span>, <span class="at">seed =</span> ..<span class="dv">3</span>),</span>
+<span id="cb30-213"><a href="#cb30-213"></a>  <span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">NULL</span>)</span>
+<span id="cb30-214"><a href="#cb30-214"></a>)</span>
+<span id="cb30-215"><a href="#cb30-215"></a></span>
+<span id="cb30-216"><a href="#cb30-216"></a><span class="fu">plan</span>(sequential) <span class="co"># turn off multicore</span></span>
+<span id="cb30-217"><a href="#cb30-217"></a><span class="in">```</span></span>
+<span id="cb30-218"><a href="#cb30-218"></a></span>
+<span id="cb30-219"><a href="#cb30-219"></a>This chunk can take a while to run for some of the parameter combinations, so pre-computed results are loaded and analyzed further.</span>
+<span id="cb30-220"><a href="#cb30-220"></a></span>
+<span id="cb30-223"><a href="#cb30-223"></a><span class="in">```{r}</span></span>
+<span id="cb30-224"><a href="#cb30-224"></a>simulation_results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"gee_glm_sim.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-225"><a href="#cb30-225"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-226"><a href="#cb30-226"></a>    <span class="at">n_clus_raw =</span> n_clus,</span>
+<span id="cb30-227"><a href="#cb30-227"></a>    <span class="at">n_clus =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"# clusters: "</span>, n_clus),</span>
+<span id="cb30-228"><a href="#cb30-228"></a>                    <span class="at">levels =</span> <span class="fu">paste0</span>(<span class="st">"# clusters: "</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">250</span>))),</span>
+<span id="cb30-229"><a href="#cb30-229"></a>    <span class="at">term =</span> <span class="fu">case_when</span>(</span>
+<span id="cb30-230"><a href="#cb30-230"></a>      term <span class="sc">==</span> <span class="st">"(Intercept)"</span> <span class="sc">~</span> <span class="st">"Intercept"</span>,</span>
+<span id="cb30-231"><a href="#cb30-231"></a>      term <span class="sc">==</span> <span class="st">"x"</span> <span class="sc">~</span> <span class="st">"Slope"</span>, </span>
+<span id="cb30-232"><a href="#cb30-232"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> term</span>
+<span id="cb30-233"><a href="#cb30-233"></a>  ))</span>
+<span id="cb30-234"><a href="#cb30-234"></a></span>
+<span id="cb30-235"><a href="#cb30-235"></a><span class="fu">glimpse</span>(simulation_results)</span>
+<span id="cb30-236"><a href="#cb30-236"></a><span class="in">```</span></span>
+<span id="cb30-237"><a href="#cb30-237"></a></span>
+<span id="cb30-238"><a href="#cb30-238"></a><span class="fu"># Analysis</span></span>
+<span id="cb30-239"><a href="#cb30-239"></a></span>
+<span id="cb30-240"><a href="#cb30-240"></a><span class="fu">## Computation time</span></span>
+<span id="cb30-241"><a href="#cb30-241"></a></span>
+<span id="cb30-242"><a href="#cb30-242"></a>First, the time taken to fit the model to the raw dataset is shown as a function of total sample size $n$ where there are $n / n_{clus}$ observations per cluster. Each panel has a different y-axis to allow reading values directly from the plot.</span>
+<span id="cb30-243"><a href="#cb30-243"></a></span>
+<span id="cb30-246"><a href="#cb30-246"></a><span class="in">```{r}</span></span>
+<span id="cb30-247"><a href="#cb30-247"></a>simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb30-248"><a href="#cb30-248"></a>  <span class="fu">filter</span>(data <span class="sc">==</span> <span class="st">"raw data"</span>, estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-249"><a href="#cb30-249"></a>  <span class="co"># distinct here since the data frame contains a row for</span></span>
+<span id="cb30-250"><a href="#cb30-250"></a>  <span class="co"># each of the intercept and slope terms but the runtimes are the same</span></span>
+<span id="cb30-251"><a href="#cb30-251"></a>  <span class="co"># for both these terms</span></span>
+<span id="cb30-252"><a href="#cb30-252"></a>  <span class="fu">distinct</span>(seed, time_secs, n, n_clus) <span class="sc">%&gt;%</span></span>
+<span id="cb30-253"><a href="#cb30-253"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> time_secs, <span class="at">group =</span> n_clus)) <span class="sc">+</span></span>
+<span id="cb30-254"><a href="#cb30-254"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-255"><a href="#cb30-255"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="at">degree =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb30-256"><a href="#cb30-256"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">I</span>(x <span class="sc">^</span> <span class="dv">3</span>), <span class="at">color =</span> <span class="st">"forestgreen"</span>) <span class="sc">+</span></span>
+<span id="cb30-257"><a href="#cb30-257"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">interaction</span>(n_clus, n)), <span class="at">geom =</span> <span class="st">"point"</span>, </span>
+<span id="cb30-258"><a href="#cb30-258"></a>               <span class="at">fun =</span> mean, <span class="at">color =</span> <span class="st">"darkorange"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb30-259"><a href="#cb30-259"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size (n)"</span>) <span class="sc">+</span></span>
+<span id="cb30-260"><a href="#cb30-260"></a>  <span class="fu">ylab</span>(<span class="st">"Runtime (in seconds)"</span>) <span class="sc">+</span></span>
+<span id="cb30-261"><a href="#cb30-261"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n_clus, <span class="at">scales =</span> <span class="st">"free"</span>)</span>
+<span id="cb30-262"><a href="#cb30-262"></a><span class="in">```</span></span>
+<span id="cb30-263"><a href="#cb30-263"></a></span>
+<span id="cb30-264"><a href="#cb30-264"></a>The blue line fits a cubic polynomial $$time = \beta_0 + \beta_1 n + \beta_2 n^2 + \beta_3 n^3 + \varepsilon$$ to the run times as a function of sample size. The green line fits the same model but without the linear and quadratic terms, i.e, $time = \alpha_0 + \alpha_1 n^3 + \varepsilon$. The yellow points are the mean run times for each level of $n$ within each panel. </span>
+<span id="cb30-265"><a href="#cb30-265"></a></span>
+<span id="cb30-266"><a href="#cb30-266"></a>When the number of clusters is very small, an increase in the sample size within the largest cluster leads to a cubic increase in expected run times. The closeness of the blue and green lines in the leftmost panel indicates that the cubic term in the execution time model dominates the lower order terms. In the second and third panels, the $O(n^3)$ limit hasn't hit yet, as the green and the blue lines are in disagreement. </span>
+<span id="cb30-267"><a href="#cb30-267"></a></span>
+<span id="cb30-268"><a href="#cb30-268"></a>For 10000 samples split into 2000 samples in each of the five clusters, it takes approximately **15 minutes** per run. The same total sample size split into 250 samples in each of the 40 clusters, each model takes about **7 seconds** to run, and even less time when there are 250 clusters. This is a massive difference in time between the different settings.</span>
+<span id="cb30-269"><a href="#cb30-269"></a></span>
+<span id="cb30-270"><a href="#cb30-270"></a><span class="fu">## Convergence issues</span></span>
+<span id="cb30-271"><a href="#cb30-271"></a></span>
+<span id="cb30-272"><a href="#cb30-272"></a>However, unfortunately some of the models run into convergence issues, where the point estimates and the standard errors explode</span>
+<span id="cb30-273"><a href="#cb30-273"></a></span>
+<span id="cb30-276"><a href="#cb30-276"></a><span class="in">```{r}</span></span>
+<span id="cb30-277"><a href="#cb30-277"></a>simulation_results <span class="sc">%&gt;%</span> </span>
+<span id="cb30-278"><a href="#cb30-278"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-279"><a href="#cb30-279"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(std.error)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-280"><a href="#cb30-280"></a>  <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb30-281"><a href="#cb30-281"></a><span class="in">```</span></span>
+<span id="cb30-282"><a href="#cb30-282"></a></span>
+<span id="cb30-283"><a href="#cb30-283"></a>This seems to be a problem when training GEE models on aggregated data when the number of clusters is low irrespective of the total sample size, which leads to about 21% of the estimates from the aggregated data being convergence failures. An estimate is flagged as convergence failure when the stdandard error of the coefficients &gt; 5 on the logit scale.</span>
+<span id="cb30-284"><a href="#cb30-284"></a></span>
+<span id="cb30-287"><a href="#cb30-287"></a><span class="in">```{r}</span></span>
+<span id="cb30-288"><a href="#cb30-288"></a>simulation_results <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb30-289"><a href="#cb30-289"></a>  <span class="fu">mutate</span>(<span class="at">high_se =</span> <span class="fu">as.numeric</span>(std.error <span class="sc">&gt;</span> <span class="dv">5</span>)) </span>
+<span id="cb30-290"><a href="#cb30-290"></a></span>
+<span id="cb30-291"><a href="#cb30-291"></a>simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb30-292"><a href="#cb30-292"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-293"><a href="#cb30-293"></a>  <span class="fu">select</span>(<span class="sc">-</span>estimate, <span class="sc">-</span>std.error, <span class="sc">-</span>statistic, <span class="sc">-</span>p.value, <span class="sc">-</span>time_secs) <span class="sc">%&gt;%</span></span>
+<span id="cb30-294"><a href="#cb30-294"></a>  <span class="co"># put intercept and slope estimates in one row</span></span>
+<span id="cb30-295"><a href="#cb30-295"></a>  <span class="fu">pivot_wider</span>(<span class="fu">everything</span>(), <span class="at">names_from =</span> term, <span class="at">values_from =</span> high_se) <span class="sc">%&gt;%</span></span>
+<span id="cb30-296"><a href="#cb30-296"></a>  <span class="co"># if at least one of the intercept or slope terms have a very high se</span></span>
+<span id="cb30-297"><a href="#cb30-297"></a>  <span class="fu">mutate</span>(<span class="at">high_se =</span> <span class="fu">pmin</span>(Intercept <span class="sc">+</span> Slope, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-298"><a href="#cb30-298"></a>  <span class="fu">group_by</span>(data, n_clus, n) <span class="sc">%&gt;%</span></span>
+<span id="cb30-299"><a href="#cb30-299"></a>  <span class="fu">summarize</span>(<span class="at">n_total =</span> <span class="fu">n</span>(), <span class="at">n_failed =</span> <span class="fu">sum</span>(high_se), <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-300"><a href="#cb30-300"></a>  <span class="co">#print(n = Inf) %&gt;%</span></span>
+<span id="cb30-301"><a href="#cb30-301"></a>  <span class="fu">summarize</span>(<span class="at">n_total =</span> <span class="fu">sum</span>(n_total), <span class="at">n_failed =</span> <span class="fu">sum</span>(n_failed), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-302"><a href="#cb30-302"></a>  <span class="fu">mutate</span>(<span class="at">percent_failed =</span> <span class="dv">100</span> <span class="sc">*</span> n_failed <span class="sc">/</span> n_total)</span>
+<span id="cb30-303"><a href="#cb30-303"></a><span class="in">```</span></span>
+<span id="cb30-304"><a href="#cb30-304"></a></span>
+<span id="cb30-305"><a href="#cb30-305"></a><span class="fu">## Raw vs aggregated data estimates</span></span>
+<span id="cb30-306"><a href="#cb30-306"></a></span>
+<span id="cb30-307"><a href="#cb30-307"></a>These rows with convergence failures can be removed and the agreement between the estimates from the raw vs the aggregate datasets can be assessed visually</span>
+<span id="cb30-308"><a href="#cb30-308"></a></span>
+<span id="cb30-311"><a href="#cb30-311"></a><span class="in">```{r}</span></span>
+<span id="cb30-312"><a href="#cb30-312"></a>slope_plot_data <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span></span>
+<span id="cb30-313"><a href="#cb30-313"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"Slope"</span>, high_se <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-314"><a href="#cb30-314"></a>  <span class="fu">select</span>(seed, term, data, estimate, n_clus, n, estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb30-315"><a href="#cb30-315"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(seed, term, n_clus, n, estimator),</span>
+<span id="cb30-316"><a href="#cb30-316"></a>                     <span class="at">names_from =</span> data, <span class="at">values_from =</span> estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb30-317"><a href="#cb30-317"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(n), </span>
+<span id="cb30-318"><a href="#cb30-318"></a>         <span class="at">id =</span> <span class="fu">interaction</span>(estimator, n_clus, <span class="at">sep =</span> <span class="st">", "</span>, <span class="at">lex.order =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb30-319"><a href="#cb30-319"></a></span>
+<span id="cb30-320"><a href="#cb30-320"></a>slope_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb30-321"><a href="#cb30-321"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-322"><a href="#cb30-322"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">raw data</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">aggregated data</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb30-323"><a href="#cb30-323"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-324"><a href="#cb30-324"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb30-325"><a href="#cb30-325"></a>  <span class="co"># geom_point(data = tibble(x = 0.3, y = 0.3), </span></span>
+<span id="cb30-326"><a href="#cb30-326"></a>  <span class="co">#            aes(x = x, y = y), </span></span>
+<span id="cb30-327"><a href="#cb30-327"></a>  <span class="co">#            color = "black", size = 3, inherit.aes = FALSE) +</span></span>
+<span id="cb30-328"><a href="#cb30-328"></a>  <span class="fu">xlab</span>(<span class="st">"Slope coefficient from the full dataset"</span>) <span class="sc">+</span></span>
+<span id="cb30-329"><a href="#cb30-329"></a>  <span class="fu">ylab</span>(<span class="st">"Slope coefficient from the aggregated dataset"</span>) <span class="sc">+</span></span>
+<span id="cb30-330"><a href="#cb30-330"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb30-331"><a href="#cb30-331"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb30-332"><a href="#cb30-332"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>)</span>
+<span id="cb30-333"><a href="#cb30-333"></a><span class="in">```</span></span>
+<span id="cb30-334"><a href="#cb30-334"></a></span>
+<span id="cb30-335"><a href="#cb30-335"></a>This plot compares the estimated slope coefficient (true value 0.3) from the GEE model on aggregated data vs the estimated slope coefficient from the model on the raw data while varying the number of clusters as well as the total sample size. The agreement between estimates increases as the number of clusters increases (going from the top left panel to the top right panel). </span>
+<span id="cb30-336"><a href="#cb30-336"></a></span>
+<span id="cb30-337"><a href="#cb30-337"></a>On the other hand, the estimates from running GLMs on the same aggregated and raw datasets are identical, as indicated by the points lying precisely on the black line in the following plot</span>
+<span id="cb30-338"><a href="#cb30-338"></a></span>
+<span id="cb30-341"><a href="#cb30-341"></a><span class="in">```{r}</span></span>
+<span id="cb30-342"><a href="#cb30-342"></a>slope_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb30-343"><a href="#cb30-343"></a>  <span class="fu">filter</span>(estimator <span class="sc">==</span> <span class="st">"GLM"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-344"><a href="#cb30-344"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">raw data</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">aggregated data</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Total sample size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb30-345"><a href="#cb30-345"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-346"><a href="#cb30-346"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb30-347"><a href="#cb30-347"></a>  <span class="co"># geom_point(data = tibble(x = 0.3, y = 0.3), </span></span>
+<span id="cb30-348"><a href="#cb30-348"></a>  <span class="co">#            aes(x = x, y = y), </span></span>
+<span id="cb30-349"><a href="#cb30-349"></a>  <span class="co">#            color = "black", size = 3, inherit.aes = FALSE) +</span></span>
+<span id="cb30-350"><a href="#cb30-350"></a>  <span class="fu">xlab</span>(<span class="st">"Slope coefficient from the full dataset"</span>) <span class="sc">+</span></span>
+<span id="cb30-351"><a href="#cb30-351"></a>  <span class="fu">ylab</span>(<span class="st">"Slope coefficient from the aggregated dataset"</span>) <span class="sc">+</span></span>
+<span id="cb30-352"><a href="#cb30-352"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb30-353"><a href="#cb30-353"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb30-354"><a href="#cb30-354"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> id, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>)</span>
+<span id="cb30-355"><a href="#cb30-355"></a><span class="in">```</span></span>
+<span id="cb30-356"><a href="#cb30-356"></a></span>
+<span id="cb30-357"><a href="#cb30-357"></a>As expected, the estimates for $n = 10,000$ are tightly clustered around the true value compared to $n = 100$ in both sets of plots.</span>
+<span id="cb30-358"><a href="#cb30-358"></a></span>
+<span id="cb30-359"><a href="#cb30-359"></a>Ok so the estimates aren't identical for the GEE models unfortunately, but are they approximately similar across the raw and aggregated datasets? This is assessed visually via box plots below for the case of 5 clusters in the data</span>
+<span id="cb30-360"><a href="#cb30-360"></a></span>
+<span id="cb30-363"><a href="#cb30-363"></a><span class="in">```{r}</span></span>
+<span id="cb30-364"><a href="#cb30-364"></a>dist_plot_data <span class="ot">&lt;-</span> simulation_results <span class="sc">%&gt;%</span> </span>
+<span id="cb30-365"><a href="#cb30-365"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-366"><a href="#cb30-366"></a>    <span class="at">ci_lower =</span> estimate <span class="sc">-</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> std.error),</span>
+<span id="cb30-367"><a href="#cb30-367"></a>    <span class="at">ci_upper =</span> estimate <span class="sc">+</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> std.error), </span>
+<span id="cb30-368"><a href="#cb30-368"></a>    <span class="at">ci_width =</span> ci_upper <span class="sc">-</span> ci_lower, </span>
+<span id="cb30-369"><a href="#cb30-369"></a>    <span class="at">ci_upper_half_width =</span> ci_upper <span class="sc">-</span> estimate</span>
+<span id="cb30-370"><a href="#cb30-370"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-371"><a href="#cb30-371"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"Slope"</span>, high_se <span class="sc">==</span> <span class="dv">0</span>, estimator <span class="sc">==</span> <span class="st">"GEE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-372"><a href="#cb30-372"></a>  <span class="fu">select</span>(</span>
+<span id="cb30-373"><a href="#cb30-373"></a>    <span class="at">Estimate =</span> estimate, </span>
+<span id="cb30-374"><a href="#cb30-374"></a>    <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> std.error, </span>
+<span id="cb30-375"><a href="#cb30-375"></a>    <span class="st">`</span><span class="at">95% CI LL</span><span class="st">`</span> <span class="ot">=</span> ci_lower, </span>
+<span id="cb30-376"><a href="#cb30-376"></a>    <span class="st">`</span><span class="at">95% CI UL</span><span class="st">`</span> <span class="ot">=</span> ci_upper,</span>
+<span id="cb30-377"><a href="#cb30-377"></a>    <span class="st">`</span><span class="at">95% CI Width</span><span class="st">`</span> <span class="ot">=</span> ci_width,</span>
+<span id="cb30-378"><a href="#cb30-378"></a>    <span class="st">`</span><span class="at">95% CI Upper HW</span><span class="st">`</span> <span class="ot">=</span> ci_upper_half_width,</span>
+<span id="cb30-379"><a href="#cb30-379"></a>    n, n_clus_raw, n_clus, data, seed) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-380"><a href="#cb30-380"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> Estimate<span class="sc">:</span><span class="st">`</span><span class="at">95% CI Upper HW</span><span class="st">`</span>, </span>
+<span id="cb30-381"><a href="#cb30-381"></a>                      <span class="at">names_to =</span> <span class="st">"statistic"</span>, </span>
+<span id="cb30-382"><a href="#cb30-382"></a>                      <span class="at">values_to =</span> <span class="st">"values"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-383"><a href="#cb30-383"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-384"><a href="#cb30-384"></a>    <span class="at">statistic =</span> <span class="fu">factor</span>(statistic,</span>
+<span id="cb30-385"><a href="#cb30-385"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span>, </span>
+<span id="cb30-386"><a href="#cb30-386"></a>                                  <span class="st">"95% CI LL"</span>, <span class="st">"95% CI UL"</span>, </span>
+<span id="cb30-387"><a href="#cb30-387"></a>                                  <span class="st">"95% CI Width"</span>, <span class="st">"95% CI Upper HW"</span>)), </span>
+<span id="cb30-388"><a href="#cb30-388"></a>    <span class="at">n =</span> <span class="fu">factor</span>(n, <span class="at">ordered =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb30-389"><a href="#cb30-389"></a>    <span class="at">data =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(data)</span>
+<span id="cb30-390"><a href="#cb30-390"></a>  )</span>
+<span id="cb30-391"><a href="#cb30-391"></a></span>
+<span id="cb30-392"><a href="#cb30-392"></a><span class="fu">glimpse</span>(dist_plot_data)</span>
+<span id="cb30-393"><a href="#cb30-393"></a><span class="in">```</span></span>
+<span id="cb30-394"><a href="#cb30-394"></a></span>
+<span id="cb30-397"><a href="#cb30-397"></a><span class="in">```{r}</span></span>
+<span id="cb30-398"><a href="#cb30-398"></a><span class="co">#| fig-height: 9</span></span>
+<span id="cb30-399"><a href="#cb30-399"></a><span class="co">#| fig-width: 7.5</span></span>
+<span id="cb30-400"><a href="#cb30-400"></a><span class="co">#| fig-dpi: 300</span></span>
+<span id="cb30-401"><a href="#cb30-401"></a></span>
+<span id="cb30-402"><a href="#cb30-402"></a>dist_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb30-403"><a href="#cb30-403"></a>  <span class="fu">filter</span>(n_clus_raw <span class="sc">==</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-404"><a href="#cb30-404"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> values, <span class="at">color =</span> data)) <span class="sc">+</span> </span>
+<span id="cb30-405"><a href="#cb30-405"></a>  <span class="co">#geom_point(position = position_dodge(width = 0.2)) +</span></span>
+<span id="cb30-406"><a href="#cb30-406"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb30-407"><a href="#cb30-407"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size (n)"</span>) <span class="sc">+</span> </span>
+<span id="cb30-408"><a href="#cb30-408"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb30-409"><a href="#cb30-409"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb30-410"><a href="#cb30-410"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> statistic, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span>
+<span id="cb30-411"><a href="#cb30-411"></a><span class="in">```</span></span>
+<span id="cb30-412"><a href="#cb30-412"></a></span>
+<span id="cb30-413"><a href="#cb30-413"></a>So based on these box plots, it seems like most of the sampling distributions for these statistics -- point estimate, standard errors, CI width, etc. -- are pretty comparable but not identical.</span>
+<span id="cb30-414"><a href="#cb30-414"></a></span>
+<span id="cb30-415"><a href="#cb30-415"></a><span class="fu"># Conclusion</span></span>
+<span id="cb30-416"><a href="#cb30-416"></a></span>
+<span id="cb30-417"><a href="#cb30-417"></a>So to conclude, this strategy isn't really going to be useful when fitting a single GEE model to a real dataset using the R package <span class="in">`{geepack}`</span>, but it can still be pretty decent when fitting many GEE models to simulated datasets to calculate some statistics. Additionally, all (?) matrix operations performed by GEE eventually boil down to summing some random variables, so it should be possible to have an implementation that works on aggregated data.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">akshat.blog © 2022-2023 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+  </div>
+</footer>
+
+
+
+</body></html>

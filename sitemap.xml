@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ad1729.github.io/about.html</loc>
-    <lastmod>2023-01-09T15:29:25.243Z</lastmod>
+    <lastmod>2023-03-20T16:34:19.802Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/index.html</loc>
-    <lastmod>2023-01-09T15:29:25.828Z</lastmod>
+    <lastmod>2023-03-20T16:34:20.448Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ad1729.github.io/posts/gee-on-aggregated-data/index.html</loc>
+    <lastmod>2023-03-20T16:34:22.502Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/hello-world/index.html</loc>
-    <lastmod>2023-01-09T15:29:26.924Z</lastmod>
+    <lastmod>2023-03-20T16:34:23.482Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/how-many-ratings-do-i-need/index.html</loc>
-    <lastmod>2023-01-09T15:29:28.082Z</lastmod>
+    <lastmod>2023-03-20T16:34:24.684Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/jigger-volume-estimation/index.html</loc>
-    <lastmod>2023-01-09T15:29:29.293Z</lastmod>
+    <lastmod>2023-03-20T16:34:25.928Z</lastmod>
   </url>
 </urlset>
