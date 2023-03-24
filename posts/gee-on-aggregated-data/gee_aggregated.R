@@ -217,6 +217,26 @@ plot(runtime_plots)
 
 plotly::ggplotly(runtime_plots)
 
+# plot runtime data but with n / n_clus instead of n
+n_per_cluster_plot <- simulation_results %>%
+  filter(data == "raw data", estimator == "GEE") %>%
+  distinct(seed, time_secs, n, n_clus, n_clus_raw) %>%
+  mutate(n_per_clus = n / n_clus_raw) %>%
+  ggplot(aes(x = n_per_clus, y = time_secs)) +
+  geom_point(aes(group = n_clus, color = n_clus), position = position_dodge(width = 10)) +
+  # geom_smooth(method = "lm", formula = y ~ poly(x, degree = 3)) +
+  # geom_smooth(method = "lm", formula = y ~ I(x ^ 3), color = "forestgreen") +
+  # stat_summary(aes(group = interaction(n_clus, n)), geom = "point",
+  #              fun = mean, color = "darkorange", size = 2) +
+  xlab("Sample size per cluster (n / n_clus)") +
+  ylab("Runtime (in seconds)")
+
+n_per_cluster_plot
+
+n_per_cluster_plot + coord_cartesian(xlim = c(0, 250), ylim = c(0, 10))
+
+n_per_cluster_plot + facet_wrap(~ n_clus) + coord_cartesian(xlim = c(0, 250), ylim = c(0, 10))
+
 # some convergence issues with small # of clusters
 simulation_results %>%
   group_by(estimator, n_clus) %>%
