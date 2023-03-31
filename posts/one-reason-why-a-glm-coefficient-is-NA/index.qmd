@@ -1,0 +1,83 @@
+---
+title: "One reason why a (g)lm coefficient is NA"
+date: "2023-03-31"
+categories: [R, GLM, Multicollinearity]
+code-fold: false
+reference-location: margin
+---
+
+TL;DR: Use the _alias_ function in R to check if you have _nested factors_ (predictors) in your data
+
+Recently while fitting a logistic regression model, some of the coefficients estimated by the model were `NA`. Initially I thought it was due to _separation_[^1], as that's the most common issue I usually face when fitting unregularized models on data.
+
+[^1]: see [this](https://en.wikipedia.org/wiki/Separation_(statistics)) Wikipedia article, or [this](https://stats.stackexchange.com/questions/11109/how-to-deal-with-perfect-separation-in-logistic-regression) stats.stackexchange.com thread (and the associated links in the sidebar)
+
+However, googling[^2] threw up many threads on multicollinearity and anyway, separation usually leads to nonsensical estimates like $1.5 \times 10^8$ instead of `NA`.
+
+[^2]: in this day and age of _ChatGPT_, I know
+
+After combing through many stackexchange threads, I discovered the [_alias_](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/alias.html) function in R from [this](https://stats.stackexchange.com/questions/13465/how-to-deal-with-an-error-such-as-coefficients-14-not-defined-because-of-singu) thread, which was pretty handy at identifying the problematic column(s).
+
+It's interesting that the alias documentation doesn't mention anything about GLMs (`glm()`) but this does work on `glm(..., family = "binomial")` model objects[^3].
+
+[^3]: possibly since the `class` of a `glm` object is `c("glm", "lm")`
+
+The rest of this post explores this issue and its resolution using aggregated test data, where the city variable is intentionally nested within the country variable. 
+
+```{r}
+library(dplyr)
+
+simulated_data <- tribble(
+  ~age, ~city, ~country, ~y, ~N,
+  "< 30", "Paris", "France", 30, 100,
+  "< 30", "Nice", "France", 20, 100,
+  "< 30", "Berlin", "Germany", 23, 100,
+  "30+", "Paris", "France", 12, 100,
+  "30+", "Nice", "France", 11, 100,
+  "30+", "Berlin", "Germany", 27, 100
+) %>% 
+  mutate(y = y / N)
+
+model <- glm(y ~ age + city + country, weights = N, data = simulated_data, family = "binomial")
+
+summary(model)
+```
+
+The estimate for Germany is `NA`. Calling the alias function on this GLM model shows that the dummy variable of Germany is _linearly dependent_ on (a subset of) the other columns.
+
+```{r}
+alias(model)
+```
+
+This means that the column for Germany is redundant in this _design matrix_ (or the _model matrix_), as the values of Germany (the pattern of 0s and 1s) can be perfectly predicted / recreated by combining the Intercept, Nice, and Paris columns using the coefficients from the output of `alias()`. This is why the perfect [multicollinearity](https://en.wikipedia.org/wiki/Multicollinearity) in this case leads to an `NA` coefficient.
+
+```{r}
+# countryGermany and Germany are identical
+model.matrix(~ ., data = simulated_data) %>% 
+  as_tibble() %>% 
+  select(-y, -N, -`age30+`) %>% 
+  mutate(Germany = `(Intercept)` - cityNice - cityParis)
+```
+
+Another interesting observation is that changing the order of the variables
+
+```{r}
+# here country comes before city
+glm(y ~ age + country + city, weights = N, data = simulated_data, family = "binomial") %>% 
+  alias()
+```
+
+leads to different estimates being `NA`, i.e., the estimate for Paris is now `NA` and is linearly dependent on the Intercept, country (Germany), and another city (Nice).
+
+The simplest solution here is to drop one of the city or country columns, or to build two separate models -- one without country, and one without city.
+
+If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links: 
+
+- [https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data](https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data)
+- [https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting](https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting)
+- [https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model](https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model)
+- Second bullet point from the answer: [https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm](https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm)
+- [https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue](https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue)
+- [https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
+- [https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact](https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact)
+
