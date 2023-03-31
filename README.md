@@ -4,20 +4,7 @@ This project contains all the files for the blog.
 ## Instructions (for my future self)
 
 - Create a folder under `posts/` with the folder name indicating the slug of the post
-- Create an `ignored.qmd` file in the newly created folder
-  - File is called `ignored.qmd` because of the following parameters in the `_quarto.yml` file: 
-  
-  ```
-  project:
-  ...
-  render:
-    - "*.qmd"
-    - "!ignored.qmd"
-    - "!README.md"
-    - "!LICENSE.md"
-  ...
-  ```
-  
+- Create an `ignored.qmd`[^1] file in the newly created folder
 - Start writing
 - When the post is ready for editing / proofreading, rename the file to `index.qmd`
 - Run `quarto preview` in the terminal
@@ -26,6 +13,8 @@ This project contains all the files for the blog.
 - Commit changes and push to master / main branch
 - Run `quarto publish gh-pages`
 - Go do something else
+
+[^1]: File is called `ignored.qmd` because of the `render: "!ignored.qmd"` parameter in the `_quarto.yml` file
 
 ## Extras
 
