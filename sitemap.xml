@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ad1729.github.io/about.html</loc>
-    <lastmod>2023-03-20T16:34:19.802Z</lastmod>
+    <lastmod>2023-03-31T18:49:53.983Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/index.html</loc>
-    <lastmod>2023-03-20T16:34:20.448Z</lastmod>
+    <lastmod>2023-03-31T18:49:54.696Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/gee-on-aggregated-data/index.html</loc>
-    <lastmod>2023-03-20T16:34:22.502Z</lastmod>
+    <lastmod>2023-03-31T18:49:56.913Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/hello-world/index.html</loc>
-    <lastmod>2023-03-20T16:34:23.482Z</lastmod>
+    <lastmod>2023-03-31T18:49:58.019Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/how-many-ratings-do-i-need/index.html</loc>
-    <lastmod>2023-03-20T16:34:24.684Z</lastmod>
+    <lastmod>2023-03-31T18:49:59.302Z</lastmod>
   </url>
   <url>
     <loc>https://ad1729.github.io/posts/jigger-volume-estimation/index.html</loc>
-    <lastmod>2023-03-20T16:34:25.928Z</lastmod>
+    <lastmod>2023-03-31T18:50:00.698Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ad1729.github.io/posts/one-reason-why-a-glm-coefficient-is-NA/index.html</loc>
+    <lastmod>2023-03-31T18:50:01.873Z</lastmod>
   </url>
 </urlset>

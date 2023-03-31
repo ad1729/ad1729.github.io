@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-03-31">
+
+<title>Akshat Dwivedi - One reason why a (g)lm coefficient is NA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Akshat Dwivedi</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ad1729"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"><i class="bi bi-images" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">One reason why a (g)lm coefficient is NA</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">GLM</div>
+                <div class="quarto-category">Multicollinearity</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 31, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>TL;DR: Use the <em>alias</em> function in R to check if you have <em>nested factors</em> (predictors) in your data</p>
+<div class="page-columns page-full"><p>Recently while fitting a logistic regression model, some of the coefficients estimated by the model were <code>NA</code>. Initially I thought it was due to <em>separation</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, as that’s the most common issue I usually face when fitting unregularized models on data.</p><div class="no-row-height column-margin column-container"><li id="fn1" role="doc-endnote"><p><sup>1</sup>&nbsp;see <a href="https://en.wikipedia.org/wiki/Separation_(statistics)">this</a> Wikipedia article, or <a href="https://stats.stackexchange.com/questions/11109/how-to-deal-with-perfect-separation-in-logistic-regression">this</a> stats.stackexchange.com thread (and the associated links in the sidebar)</p></li></div></div>
+<div class="page-columns page-full"><p>However, googling<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> threw up many threads on multicollinearity and anyway, separation usually leads to nonsensical estimates like <span class="math inline">\(1.5 \times 10^8\)</span> instead of <code>NA</code>.</p><div class="no-row-height column-margin column-container"><li id="fn2" role="doc-endnote"><p><sup>2</sup>&nbsp;in this day and age of <em>ChatGPT</em>, I know</p></li></div></div>
+<p>After combing through many stackexchange threads, I discovered the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/alias.html"><em>alias</em></a> function in R from <a href="https://stats.stackexchange.com/questions/13465/how-to-deal-with-an-error-such-as-coefficients-14-not-defined-because-of-singu">this</a> thread, which was pretty handy at identifying the problematic column(s).</p>
+<div class="page-columns page-full"><p>It’s interesting that the alias documentation doesn’t mention anything about GLMs (<code>glm()</code>) but this does work on <code>glm(..., family = "binomial")</code> model objects<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn3" role="doc-endnote"><p><sup>3</sup>&nbsp;possibly since the <code>class</code> of a <code>glm</code> object is <code>c("glm", "lm")</code></p></li></div></div>
+<p>The rest of this post explores this issue and its resolution using aggregated test data, where the city variable is intentionally nested within the country variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="sc">~</span>age, <span class="sc">~</span>city, <span class="sc">~</span>country, <span class="sc">~</span>y, <span class="sc">~</span>N,</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">30</span>, <span class="dv">100</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">20</span>, <span class="dv">100</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">23</span>, <span class="dv">100</span>,</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="st">"30+"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">12</span>, <span class="dv">100</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  <span class="st">"30+"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">11</span>, <span class="dv">100</span>,</span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="st">"30+"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">27</span>, <span class="dv">100</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> y <span class="sc">/</span> N)</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> city <span class="sc">+</span> country, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13"></a></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ age + city + country, family = "binomial", 
+    data = simulated_data, weights = N)
+
+Deviance Residuals: 
+      1        2        3        4        5        6  
+ 1.1459   0.3555  -1.4512  -1.4069  -0.4309   1.5443  
+
+Coefficients: (1 not defined because of singularities)
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     -0.8733     0.1876  -4.656 3.23e-06 ***
+age30+          -0.4794     0.2062  -2.325   0.0201 *  
+cityNice        -0.6027     0.2558  -2.356   0.0185 *  
+cityParis       -0.2286     0.2395  -0.954   0.3399    
+countryGermany       NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 19.2591  on 5  degrees of freedom
+Residual deviance:  8.0953  on 2  degrees of freedom
+AIC: 43.492
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>The estimate for Germany is <code>NA</code>. Calling the alias function on this GLM model shows that the dummy variable of Germany is <em>linearly dependent</em> on (a subset of) the other columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">alias</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model :
+y ~ age + city + country
+
+Complete :
+               (Intercept) age30+ cityNice cityParis
+countryGermany  1           0     -1       -1       </code></pre>
+</div>
+</div>
+<p>This means that the column for Germany is redundant in this <em>design matrix</em> (or the <em>model matrix</em>), as the values of Germany (the pattern of 0s and 1s) can be perfectly predicted / recreated by combining the Intercept, Nice, and Paris columns using the coefficients from the output of <code>alias()</code>. This is why the perfect <a href="https://en.wikipedia.org/wiki/Multicollinearity">multicollinearity</a> in this case leads to an <code>NA</code> coefficient.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># countryGermany and Germany are identical</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">model.matrix</span>(<span class="sc">~</span> ., <span class="at">data =</span> simulated_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">select</span>(<span class="sc">-</span>y, <span class="sc">-</span>N, <span class="sc">-</span><span class="st">`</span><span class="at">age30+</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">mutate</span>(<span class="at">Germany =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">-</span> cityNice <span class="sc">-</span> cityParis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  `(Intercept)` cityNice cityParis countryGermany Germany
+          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;
+1             1        0         1              0       0
+2             1        1         0              0       0
+3             1        0         0              1       1
+4             1        0         1              0       0
+5             1        1         0              0       0
+6             1        0         0              1       1</code></pre>
+</div>
+</div>
+<p>Another interesting observation is that changing the order of the variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># here country comes before city</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> country <span class="sc">+</span> city, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">alias</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model :
+y ~ age + country + city
+
+Complete :
+          (Intercept) age30+ countryGermany cityNice
+cityParis  1           0     -1             -1      </code></pre>
+</div>
+</div>
+<p>leads to different estimates being <code>NA</code>, i.e., the estimate for Paris is now <code>NA</code> and is linearly dependent on the Intercept, country (Germany), and another city (Nice).</p>
+<p>The simplest solution here is to drop one of the city or country columns, or to build two separate models – one without country, and one without city.</p>
+<p>If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links:</p>
+<ul>
+<li><a href="https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data">https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data</a></li>
+<li><a href="https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting">https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting</a></li>
+<li><a href="https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model">https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model</a></li>
+<li>Second bullet point from the answer: <a href="https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm">https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm</a></li>
+<li><a href="https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue">https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue</a></li>
+<li><a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html">https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html</a></li>
+<li><a href="https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact">https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact</a></li>
+</ul>
+
+
+<!-- -->
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="an">title:</span><span class="co"> "One reason why a (g)lm coefficient is NA"</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="an">date:</span><span class="co"> "2023-03-31"</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="an">categories:</span><span class="co"> [R, GLM, Multicollinearity]</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co">---</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a></span>
+<span id="cb13-9"><a href="#cb13-9"></a>TL;DR: Use the _alias_ function in R to check if you have _nested factors_ (predictors) in your data</span>
+<span id="cb13-10"><a href="#cb13-10"></a></span>
+<span id="cb13-11"><a href="#cb13-11"></a>Recently while fitting a logistic regression model, some of the coefficients estimated by the model were <span class="in">`NA`</span>. Initially I thought it was due to _separation_<span class="ot">[^1]</span>, as that's the most common issue I usually face when fitting unregularized models on data.</span>
+<span id="cb13-12"><a href="#cb13-12"></a></span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="ot">[^1]: </span>see <span class="co">[</span><span class="ot">this</span><span class="co">]</span>(https://en.wikipedia.org/wiki/Separation_(statistics)) Wikipedia article, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/11109/how-to-deal-with-perfect-separation-in-logistic-regression)</span> stats.stackexchange.com thread (and the associated links in the sidebar)</span>
+<span id="cb13-14"><a href="#cb13-14"></a></span>
+<span id="cb13-15"><a href="#cb13-15"></a>However, googling<span class="ot">[^2]</span> threw up many threads on multicollinearity and anyway, separation usually leads to nonsensical estimates like $1.5 \times 10^8$ instead of <span class="in">`NA`</span>.</span>
+<span id="cb13-16"><a href="#cb13-16"></a></span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="ot">[^2]: </span>in this day and age of _ChatGPT_, I know</span>
+<span id="cb13-18"><a href="#cb13-18"></a></span>
+<span id="cb13-19"><a href="#cb13-19"></a>After combing through many stackexchange threads, I discovered the <span class="co">[</span><span class="ot">_alias_</span><span class="co">](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/alias.html)</span> function in R from <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/13465/how-to-deal-with-an-error-such-as-coefficients-14-not-defined-because-of-singu)</span> thread, which was pretty handy at identifying the problematic column(s).</span>
+<span id="cb13-20"><a href="#cb13-20"></a></span>
+<span id="cb13-21"><a href="#cb13-21"></a>It's interesting that the alias documentation doesn't mention anything about GLMs (<span class="in">`glm()`</span>) but this does work on <span class="in">`glm(..., family = "binomial")`</span> model objects<span class="ot">[^3]</span>.</span>
+<span id="cb13-22"><a href="#cb13-22"></a></span>
+<span id="cb13-23"><a href="#cb13-23"></a><span class="ot">[^3]: </span>possibly since the <span class="in">`class`</span> of a <span class="in">`glm`</span> object is <span class="in">`c("glm", "lm")`</span></span>
+<span id="cb13-24"><a href="#cb13-24"></a></span>
+<span id="cb13-25"><a href="#cb13-25"></a>The rest of this post explores this issue and its resolution using aggregated test data, where the city variable is intentionally nested within the country variable. </span>
+<span id="cb13-26"><a href="#cb13-26"></a></span>
+<span id="cb13-29"><a href="#cb13-29"></a><span class="in">```{r}</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-31"><a href="#cb13-31"></a></span>
+<span id="cb13-32"><a href="#cb13-32"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb13-33"><a href="#cb13-33"></a>  <span class="sc">~</span>age, <span class="sc">~</span>city, <span class="sc">~</span>country, <span class="sc">~</span>y, <span class="sc">~</span>N,</span>
+<span id="cb13-34"><a href="#cb13-34"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">30</span>, <span class="dv">100</span>,</span>
+<span id="cb13-35"><a href="#cb13-35"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">20</span>, <span class="dv">100</span>,</span>
+<span id="cb13-36"><a href="#cb13-36"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">23</span>, <span class="dv">100</span>,</span>
+<span id="cb13-37"><a href="#cb13-37"></a>  <span class="st">"30+"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">12</span>, <span class="dv">100</span>,</span>
+<span id="cb13-38"><a href="#cb13-38"></a>  <span class="st">"30+"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">11</span>, <span class="dv">100</span>,</span>
+<span id="cb13-39"><a href="#cb13-39"></a>  <span class="st">"30+"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">27</span>, <span class="dv">100</span></span>
+<span id="cb13-40"><a href="#cb13-40"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-41"><a href="#cb13-41"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> y <span class="sc">/</span> N)</span>
+<span id="cb13-42"><a href="#cb13-42"></a></span>
+<span id="cb13-43"><a href="#cb13-43"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> city <span class="sc">+</span> country, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb13-44"><a href="#cb13-44"></a></span>
+<span id="cb13-45"><a href="#cb13-45"></a><span class="fu">summary</span>(model)</span>
+<span id="cb13-46"><a href="#cb13-46"></a><span class="in">```</span></span>
+<span id="cb13-47"><a href="#cb13-47"></a></span>
+<span id="cb13-48"><a href="#cb13-48"></a>The estimate for Germany is <span class="in">`NA`</span>. Calling the alias function on this GLM model shows that the dummy variable of Germany is _linearly dependent_ on (a subset of) the other columns.</span>
+<span id="cb13-49"><a href="#cb13-49"></a></span>
+<span id="cb13-52"><a href="#cb13-52"></a><span class="in">```{r}</span></span>
+<span id="cb13-53"><a href="#cb13-53"></a><span class="fu">alias</span>(model)</span>
+<span id="cb13-54"><a href="#cb13-54"></a><span class="in">```</span></span>
+<span id="cb13-55"><a href="#cb13-55"></a></span>
+<span id="cb13-56"><a href="#cb13-56"></a>This means that the column for Germany is redundant in this _design matrix_ (or the _model matrix_), as the values of Germany (the pattern of 0s and 1s) can be perfectly predicted / recreated by combining the Intercept, Nice, and Paris columns using the coefficients from the output of <span class="in">`alias()`</span>. This is why the perfect <span class="co">[</span><span class="ot">multicollinearity</span><span class="co">](https://en.wikipedia.org/wiki/Multicollinearity)</span> in this case leads to an <span class="in">`NA`</span> coefficient.</span>
+<span id="cb13-57"><a href="#cb13-57"></a></span>
+<span id="cb13-60"><a href="#cb13-60"></a><span class="in">```{r}</span></span>
+<span id="cb13-61"><a href="#cb13-61"></a><span class="co"># countryGermany and Germany are identical</span></span>
+<span id="cb13-62"><a href="#cb13-62"></a><span class="fu">model.matrix</span>(<span class="sc">~</span> ., <span class="at">data =</span> simulated_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-63"><a href="#cb13-63"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-64"><a href="#cb13-64"></a>  <span class="fu">select</span>(<span class="sc">-</span>y, <span class="sc">-</span>N, <span class="sc">-</span><span class="st">`</span><span class="at">age30+</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-65"><a href="#cb13-65"></a>  <span class="fu">mutate</span>(<span class="at">Germany =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">-</span> cityNice <span class="sc">-</span> cityParis)</span>
+<span id="cb13-66"><a href="#cb13-66"></a><span class="in">```</span></span>
+<span id="cb13-67"><a href="#cb13-67"></a></span>
+<span id="cb13-68"><a href="#cb13-68"></a>Another interesting observation is that changing the order of the variables</span>
+<span id="cb13-69"><a href="#cb13-69"></a></span>
+<span id="cb13-72"><a href="#cb13-72"></a><span class="in">```{r}</span></span>
+<span id="cb13-73"><a href="#cb13-73"></a><span class="co"># here country comes before city</span></span>
+<span id="cb13-74"><a href="#cb13-74"></a><span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> country <span class="sc">+</span> city, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-75"><a href="#cb13-75"></a>  <span class="fu">alias</span>()</span>
+<span id="cb13-76"><a href="#cb13-76"></a><span class="in">```</span></span>
+<span id="cb13-77"><a href="#cb13-77"></a></span>
+<span id="cb13-78"><a href="#cb13-78"></a>leads to different estimates being <span class="in">`NA`</span>, i.e., the estimate for Paris is now <span class="in">`NA`</span> and is linearly dependent on the Intercept, country (Germany), and another city (Nice). This depends on which term enters the model first.</span>
+<span id="cb13-79"><a href="#cb13-79"></a></span>
+<span id="cb13-80"><a href="#cb13-80"></a>The simplest solution here is to drop one of the city or country columns, or to build two separate models -- one without country, and one without city.</span>
+<span id="cb13-81"><a href="#cb13-81"></a></span>
+<span id="cb13-82"><a href="#cb13-82"></a>If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links: </span>
+<span id="cb13-83"><a href="#cb13-83"></a></span>
+<span id="cb13-84"><a href="#cb13-84"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data</span><span class="co">](https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data)</span></span>
+<span id="cb13-85"><a href="#cb13-85"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting</span><span class="co">](https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting)</span></span>
+<span id="cb13-86"><a href="#cb13-86"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model</span><span class="co">](https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model)</span></span>
+<span id="cb13-87"><a href="#cb13-87"></a><span class="ss">- </span>Second bullet point from the answer: <span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm</span><span class="co">](https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm)</span></span>
+<span id="cb13-88"><a href="#cb13-88"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue</span><span class="co">](https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue)</span></span>
+<span id="cb13-89"><a href="#cb13-89"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html</span><span class="co">](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)</span></span>
+<span id="cb13-90"><a href="#cb13-90"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact</span><span class="co">](https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact)</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">akshat.blog © 2022-2023 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+  </div>
+</footer>
+
+
+
+</body></html>
