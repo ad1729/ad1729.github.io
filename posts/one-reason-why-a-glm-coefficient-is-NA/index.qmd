@@ -67,7 +67,7 @@ glm(y ~ age + country + city, weights = N, data = simulated_data, family = "bino
   alias()
 ```
 
-leads to different estimates being `NA`, i.e., the estimate for Paris is now `NA` and is linearly dependent on the Intercept, country (Germany), and another city (Nice).
+leads to different estimates being `NA`, i.e., the estimate for Paris is now `NA` and is linearly dependent on the Intercept, country (Germany), and another city (Nice). This depends on which term enters the model first.
 
 The simplest solution here is to drop one of the city or country columns, or to build two separate models -- one without country, and one without city.
 
