@@ -19,6 +19,8 @@ For relatively simple models -- where there are a few categorical predictors, th
 
 Does this approach work -- in terms of providing the same point estimates and standard errors -- for GEE models as well? Based on an example dataset as well as a small simulation study, the answer seems to be 'it depends'.
 
+All the R code from this post is available as an R script [here.](https://github.com/ad1729/ad1729.github.io/blob/master/posts/gee-on-aggregated-data/gee_aggregated.R)
+
 # Real dataset
 
 The first comparison is based on the `ohio` dataset from the `{geepack}` R package. This kind of setting where there are very many small clusters (537 clusters with 4 observations per cluster) is where GEEs usually shine.
