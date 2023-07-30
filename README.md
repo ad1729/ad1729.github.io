@@ -9,6 +9,7 @@ This project contains all the files for the blog.
 - When the post is ready for editing / proofreading, rename the file to `index.qmd`
 - Run `quarto preview` in the terminal
 - When satisfied with the result, send `Ctrl+C` to the terminal to cancel `quarto preview`
+- Run styler on the source files (.R, .qmd)
 - Run `quarto render`
 - Commit changes and push to master / main branch
 - Run `quarto publish gh-pages`

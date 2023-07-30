@@ -1,8 +1,8 @@
 ---
 title: "About"
-image: me.jpeg
+#image: ""
 about:
-  template: broadside
+  template: marquee
   links:
     - icon: linkedin
       text: LinkedIn
@@ -15,7 +15,7 @@ about:
       href: https://500px.com/p/akshatdwivedi?view=photos
 ---
 
-I'm a data scientist / statistician / autodidact currently living in the magical city of Gent, Belgium. I have degrees in mathematics and statistics, as well as more than five years of experience working as a data scientist across multiple industries (advertising, marketing, telecommunications, and (COVID-19) vaccine epidemiology).
+I'm a data scientist / statistician / autodidact currently living in the magical city of Gent, Belgium. I have degrees in mathematics and statistics, as well as more than six years of experience working as a data scientist across multiple industries -- advertising, marketing, telecommunications, and vaccine epidemiology.
 
 My professional interests revolve around statistics / machine learning, programming, distributed computing, writing clean code, and using models to make real-world decisions. 
 

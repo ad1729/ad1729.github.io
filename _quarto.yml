@@ -8,6 +8,7 @@ project:
   render:
     - "*.qmd"
     - "!ignored.qmd"
+    - "!ignored*.qmd"
     - "!README.md"
     - "!LICENSE.md"
 
