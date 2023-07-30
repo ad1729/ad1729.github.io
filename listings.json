@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/tweedie-with-identity-link-and-offset/index.html",
       "/posts/one-reason-why-a-glm-coefficient-is-NA/index.html",
       "/posts/gee-on-aggregated-data/index.html",
       "/posts/jigger-volume-estimation/index.html",

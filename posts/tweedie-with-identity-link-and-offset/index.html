@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-07-30">
+
+<title>Akshat Dwivedi - Specifying an offset in a Tweedie model with identity link</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Akshat Dwivedi</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ad1729" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos" rel="" target=""><i class="bi bi-images" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Specifying an offset in a Tweedie model with identity link</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Tweedie</div>
+                <div class="quarto-category">Offset</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 30, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#ratio-of-means-or-mean-of-ratios" id="toc-ratio-of-means-or-mean-of-ratios" class="nav-link" data-scroll-target="#ratio-of-means-or-mean-of-ratios">Ratio of means or mean of ratios?</a></li>
+  <li><a href="#building-a-regression-model" id="toc-building-a-regression-model" class="nav-link" data-scroll-target="#building-a-regression-model">Building a regression model</a></li>
+  <li><a href="#what-does-the-math-look-like-behind-these-two-models" id="toc-what-does-the-math-look-like-behind-these-two-models" class="nav-link" data-scroll-target="#what-does-the-math-look-like-behind-these-two-models">What does the math look like behind these two models?</a></li>
+  <li><a href="#a-method-that-works-for-poisson-but-not-for-tweedie" id="toc-a-method-that-works-for-poisson-but-not-for-tweedie" class="nav-link" data-scroll-target="#a-method-that-works-for-poisson-but-not-for-tweedie">A method that works for Poisson but not for Tweedie</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>This post explores several things:</p>
+<ul>
+<li>differences between two ways of calculating the mean</li>
+<li>specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest</li>
+<li>log-likelihood and the corresponding score function for a Tweedie model with weights</li>
+<li>why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs</li>
+</ul>
+<p>In this article, the words duration, offset, exposure, and weight are used interchangeably.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Data coming from fields like ecology, insurance, epidemiology – such as number of new cases of a disease in multiple cities with very different population sizes, number of claims and total claim amounts from insurance policies with different durations, etc. – need to have the varying exposures accounted for as offsets while building models. These might look something like the following simulated dataset with an exposure variable (w) and a response variable (y):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># tweedie distribution parameters</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>p <span class="ot">&lt;-</span> <span class="fl">1.3</span> <span class="co"># variance power</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="co"># mean</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>phi <span class="ot">&lt;-</span> <span class="dv">350</span> <span class="co"># dispersion, so variance = phi * mu ^ p</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="fu">set.seed</span>(<span class="dv">45</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="at">w =</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="dv">3</span>),</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="at">y =</span> tweedie<span class="sc">::</span><span class="fu">rtweedie</span>(<span class="at">n =</span> n, <span class="at">mu =</span> mu, <span class="at">phi =</span> phi <span class="sc">/</span> w, <span class="at">power =</span> p)</span>
+<span id="cb3-12"><a href="#cb3-12"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co"># summary(sim_data)</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>sim_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+      w     y
+  &lt;dbl&gt; &lt;dbl&gt;
+1  2.08     0
+2  1.29     0
+3  1.10     0</code></pre>
+</div>
+</div>
+<p>For readability, let’s pretend that this response variable is the individual claim amounts for an insurance company with a client base of 1 million customers. Additionally, for each individual the duration of how long they’ve been insured is also recorded. So the first customer has been insured for about 2 years and 1 month, and has not filed a claim at all. The third customer has been insured for a little over a year and has also not filed any claims.</p>
+</section>
+<section id="ratio-of-means-or-mean-of-ratios" class="level2">
+<h2 class="anchored" data-anchor-id="ratio-of-means-or-mean-of-ratios">Ratio of means or mean of ratios?</h2>
+<p>The quantity of interest from such datasets may be the mean per unit exposure – expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values – the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in <a href="https://stats.stackexchange.com/a/105715">this stackexchange thread</a>.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Ratio_estimator">ratio estimator</a> estimates the first quantity <span class="math inline">\(R = \sum_i{y_i} / \sum_i{w_i}\)</span>, while the <a href="https://en.wikipedia.org/wiki/Weighted_arithmetic_mean">weighted sample mean</a> of the individual ratios estimates the second quantity <span class="math inline">\(\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}\)</span>. In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</p>
+<p>If everyone had exactly the same weight <span class="math inline">\(w_i\)</span> of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.</p>
+<p>In epidemiology, the ratio estimator is used for <em>incidence rate</em> calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.</p>
+<p>For the simulated data above, the two estimates are quite different:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114.5185</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">weighted.mean</span>(sim_data<span class="sc">$</span>y, <span class="at">w =</span> sim_data<span class="sc">$</span>w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 200.4661</code></pre>
+</div>
+</div>
+<p>In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures (<span class="math inline">\(Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)\)</span>) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper.</p>
+<p>However, both the numbers are right, as they answer different questions.</p>
+</section>
+<section id="building-a-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-regression-model">Building a regression model</h2>
+<p>This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data.</p>
+<p>There are two ways of specifying the model. The first method corresponds to passing the claim amounts unmodified, and passing the exposures as weights:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># weighted mean estimator</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb9-3"><a href="#cb9-3"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ 1, family = statmod::tweedie(var.power = 1.3, 
+    link.power = 1), data = sim_data, weights = w)
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 200.4661     0.4431   452.4   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Tweedie family taken to be 349.4572)
+
+    Null deviance: 240499666  on 999999  degrees of freedom
+Residual deviance: 240499666  on 999999  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3</code></pre>
+</div>
+</div>
+<p>The estimated intercept and dispersion correspond to the same parameters (<span class="math inline">\(\mu = 200\)</span>, <span class="math inline">\(\phi = 350\)</span>) picked for the simulation. This estimate also coincides with the weighted mean estimate. <code>link.power = 1</code> indicates that the identity link function is used, and <code>var.power = 1.3</code> or <span class="math inline">\(p\)</span> is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval <span class="math inline">\(p \in (1, 2)\)</span> for data with exact zeroes.</p>
+<p>Once <span class="math inline">\(p\)</span> is chosen, <span class="math inline">\(\mu\)</span> can be estimated independently of <span class="math inline">\(\phi\)</span>, and finally dispersion <span class="math inline">\(\phi\)</span> can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the <em>Pearson estimator</em>:</p>
+<p><span class="math display">\[
+\phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}
+\]</span></p>
+<p>where <span class="math inline">\(p'\)</span> is the number of parameters in the model and <span class="math inline">\(\text{Var}(\mu_i) = \mu_i^p\)</span> is the variance function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># pearson estimate of dispersion</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>(<span class="fu">sum</span>((sim_data<span class="sc">$</span>w <span class="sc">*</span> ((sim_data<span class="sc">$</span>y <span class="sc">-</span> <span class="fl">200.4661</span>)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> (<span class="fl">200.4661</span><span class="sc">^</span><span class="fl">1.3</span>))) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 349.4573</code></pre>
+</div>
+</div>
+<p>The second method rescales the response variable with the weights, and passes exposures as weights to the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># ratio estimator</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb13-3"><a href="#cb13-3"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y/w ~ 1, family = statmod::tweedie(var.power = 1.3, 
+    link.power = 1), data = sim_data, weights = w)
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 114.5185     0.3655   313.3   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Tweedie family taken to be 492.3754)
+
+    Null deviance: 177557174  on 999999  degrees of freedom
+Residual deviance: 177557174  on 999999  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3</code></pre>
+</div>
+</div>
+<p>This estimate corresponds to the same output as the ratio estimator from the previous section. The estimate of dispersion <span class="math inline">\(\phi\)</span> is different from the true value of 350, which makes sense as dispersion is a function of the estimated value of the mean <span class="math inline">\(\mu\)</span>.</p>
+</section>
+<section id="what-does-the-math-look-like-behind-these-two-models" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="what-does-the-math-look-like-behind-these-two-models">What does the math look like behind these two models?</h2>
+<p>To fit a Tweedie model to the data with weights to calculate the two different values in the previous section, the following log-likelihood function – taken from the Yang et al paper – can be maximized.</p>
+<p><span class="math display">\[
+l(\mu, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{\mu_i^{1-p}}{1-p} - \frac{\mu_i^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)
+\]</span></p>
+<div class="page-columns page-full"><p>For this simulated dataset, <span class="math inline">\(w_i\)</span> and <span class="math inline">\(y_i\)</span> vary for each individual, but there are no predictors so an identity link function can be used <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, the overall mean is of interest so the <span class="math inline">\(\mu_i\)</span> term can be collapsed into a single <span class="math inline">\(\mu\)</span> parameter to be optimized, and the <code>log a(...)</code> term can be ignored as it’s not a function of <span class="math inline">\(\mu\)</span>. Since the regression equation for an intercept only term is <span class="math inline">\(\mu_i = \beta_0\)</span>, we can replace the <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\beta_0\)</span>.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0</p></li></div></div>
+<p>This makes it easy to compute the closed form solution, which is calculated by differentiating this function to produce the score function, and setting it to 0.</p>
+<p><span class="math display">\[
+\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} (y_i \beta_0^{-p} - \beta_0^{1-p}) = 0
+\]</span></p>
+<p><span class="math inline">\(\phi\)</span> and <span class="math inline">\(\beta_0^{-p}\)</span> are non-zero constants, so can be pulled out of the summation to give</p>
+<p><span class="math display">\[
+\sum_{i = 1}^{n}{ w_i (y_i - \beta_0) } = 0
+\]</span></p>
+<p>For <code>glm(y ~ 1, weights = w, ...)</code>, this equals</p>
+<p><span class="math display">\[
+\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}
+\]</span></p>
+<p>and for <code>glm(y / w ~ 1, weights = w, ...)</code>, this equals</p>
+<p><span class="math display">\[
+\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}
+\]</span></p>
+</section>
+<section id="a-method-that-works-for-poisson-but-not-for-tweedie" class="level2">
+<h2 class="anchored" data-anchor-id="a-method-that-works-for-poisson-but-not-for-tweedie">A method that works for Poisson but not for Tweedie</h2>
+<p>What initially led me down this rabbit hole was finding <a href="https://stats.stackexchange.com/questions/275893/offset-in-poisson-regression-when-using-an-identity-link-function">this stackexchange post</a> for specifying the offset with identity link in a poisson model, and naively (and incorrectly) fitting the Tweedie glm like this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> sim_data,</span>
+<span id="cb15-2"><a href="#cb15-2"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ w - 1, family = statmod::tweedie(var.power = 1.3, 
+    link.power = 1), data = sim_data)
+
+Coefficients:
+  Estimate Std. Error t value Pr(&gt;|t|)    
+w 121.7328     0.4064   299.6   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Tweedie family taken to be 465.8885)
+
+    Null deviance:       NaN  on 1000000  degrees of freedom
+Residual deviance: 158130565  on  999999  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3</code></pre>
+</div>
+</div>
+<p>and trying to figure out why this didn’t coincide with the ratio estimate of 114.5185, which is the case for the poisson models</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># ratio estimator</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114.5185</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># generates warnings because we're passing a non-discrete response</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co"># point estimates are the same though</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114.5185</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114.5185</code></pre>
+</div>
+</div>
+<p>This happens because substituting <span class="math inline">\(\mu_i = w_i \beta_0\)</span> instead of <span class="math inline">\(\mu_i = \beta_0\)</span> in the log-likelihood function</p>
+<p><span class="math display">\[
+l(\beta_0, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{(w_i \beta_0)^{1-p}}{1-p} - \frac{(w_i\beta_0)^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)
+\]</span></p>
+<p>leads to the following score function</p>
+<p><span class="math display">\[
+\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n} \frac{w_i}{\phi} (y_i w_i^{1-p} \beta_0^{-p} - w_i^{2-p} \beta_0^{1-p}) = 0
+\]</span></p>
+<p>The constant <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\beta_0^{-p}\)</span> terms can be dropped from the equation, and the <span class="math inline">\(w_i\)</span> outside the bracket are all 1 because no weights are passed to the glm call, so the following equation is solved</p>
+<p><span class="math display">\[
+\sum_{i = 1}^{n} y_i w_i^{1-p} - w_i^{2-p} \beta_0 = 0
+\]</span></p>
+<p>which can be simplified by pulling <span class="math inline">\(w_i^{1-p}\)</span> as a common term</p>
+<p><span class="math display">\[
+\sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0
+\]</span></p>
+<p>This shows where the logical error happens, as well as how the original estimate can be obtained, i.e., by passing <code>weights = w ^ (p - 1)</code> to the glm call, so that the <span class="math inline">\(w_i^{1-p}\)</span> term cancels out</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">weights =</span> <span class="fu">I</span>(w<span class="sc">^</span>(<span class="fl">1.3</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="at">data =</span> sim_data,</span>
+<span id="cb23-2"><a href="#cb23-2"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ w - 1, family = statmod::tweedie(var.power = 1.3, 
+    link.power = 1), data = sim_data, weights = I(w^(1.3 - 1)))
+
+Coefficients:
+  Estimate Std. Error t value Pr(&gt;|t|)    
+w 114.5185     0.3655   313.3   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Tweedie family taken to be 492.3754)
+
+    Null deviance:       NaN  on 1000000  degrees of freedom
+Residual deviance: 177557174  on  999999  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3</code></pre>
+</div>
+</div>
+<p>Now the point estimates, standard errors, and dispersion parameters correspond to the model where the ratio estimator is correctly specified.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Yang et al 2016 paper and supplement (<a href="https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981">link</a>)</li>
+<li>Delong et al 2021 paper (<a href="https://link.springer.com/article/10.1007/s13385-021-00264-3">link</a>)</li>
+<li>Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs</li>
+</ul>
+<p>Others</p>
+<ul>
+<li>Zhang 2013 (<a href="https://link.springer.com/article/10.1007/s11222-012-9343-7">link</a>)</li>
+<li>Stan code for Tweedie
+<ul>
+<li><a href="https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636">https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636</a></li>
+<li><a href="https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13">https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13</a></li>
+</ul></li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb25" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">---</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="an">title:</span><span class="co"> "Specifying an offset in a Tweedie model with identity link"</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="an">date:</span><span class="co"> "2023-07-30"</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="an">categories:</span><span class="co"> [R, Tweedie, Offset]</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="an">reference-location:</span><span class="co"> margin </span></span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="co">---</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a></span>
+<span id="cb25-9"><a href="#cb25-9"></a>This post explores several things: </span>
+<span id="cb25-10"><a href="#cb25-10"></a></span>
+<span id="cb25-11"><a href="#cb25-11"></a><span class="ss">- </span>differences between two ways of calculating the mean</span>
+<span id="cb25-12"><a href="#cb25-12"></a><span class="ss">- </span>specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest</span>
+<span id="cb25-13"><a href="#cb25-13"></a><span class="ss">- </span>log-likelihood and the corresponding score function for a Tweedie model with weights </span>
+<span id="cb25-14"><a href="#cb25-14"></a><span class="ss">- </span>why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs</span>
+<span id="cb25-15"><a href="#cb25-15"></a></span>
+<span id="cb25-16"><a href="#cb25-16"></a>In this article, the words duration, offset, exposure, and weight are used interchangeably.</span>
+<span id="cb25-17"><a href="#cb25-17"></a></span>
+<span id="cb25-18"><a href="#cb25-18"></a><span class="fu">## Introduction</span></span>
+<span id="cb25-19"><a href="#cb25-19"></a></span>
+<span id="cb25-20"><a href="#cb25-20"></a>Data coming from fields like ecology, insurance, epidemiology -- such as number of new cases of a disease in multiple cities with very different population sizes, number of claims and total claim amounts from insurance policies with different durations, etc. -- need to have the varying exposures accounted for as offsets while building models. These might look something like the following simulated dataset with an exposure variable (w) and a response variable (y):</span>
+<span id="cb25-21"><a href="#cb25-21"></a></span>
+<span id="cb25-24"><a href="#cb25-24"></a><span class="in">```{r}</span></span>
+<span id="cb25-25"><a href="#cb25-25"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-26"><a href="#cb25-26"></a></span>
+<span id="cb25-27"><a href="#cb25-27"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a></span>
+<span id="cb25-29"><a href="#cb25-29"></a><span class="co"># tweedie distribution parameters</span></span>
+<span id="cb25-30"><a href="#cb25-30"></a>p <span class="ot">&lt;-</span> <span class="fl">1.3</span> <span class="co"># variance power</span></span>
+<span id="cb25-31"><a href="#cb25-31"></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="co"># mean</span></span>
+<span id="cb25-32"><a href="#cb25-32"></a>phi <span class="ot">&lt;-</span> <span class="dv">350</span> <span class="co"># dispersion, so variance = phi * mu ^ p</span></span>
+<span id="cb25-33"><a href="#cb25-33"></a></span>
+<span id="cb25-34"><a href="#cb25-34"></a><span class="fu">set.seed</span>(<span class="dv">45</span>)</span>
+<span id="cb25-35"><a href="#cb25-35"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-36"><a href="#cb25-36"></a>  <span class="at">w =</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="dv">3</span>),</span>
+<span id="cb25-37"><a href="#cb25-37"></a>  <span class="at">y =</span> tweedie<span class="sc">::</span><span class="fu">rtweedie</span>(<span class="at">n =</span> n, <span class="at">mu =</span> mu, <span class="at">phi =</span> phi <span class="sc">/</span> w, <span class="at">power =</span> p)</span>
+<span id="cb25-38"><a href="#cb25-38"></a>)</span>
+<span id="cb25-39"><a href="#cb25-39"></a></span>
+<span id="cb25-40"><a href="#cb25-40"></a><span class="co"># summary(sim_data)</span></span>
+<span id="cb25-41"><a href="#cb25-41"></a></span>
+<span id="cb25-42"><a href="#cb25-42"></a>sim_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb25-43"><a href="#cb25-43"></a><span class="in">```</span></span>
+<span id="cb25-44"><a href="#cb25-44"></a></span>
+<span id="cb25-45"><a href="#cb25-45"></a>For readability, let's pretend that this response variable is the individual claim amounts for an insurance company with a client base of 1 million customers. Additionally, for each individual the duration of how long they've been insured is also recorded. So the first customer has been insured for about 2 years and 1 month, and has not filed a claim at all. The third customer has been insured for a little over a year and has also not filed any claims.</span>
+<span id="cb25-46"><a href="#cb25-46"></a></span>
+<span id="cb25-47"><a href="#cb25-47"></a><span class="fu">## Ratio of means or mean of ratios?</span></span>
+<span id="cb25-48"><a href="#cb25-48"></a></span>
+<span id="cb25-49"><a href="#cb25-49"></a>The quantity of interest from such datasets may be the mean per unit exposure -- expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values -- the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in <span class="co">[</span><span class="ot">this stackexchange thread</span><span class="co">](https://stats.stackexchange.com/a/105715)</span>.</span>
+<span id="cb25-50"><a href="#cb25-50"></a></span>
+<span id="cb25-51"><a href="#cb25-51"></a>The <span class="co">[</span><span class="ot">ratio estimator</span><span class="co">](https://en.wikipedia.org/wiki/Ratio_estimator)</span> estimates the first quantity $R = \sum_i{y_i} / \sum_i{w_i}$, while the <span class="co">[</span><span class="ot">weighted sample mean</span><span class="co">](https://en.wikipedia.org/wiki/Weighted_arithmetic_mean)</span> of the individual ratios estimates the second quantity $\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}$. In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</span>
+<span id="cb25-52"><a href="#cb25-52"></a></span>
+<span id="cb25-53"><a href="#cb25-53"></a>If everyone had exactly the same weight $w_i$ of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.</span>
+<span id="cb25-54"><a href="#cb25-54"></a></span>
+<span id="cb25-55"><a href="#cb25-55"></a>In epidemiology, the ratio estimator is used for _incidence rate_ calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.</span>
+<span id="cb25-56"><a href="#cb25-56"></a></span>
+<span id="cb25-57"><a href="#cb25-57"></a>For the simulated data above, the two estimates are quite different: </span>
+<span id="cb25-58"><a href="#cb25-58"></a></span>
+<span id="cb25-61"><a href="#cb25-61"></a><span class="in">```{r}</span></span>
+<span id="cb25-62"><a href="#cb25-62"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-63"><a href="#cb25-63"></a><span class="in">```</span></span>
+<span id="cb25-64"><a href="#cb25-64"></a></span>
+<span id="cb25-67"><a href="#cb25-67"></a><span class="in">```{r}</span></span>
+<span id="cb25-68"><a href="#cb25-68"></a><span class="fu">weighted.mean</span>(sim_data<span class="sc">$</span>y, <span class="at">w =</span> sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-69"><a href="#cb25-69"></a><span class="in">```</span></span>
+<span id="cb25-70"><a href="#cb25-70"></a></span>
+<span id="cb25-71"><a href="#cb25-71"></a>In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures ($Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)$) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper. </span>
+<span id="cb25-72"><a href="#cb25-72"></a></span>
+<span id="cb25-73"><a href="#cb25-73"></a>However, both the numbers are right, as they answer different questions.</span>
+<span id="cb25-74"><a href="#cb25-74"></a></span>
+<span id="cb25-75"><a href="#cb25-75"></a><span class="fu">## Building a regression model</span></span>
+<span id="cb25-76"><a href="#cb25-76"></a></span>
+<span id="cb25-77"><a href="#cb25-77"></a>This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data. </span>
+<span id="cb25-78"><a href="#cb25-78"></a></span>
+<span id="cb25-79"><a href="#cb25-79"></a>There are two ways of specifying the model. The first method corresponds to passing the claim amounts unmodified, and passing the exposures as weights:</span>
+<span id="cb25-80"><a href="#cb25-80"></a></span>
+<span id="cb25-83"><a href="#cb25-83"></a><span class="in">```{r}</span></span>
+<span id="cb25-84"><a href="#cb25-84"></a><span class="co"># weighted mean estimator</span></span>
+<span id="cb25-85"><a href="#cb25-85"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-86"><a href="#cb25-86"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-87"><a href="#cb25-87"></a><span class="in">```</span></span>
+<span id="cb25-88"><a href="#cb25-88"></a></span>
+<span id="cb25-89"><a href="#cb25-89"></a>The estimated intercept and dispersion correspond to the same parameters ($\mu = 200$, $\phi = 350$) picked for the simulation. This estimate also coincides with the weighted mean estimate. <span class="in">`link.power = 1`</span> indicates that the identity link function is used, and <span class="in">`var.power = 1.3`</span> or $p$ is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval $p \in (1, 2)$ for data with exact zeroes.</span>
+<span id="cb25-90"><a href="#cb25-90"></a></span>
+<span id="cb25-91"><a href="#cb25-91"></a>Once $p$ is chosen, $\mu$ can be estimated independently of $\phi$, and finally dispersion $\phi$ can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the _Pearson estimator_: </span>
+<span id="cb25-92"><a href="#cb25-92"></a></span>
+<span id="cb25-93"><a href="#cb25-93"></a>$$</span>
+<span id="cb25-94"><a href="#cb25-94"></a>\phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}</span>
+<span id="cb25-95"><a href="#cb25-95"></a>$$</span>
+<span id="cb25-96"><a href="#cb25-96"></a></span>
+<span id="cb25-97"><a href="#cb25-97"></a>where $p'$ is the number of parameters in the model and $\text{Var}(\mu_i) = \mu_i^p$ is the variance function.</span>
+<span id="cb25-98"><a href="#cb25-98"></a></span>
+<span id="cb25-101"><a href="#cb25-101"></a><span class="in">```{r}</span></span>
+<span id="cb25-102"><a href="#cb25-102"></a><span class="co"># pearson estimate of dispersion</span></span>
+<span id="cb25-103"><a href="#cb25-103"></a>(<span class="fu">sum</span>((sim_data<span class="sc">$</span>w <span class="sc">*</span> ((sim_data<span class="sc">$</span>y <span class="sc">-</span> <span class="fl">200.4661</span>)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> (<span class="fl">200.4661</span><span class="sc">^</span><span class="fl">1.3</span>))) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb25-104"><a href="#cb25-104"></a><span class="in">```</span></span>
+<span id="cb25-105"><a href="#cb25-105"></a></span>
+<span id="cb25-106"><a href="#cb25-106"></a>The second method rescales the response variable with the weights, and passes exposures as weights to the model:</span>
+<span id="cb25-107"><a href="#cb25-107"></a></span>
+<span id="cb25-110"><a href="#cb25-110"></a><span class="in">```{r}</span></span>
+<span id="cb25-111"><a href="#cb25-111"></a><span class="co"># ratio estimator</span></span>
+<span id="cb25-112"><a href="#cb25-112"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-113"><a href="#cb25-113"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-114"><a href="#cb25-114"></a><span class="in">```</span></span>
+<span id="cb25-115"><a href="#cb25-115"></a></span>
+<span id="cb25-116"><a href="#cb25-116"></a>This estimate corresponds to the same output as the ratio estimator from the previous section. The estimate of dispersion $\phi$ is different from the true value of 350, which makes sense as dispersion is a function of the estimated value of the mean $\mu$.</span>
+<span id="cb25-117"><a href="#cb25-117"></a></span>
+<span id="cb25-118"><a href="#cb25-118"></a><span class="fu">## What does the math look like behind these two models?</span></span>
+<span id="cb25-119"><a href="#cb25-119"></a></span>
+<span id="cb25-120"><a href="#cb25-120"></a>To fit a Tweedie model to the data with weights to calculate the two different values in the previous section, the following log-likelihood function -- taken from the Yang et al paper -- can be maximized.</span>
+<span id="cb25-121"><a href="#cb25-121"></a></span>
+<span id="cb25-122"><a href="#cb25-122"></a>$$</span>
+<span id="cb25-123"><a href="#cb25-123"></a>l(\mu, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{\mu_i^{1-p}}{1-p} - \frac{\mu_i^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
+<span id="cb25-124"><a href="#cb25-124"></a>$$</span>
+<span id="cb25-125"><a href="#cb25-125"></a></span>
+<span id="cb25-126"><a href="#cb25-126"></a>For this simulated dataset, $w_i$ and $y_i$ vary for each individual, but there are no predictors so an identity link function can be used <span class="ot">[^wrong-predictions]</span>, the overall mean is of interest so the $\mu_i$ term can be collapsed into a single $\mu$ parameter to be optimized, and the <span class="in">`log a(...)`</span> term can be ignored as it's not a function of $\mu$. Since the regression equation for an intercept only term is $\mu_i = \beta_0$, we can replace the $\mu$ with $\beta_0$.</span>
+<span id="cb25-127"><a href="#cb25-127"></a></span>
+<span id="cb25-128"><a href="#cb25-128"></a><span class="ot">[^wrong-predictions]: </span>which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0</span>
+<span id="cb25-129"><a href="#cb25-129"></a></span>
+<span id="cb25-130"><a href="#cb25-130"></a>This makes it easy to compute the closed form solution, which is calculated by differentiating this function to produce the score function, and setting it to 0.</span>
+<span id="cb25-131"><a href="#cb25-131"></a></span>
+<span id="cb25-132"><a href="#cb25-132"></a>$$</span>
+<span id="cb25-133"><a href="#cb25-133"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} (y_i \beta_0^{-p} - \beta_0^{1-p}) = 0</span>
+<span id="cb25-134"><a href="#cb25-134"></a>$$</span>
+<span id="cb25-135"><a href="#cb25-135"></a></span>
+<span id="cb25-136"><a href="#cb25-136"></a>$\phi$ and $\beta_0^{-p}$ are non-zero constants, so can be pulled out of the summation to give </span>
+<span id="cb25-137"><a href="#cb25-137"></a></span>
+<span id="cb25-138"><a href="#cb25-138"></a>$$</span>
+<span id="cb25-139"><a href="#cb25-139"></a>\sum_{i = 1}^{n}{ w_i (y_i - \beta_0) } = 0</span>
+<span id="cb25-140"><a href="#cb25-140"></a>$$</span>
+<span id="cb25-141"><a href="#cb25-141"></a></span>
+<span id="cb25-142"><a href="#cb25-142"></a>For <span class="in">`glm(y ~ 1, weights = w, ...)`</span>, this equals </span>
+<span id="cb25-143"><a href="#cb25-143"></a></span>
+<span id="cb25-144"><a href="#cb25-144"></a>$$</span>
+<span id="cb25-145"><a href="#cb25-145"></a>\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}</span>
+<span id="cb25-146"><a href="#cb25-146"></a>$$</span>
+<span id="cb25-147"><a href="#cb25-147"></a></span>
+<span id="cb25-148"><a href="#cb25-148"></a>and for <span class="in">`glm(y / w ~ 1, weights = w, ...)`</span>, this equals </span>
+<span id="cb25-149"><a href="#cb25-149"></a></span>
+<span id="cb25-150"><a href="#cb25-150"></a>$$</span>
+<span id="cb25-151"><a href="#cb25-151"></a>\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}</span>
+<span id="cb25-152"><a href="#cb25-152"></a>$$</span>
+<span id="cb25-153"><a href="#cb25-153"></a></span>
+<span id="cb25-154"><a href="#cb25-154"></a><span class="fu">## A method that works for Poisson but not for Tweedie</span></span>
+<span id="cb25-155"><a href="#cb25-155"></a></span>
+<span id="cb25-156"><a href="#cb25-156"></a>What initially led me down this rabbit hole was finding <span class="co">[</span><span class="ot">this stackexchange post</span><span class="co">](https://stats.stackexchange.com/questions/275893/offset-in-poisson-regression-when-using-an-identity-link-function)</span> for specifying the offset with identity link in a poisson model, and naively (and incorrectly) fitting the Tweedie glm like this</span>
+<span id="cb25-157"><a href="#cb25-157"></a></span>
+<span id="cb25-160"><a href="#cb25-160"></a><span class="in">```{r}</span></span>
+<span id="cb25-161"><a href="#cb25-161"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-162"><a href="#cb25-162"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-163"><a href="#cb25-163"></a><span class="in">```</span></span>
+<span id="cb25-164"><a href="#cb25-164"></a></span>
+<span id="cb25-165"><a href="#cb25-165"></a>and trying to figure out why this didn't coincide with the ratio estimate of 114.5185, which is the case for the poisson models</span>
+<span id="cb25-166"><a href="#cb25-166"></a></span>
+<span id="cb25-167"><a href="#cb25-167"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb25-168"><a href="#cb25-168"></a><span class="co"># ratio estimator</span></span>
+<span id="cb25-169"><a href="#cb25-169"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-170"><a href="#cb25-170"></a><span class="co"># generates warnings because we're passing a non-discrete response</span></span>
+<span id="cb25-171"><a href="#cb25-171"></a><span class="co"># point estimates are the same though</span></span>
+<span id="cb25-172"><a href="#cb25-172"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
+<span id="cb25-173"><a href="#cb25-173"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
+<span id="cb25-174"><a href="#cb25-174"></a><span class="in">```</span></span>
+<span id="cb25-175"><a href="#cb25-175"></a></span>
+<span id="cb25-176"><a href="#cb25-176"></a>This happens because substituting $\mu_i = w_i \beta_0$ instead of $\mu_i = \beta_0$ in the log-likelihood function </span>
+<span id="cb25-177"><a href="#cb25-177"></a></span>
+<span id="cb25-178"><a href="#cb25-178"></a>$$</span>
+<span id="cb25-179"><a href="#cb25-179"></a>l(\beta_0, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{(w_i \beta_0)^{1-p}}{1-p} - \frac{(w_i\beta_0)^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
+<span id="cb25-180"><a href="#cb25-180"></a>$$</span>
+<span id="cb25-181"><a href="#cb25-181"></a></span>
+<span id="cb25-182"><a href="#cb25-182"></a>leads to the following score function</span>
+<span id="cb25-183"><a href="#cb25-183"></a></span>
+<span id="cb25-184"><a href="#cb25-184"></a>$$</span>
+<span id="cb25-185"><a href="#cb25-185"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n} \frac{w_i}{\phi} (y_i w_i^{1-p} \beta_0^{-p} - w_i^{2-p} \beta_0^{1-p}) = 0</span>
+<span id="cb25-186"><a href="#cb25-186"></a>$$</span>
+<span id="cb25-187"><a href="#cb25-187"></a></span>
+<span id="cb25-188"><a href="#cb25-188"></a>The constant $\phi$ and $\beta_0^{-p}$ terms can be dropped from the equation, and the $w_i$ outside the bracket are all 1 because no weights are passed to the glm call, so the following equation is solved</span>
+<span id="cb25-189"><a href="#cb25-189"></a></span>
+<span id="cb25-190"><a href="#cb25-190"></a>$$</span>
+<span id="cb25-191"><a href="#cb25-191"></a>\sum_{i = 1}^{n} y_i w_i^{1-p} - w_i^{2-p} \beta_0 = 0</span>
+<span id="cb25-192"><a href="#cb25-192"></a>$$</span>
+<span id="cb25-193"><a href="#cb25-193"></a></span>
+<span id="cb25-194"><a href="#cb25-194"></a>which can be simplified by pulling $w_i^{1-p}$ as a common term</span>
+<span id="cb25-195"><a href="#cb25-195"></a></span>
+<span id="cb25-196"><a href="#cb25-196"></a>$$</span>
+<span id="cb25-197"><a href="#cb25-197"></a>\sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0</span>
+<span id="cb25-198"><a href="#cb25-198"></a>$$</span>
+<span id="cb25-199"><a href="#cb25-199"></a></span>
+<span id="cb25-200"><a href="#cb25-200"></a>This shows where the logical error happens, as well as how the original estimate can be obtained, i.e., by passing <span class="in">`weights = w ^ (p - 1)`</span> to the glm call, so that the $w_i^{1-p}$ term cancels out </span>
+<span id="cb25-201"><a href="#cb25-201"></a></span>
+<span id="cb25-204"><a href="#cb25-204"></a><span class="in">```{r}</span></span>
+<span id="cb25-205"><a href="#cb25-205"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">weights =</span> <span class="fu">I</span>(w<span class="sc">^</span>(<span class="fl">1.3</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="at">data =</span> sim_data,</span>
+<span id="cb25-206"><a href="#cb25-206"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-207"><a href="#cb25-207"></a><span class="in">```</span></span>
+<span id="cb25-208"><a href="#cb25-208"></a></span>
+<span id="cb25-209"><a href="#cb25-209"></a>Now the point estimates, standard errors, and dispersion parameters correspond to the model where the ratio estimator is correctly specified.</span>
+<span id="cb25-210"><a href="#cb25-210"></a></span>
+<span id="cb25-211"><a href="#cb25-211"></a><span class="fu">## References</span></span>
+<span id="cb25-212"><a href="#cb25-212"></a></span>
+<span id="cb25-213"><a href="#cb25-213"></a><span class="ss">- </span>Yang et al 2016 paper and supplement (<span class="co">[</span><span class="ot">link</span><span class="co">](https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981)</span>)</span>
+<span id="cb25-214"><a href="#cb25-214"></a><span class="ss">- </span>Delong et al 2021 paper (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s13385-021-00264-3)</span>)</span>
+<span id="cb25-215"><a href="#cb25-215"></a><span class="ss">- </span>Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs</span>
+<span id="cb25-216"><a href="#cb25-216"></a></span>
+<span id="cb25-217"><a href="#cb25-217"></a>Others </span>
+<span id="cb25-218"><a href="#cb25-218"></a></span>
+<span id="cb25-219"><a href="#cb25-219"></a><span class="ss">- </span>Zhang 2013 (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s11222-012-9343-7)</span>)</span>
+<span id="cb25-220"><a href="#cb25-220"></a><span class="ss">- </span>Stan code for Tweedie</span>
+<span id="cb25-221"><a href="#cb25-221"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636</span><span class="co">](https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636)</span></span>
+<span id="cb25-222"><a href="#cb25-222"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13</span><span class="co">](https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13)</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">akshat.blog © 2022-2023 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
