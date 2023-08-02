@@ -198,6 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p><em>Last modified: 2023-08-02</em></p>
 <p>This post explores several things:</p>
 <ul>
 <li>differences between two ways of calculating the mean</li>
@@ -253,7 +254,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ratio-of-means-or-mean-of-ratios" class="level2">
 <h2 class="anchored" data-anchor-id="ratio-of-means-or-mean-of-ratios">Ratio of means or mean of ratios?</h2>
 <p>The quantity of interest from such datasets may be the mean per unit exposure – expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values – the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in <a href="https://stats.stackexchange.com/a/105715">this stackexchange thread</a>.</p>
-<p>The <a href="https://en.wikipedia.org/wiki/Ratio_estimator">ratio estimator</a> estimates the first quantity <span class="math inline">\(R = \sum_i{y_i} / \sum_i{w_i}\)</span>, while the <a href="https://en.wikipedia.org/wiki/Weighted_arithmetic_mean">weighted sample mean</a> of the individual ratios estimates the second quantity <span class="math inline">\(\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}\)</span>. In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Ratio_estimator">ratio estimator</a> estimates the first quantity <span class="math inline">\(R = \sum_i{y_i} / \sum_i{w_i}\)</span>. This answers the following question: given a population (or a group of individuals) who were followed-up / observed for a given amount of time, and generated a total amount of claims, how much of the total claim amount can be attributed per person per unit exposure?</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Weighted_arithmetic_mean">weighted sample mean</a> of the individual ratios estimates the second quantity <span class="math inline">\(\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}\)</span>. This answers the question: given each individual’s claim amount and exposure, what was the average individual’s claim amount per unit exposure?</p>
+<p>In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</p>
 <p>If everyone had exactly the same weight <span class="math inline">\(w_i\)</span> of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.</p>
 <p>In epidemiology, the ratio estimator is used for <em>incidence rate</em> calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.</p>
 <p>For the simulated data above, the two estimates are quite different:</p>
@@ -301,7 +304,7 @@ AIC: NA
 Number of Fisher Scoring iterations: 3</code></pre>
 </div>
 </div>
-<p>The estimated intercept and dispersion correspond to the same parameters (<span class="math inline">\(\mu = 200\)</span>, <span class="math inline">\(\phi = 350\)</span>) picked for the simulation. This estimate also coincides with the weighted mean estimate. <code>link.power = 1</code> indicates that the identity link function is used, and <code>var.power = 1.3</code> or <span class="math inline">\(p\)</span> is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval <span class="math inline">\(p \in (1, 2)\)</span> for data with exact zeroes.</p>
+<p>The estimated intercept and dispersion correspond to the same parameters (<span class="math inline">\(\mu = 200\)</span>, <span class="math inline">\(\phi = 350\)</span>) picked for the simulation. This estimate also coincides with the weighted mean estimate. <code>link.power = 1</code> indicates that the identity link function is used, and <code>var.power = 1.3</code> or <span class="math inline">\(p = 1.3\)</span> is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval <span class="math inline">\(p \in (1, 2)\)</span> for data with exact zeroes.</p>
 <p>Once <span class="math inline">\(p\)</span> is chosen, <span class="math inline">\(\mu\)</span> can be estimated independently of <span class="math inline">\(\phi\)</span>, and finally dispersion <span class="math inline">\(\phi\)</span> can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the <em>Pearson estimator</em>:</p>
 <p><span class="math display">\[
 \phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}
@@ -359,11 +362,13 @@ l(\mu, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Big
 \]</span></p>
 <p>For <code>glm(y ~ 1, weights = w, ...)</code>, this equals</p>
 <p><span class="math display">\[
-\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}
+\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \\
+\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}
 \]</span></p>
 <p>and for <code>glm(y / w ~ 1, weights = w, ...)</code>, this equals</p>
 <p><span class="math display">\[
-\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}
+\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \\
+\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}
 \]</span></p>
 </section>
 <section id="a-method-that-works-for-poisson-but-not-for-tweedie" class="level2">
@@ -427,7 +432,7 @@ l(\beta_0, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} 
 <p><span class="math display">\[
 \sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0
 \]</span></p>
-<p>This shows where the logical error happens, as well as how the original estimate can be obtained, i.e., by passing <code>weights = w ^ (p - 1)</code> to the glm call, so that the <span class="math inline">\(w_i^{1-p}\)</span> term cancels out</p>
+<p>This shows where the logical error happens, as well as how the correct estimate can be obtained, i.e., by passing <code>weights = w ^ (p - 1)</code> to the glm call, so that the <span class="math inline">\(w_i^{1-p}\)</span> term cancels out</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">weights =</span> <span class="fu">I</span>(w<span class="sc">^</span>(<span class="fl">1.3</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="at">data =</span> sim_data,</span>
 <span id="cb23-2"><a href="#cb23-2"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -466,8 +471,8 @@ Number of Fisher Scoring iterations: 3</code></pre>
 <li>Zhang 2013 (<a href="https://link.springer.com/article/10.1007/s11222-012-9343-7">link</a>)</li>
 <li>Stan code for Tweedie
 <ul>
-<li><a href="https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636">https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636</a></li>
-<li><a href="https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13">https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13</a></li>
+<li><a href="https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636" class="uri">https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636</a></li>
+<li><a href="https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13" class="uri">https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13</a></li>
 </ul></li>
 </ul>
 
@@ -885,204 +890,212 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-6"><a href="#cb25-6"></a><span class="an">reference-location:</span><span class="co"> margin </span></span>
 <span id="cb25-7"><a href="#cb25-7"></a><span class="co">---</span></span>
 <span id="cb25-8"><a href="#cb25-8"></a></span>
-<span id="cb25-9"><a href="#cb25-9"></a>This post explores several things: </span>
+<span id="cb25-9"><a href="#cb25-9"></a>*Last modified: 2023-08-02*</span>
 <span id="cb25-10"><a href="#cb25-10"></a></span>
-<span id="cb25-11"><a href="#cb25-11"></a><span class="ss">- </span>differences between two ways of calculating the mean</span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="ss">- </span>specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest</span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="ss">- </span>log-likelihood and the corresponding score function for a Tweedie model with weights </span>
-<span id="cb25-14"><a href="#cb25-14"></a><span class="ss">- </span>why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs</span>
-<span id="cb25-15"><a href="#cb25-15"></a></span>
-<span id="cb25-16"><a href="#cb25-16"></a>In this article, the words duration, offset, exposure, and weight are used interchangeably.</span>
+<span id="cb25-11"><a href="#cb25-11"></a>This post explores several things:</span>
+<span id="cb25-12"><a href="#cb25-12"></a></span>
+<span id="cb25-13"><a href="#cb25-13"></a><span class="ss">-   </span>differences between two ways of calculating the mean</span>
+<span id="cb25-14"><a href="#cb25-14"></a><span class="ss">-   </span>specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest</span>
+<span id="cb25-15"><a href="#cb25-15"></a><span class="ss">-   </span>log-likelihood and the corresponding score function for a Tweedie model with weights</span>
+<span id="cb25-16"><a href="#cb25-16"></a><span class="ss">-   </span>why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs</span>
 <span id="cb25-17"><a href="#cb25-17"></a></span>
-<span id="cb25-18"><a href="#cb25-18"></a><span class="fu">## Introduction</span></span>
+<span id="cb25-18"><a href="#cb25-18"></a>In this article, the words duration, offset, exposure, and weight are used interchangeably.</span>
 <span id="cb25-19"><a href="#cb25-19"></a></span>
-<span id="cb25-20"><a href="#cb25-20"></a>Data coming from fields like ecology, insurance, epidemiology -- such as number of new cases of a disease in multiple cities with very different population sizes, number of claims and total claim amounts from insurance policies with different durations, etc. -- need to have the varying exposures accounted for as offsets while building models. These might look something like the following simulated dataset with an exposure variable (w) and a response variable (y):</span>
+<span id="cb25-20"><a href="#cb25-20"></a><span class="fu">## Introduction</span></span>
 <span id="cb25-21"><a href="#cb25-21"></a></span>
-<span id="cb25-24"><a href="#cb25-24"></a><span class="in">```{r}</span></span>
-<span id="cb25-25"><a href="#cb25-25"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb25-26"><a href="#cb25-26"></a></span>
-<span id="cb25-27"><a href="#cb25-27"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb25-22"><a href="#cb25-22"></a>Data coming from fields like ecology, insurance, epidemiology -- such as number of new cases of a disease in multiple cities with very different population sizes, number of claims and total claim amounts from insurance policies with different durations, etc. -- need to have the varying exposures accounted for as offsets while building models. These might look something like the following simulated dataset with an exposure variable (w) and a response variable (y):</span>
+<span id="cb25-23"><a href="#cb25-23"></a></span>
+<span id="cb25-26"><a href="#cb25-26"></a><span class="in">```{r}</span></span>
+<span id="cb25-27"><a href="#cb25-27"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb25-28"><a href="#cb25-28"></a></span>
-<span id="cb25-29"><a href="#cb25-29"></a><span class="co"># tweedie distribution parameters</span></span>
-<span id="cb25-30"><a href="#cb25-30"></a>p <span class="ot">&lt;-</span> <span class="fl">1.3</span> <span class="co"># variance power</span></span>
-<span id="cb25-31"><a href="#cb25-31"></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="co"># mean</span></span>
-<span id="cb25-32"><a href="#cb25-32"></a>phi <span class="ot">&lt;-</span> <span class="dv">350</span> <span class="co"># dispersion, so variance = phi * mu ^ p</span></span>
-<span id="cb25-33"><a href="#cb25-33"></a></span>
-<span id="cb25-34"><a href="#cb25-34"></a><span class="fu">set.seed</span>(<span class="dv">45</span>)</span>
-<span id="cb25-35"><a href="#cb25-35"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb25-36"><a href="#cb25-36"></a>  <span class="at">w =</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="dv">3</span>),</span>
-<span id="cb25-37"><a href="#cb25-37"></a>  <span class="at">y =</span> tweedie<span class="sc">::</span><span class="fu">rtweedie</span>(<span class="at">n =</span> n, <span class="at">mu =</span> mu, <span class="at">phi =</span> phi <span class="sc">/</span> w, <span class="at">power =</span> p)</span>
-<span id="cb25-38"><a href="#cb25-38"></a>)</span>
-<span id="cb25-39"><a href="#cb25-39"></a></span>
-<span id="cb25-40"><a href="#cb25-40"></a><span class="co"># summary(sim_data)</span></span>
+<span id="cb25-29"><a href="#cb25-29"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb25-30"><a href="#cb25-30"></a></span>
+<span id="cb25-31"><a href="#cb25-31"></a><span class="co"># tweedie distribution parameters</span></span>
+<span id="cb25-32"><a href="#cb25-32"></a>p <span class="ot">&lt;-</span> <span class="fl">1.3</span> <span class="co"># variance power</span></span>
+<span id="cb25-33"><a href="#cb25-33"></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="co"># mean</span></span>
+<span id="cb25-34"><a href="#cb25-34"></a>phi <span class="ot">&lt;-</span> <span class="dv">350</span> <span class="co"># dispersion, so variance = phi * mu ^ p</span></span>
+<span id="cb25-35"><a href="#cb25-35"></a></span>
+<span id="cb25-36"><a href="#cb25-36"></a><span class="fu">set.seed</span>(<span class="dv">45</span>)</span>
+<span id="cb25-37"><a href="#cb25-37"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-38"><a href="#cb25-38"></a>  <span class="at">w =</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="dv">3</span>),</span>
+<span id="cb25-39"><a href="#cb25-39"></a>  <span class="at">y =</span> tweedie<span class="sc">::</span><span class="fu">rtweedie</span>(<span class="at">n =</span> n, <span class="at">mu =</span> mu, <span class="at">phi =</span> phi <span class="sc">/</span> w, <span class="at">power =</span> p)</span>
+<span id="cb25-40"><a href="#cb25-40"></a>)</span>
 <span id="cb25-41"><a href="#cb25-41"></a></span>
-<span id="cb25-42"><a href="#cb25-42"></a>sim_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
-<span id="cb25-43"><a href="#cb25-43"></a><span class="in">```</span></span>
-<span id="cb25-44"><a href="#cb25-44"></a></span>
-<span id="cb25-45"><a href="#cb25-45"></a>For readability, let's pretend that this response variable is the individual claim amounts for an insurance company with a client base of 1 million customers. Additionally, for each individual the duration of how long they've been insured is also recorded. So the first customer has been insured for about 2 years and 1 month, and has not filed a claim at all. The third customer has been insured for a little over a year and has also not filed any claims.</span>
+<span id="cb25-42"><a href="#cb25-42"></a><span class="co"># summary(sim_data)</span></span>
+<span id="cb25-43"><a href="#cb25-43"></a></span>
+<span id="cb25-44"><a href="#cb25-44"></a>sim_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb25-45"><a href="#cb25-45"></a><span class="in">```</span></span>
 <span id="cb25-46"><a href="#cb25-46"></a></span>
-<span id="cb25-47"><a href="#cb25-47"></a><span class="fu">## Ratio of means or mean of ratios?</span></span>
+<span id="cb25-47"><a href="#cb25-47"></a>For readability, let's pretend that this response variable is the individual claim amounts for an insurance company with a client base of 1 million customers. Additionally, for each individual the duration of how long they've been insured is also recorded. So the first customer has been insured for about 2 years and 1 month, and has not filed a claim at all. The third customer has been insured for a little over a year and has also not filed any claims.</span>
 <span id="cb25-48"><a href="#cb25-48"></a></span>
-<span id="cb25-49"><a href="#cb25-49"></a>The quantity of interest from such datasets may be the mean per unit exposure -- expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values -- the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in <span class="co">[</span><span class="ot">this stackexchange thread</span><span class="co">](https://stats.stackexchange.com/a/105715)</span>.</span>
+<span id="cb25-49"><a href="#cb25-49"></a><span class="fu">## Ratio of means or mean of ratios?</span></span>
 <span id="cb25-50"><a href="#cb25-50"></a></span>
-<span id="cb25-51"><a href="#cb25-51"></a>The <span class="co">[</span><span class="ot">ratio estimator</span><span class="co">](https://en.wikipedia.org/wiki/Ratio_estimator)</span> estimates the first quantity $R = \sum_i{y_i} / \sum_i{w_i}$, while the <span class="co">[</span><span class="ot">weighted sample mean</span><span class="co">](https://en.wikipedia.org/wiki/Weighted_arithmetic_mean)</span> of the individual ratios estimates the second quantity $\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}$. In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</span>
+<span id="cb25-51"><a href="#cb25-51"></a>The quantity of interest from such datasets may be the mean per unit exposure -- expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values -- the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in <span class="co">[</span><span class="ot">this stackexchange thread</span><span class="co">](https://stats.stackexchange.com/a/105715)</span>.</span>
 <span id="cb25-52"><a href="#cb25-52"></a></span>
-<span id="cb25-53"><a href="#cb25-53"></a>If everyone had exactly the same weight $w_i$ of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.</span>
+<span id="cb25-53"><a href="#cb25-53"></a>The <span class="co">[</span><span class="ot">ratio estimator</span><span class="co">](https://en.wikipedia.org/wiki/Ratio_estimator)</span> estimates the first quantity $R = \sum_i{y_i} / \sum_i{w_i}$. This answers the following question: given a population (or a group of individuals) who were followed-up / observed for a given amount of time, and generated a total amount of claims, how much of the total claim amount can be attributed per person per unit exposure?</span>
 <span id="cb25-54"><a href="#cb25-54"></a></span>
-<span id="cb25-55"><a href="#cb25-55"></a>In epidemiology, the ratio estimator is used for _incidence rate_ calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.</span>
+<span id="cb25-55"><a href="#cb25-55"></a>The <span class="co">[</span><span class="ot">weighted sample mean</span><span class="co">](https://en.wikipedia.org/wiki/Weighted_arithmetic_mean)</span> of the individual ratios estimates the second quantity $\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}$. This answers the question: given each individual's claim amount and exposure, what was the average individual's claim amount per unit exposure?</span>
 <span id="cb25-56"><a href="#cb25-56"></a></span>
-<span id="cb25-57"><a href="#cb25-57"></a>For the simulated data above, the two estimates are quite different: </span>
+<span id="cb25-57"><a href="#cb25-57"></a>In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.</span>
 <span id="cb25-58"><a href="#cb25-58"></a></span>
-<span id="cb25-61"><a href="#cb25-61"></a><span class="in">```{r}</span></span>
-<span id="cb25-62"><a href="#cb25-62"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
-<span id="cb25-63"><a href="#cb25-63"></a><span class="in">```</span></span>
+<span id="cb25-59"><a href="#cb25-59"></a>If everyone had exactly the same weight $w_i$ of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.</span>
+<span id="cb25-60"><a href="#cb25-60"></a></span>
+<span id="cb25-61"><a href="#cb25-61"></a>In epidemiology, the ratio estimator is used for *incidence rate* calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.</span>
+<span id="cb25-62"><a href="#cb25-62"></a></span>
+<span id="cb25-63"><a href="#cb25-63"></a>For the simulated data above, the two estimates are quite different:</span>
 <span id="cb25-64"><a href="#cb25-64"></a></span>
 <span id="cb25-67"><a href="#cb25-67"></a><span class="in">```{r}</span></span>
-<span id="cb25-68"><a href="#cb25-68"></a><span class="fu">weighted.mean</span>(sim_data<span class="sc">$</span>y, <span class="at">w =</span> sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-68"><a href="#cb25-68"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
 <span id="cb25-69"><a href="#cb25-69"></a><span class="in">```</span></span>
 <span id="cb25-70"><a href="#cb25-70"></a></span>
-<span id="cb25-71"><a href="#cb25-71"></a>In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures ($Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)$) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper. </span>
-<span id="cb25-72"><a href="#cb25-72"></a></span>
-<span id="cb25-73"><a href="#cb25-73"></a>However, both the numbers are right, as they answer different questions.</span>
-<span id="cb25-74"><a href="#cb25-74"></a></span>
-<span id="cb25-75"><a href="#cb25-75"></a><span class="fu">## Building a regression model</span></span>
+<span id="cb25-73"><a href="#cb25-73"></a><span class="in">```{r}</span></span>
+<span id="cb25-74"><a href="#cb25-74"></a><span class="fu">weighted.mean</span>(sim_data<span class="sc">$</span>y, <span class="at">w =</span> sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-75"><a href="#cb25-75"></a><span class="in">```</span></span>
 <span id="cb25-76"><a href="#cb25-76"></a></span>
-<span id="cb25-77"><a href="#cb25-77"></a>This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data. </span>
+<span id="cb25-77"><a href="#cb25-77"></a>In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures ($Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)$) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper.</span>
 <span id="cb25-78"><a href="#cb25-78"></a></span>
-<span id="cb25-79"><a href="#cb25-79"></a>There are two ways of specifying the model. The first method corresponds to passing the claim amounts unmodified, and passing the exposures as weights:</span>
+<span id="cb25-79"><a href="#cb25-79"></a>However, both the numbers are right, as they answer different questions.</span>
 <span id="cb25-80"><a href="#cb25-80"></a></span>
-<span id="cb25-83"><a href="#cb25-83"></a><span class="in">```{r}</span></span>
-<span id="cb25-84"><a href="#cb25-84"></a><span class="co"># weighted mean estimator</span></span>
-<span id="cb25-85"><a href="#cb25-85"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
-<span id="cb25-86"><a href="#cb25-86"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
-<span id="cb25-87"><a href="#cb25-87"></a><span class="in">```</span></span>
-<span id="cb25-88"><a href="#cb25-88"></a></span>
-<span id="cb25-89"><a href="#cb25-89"></a>The estimated intercept and dispersion correspond to the same parameters ($\mu = 200$, $\phi = 350$) picked for the simulation. This estimate also coincides with the weighted mean estimate. <span class="in">`link.power = 1`</span> indicates that the identity link function is used, and <span class="in">`var.power = 1.3`</span> or $p$ is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval $p \in (1, 2)$ for data with exact zeroes.</span>
-<span id="cb25-90"><a href="#cb25-90"></a></span>
-<span id="cb25-91"><a href="#cb25-91"></a>Once $p$ is chosen, $\mu$ can be estimated independently of $\phi$, and finally dispersion $\phi$ can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the _Pearson estimator_: </span>
-<span id="cb25-92"><a href="#cb25-92"></a></span>
-<span id="cb25-93"><a href="#cb25-93"></a>$$</span>
-<span id="cb25-94"><a href="#cb25-94"></a>\phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}</span>
-<span id="cb25-95"><a href="#cb25-95"></a>$$</span>
+<span id="cb25-81"><a href="#cb25-81"></a><span class="fu">## Building a regression model</span></span>
+<span id="cb25-82"><a href="#cb25-82"></a></span>
+<span id="cb25-83"><a href="#cb25-83"></a>This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data.</span>
+<span id="cb25-84"><a href="#cb25-84"></a></span>
+<span id="cb25-85"><a href="#cb25-85"></a>There are two ways of specifying the model. The first method corresponds to passing the claim amounts unmodified, and passing the exposures as weights:</span>
+<span id="cb25-86"><a href="#cb25-86"></a></span>
+<span id="cb25-89"><a href="#cb25-89"></a><span class="in">```{r}</span></span>
+<span id="cb25-90"><a href="#cb25-90"></a><span class="co"># weighted mean estimator</span></span>
+<span id="cb25-91"><a href="#cb25-91"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-92"><a href="#cb25-92"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-93"><a href="#cb25-93"></a><span class="in">```</span></span>
+<span id="cb25-94"><a href="#cb25-94"></a></span>
+<span id="cb25-95"><a href="#cb25-95"></a>The estimated intercept and dispersion correspond to the same parameters ($\mu = 200$, $\phi = 350$) picked for the simulation. This estimate also coincides with the weighted mean estimate. <span class="in">`link.power = 1`</span> indicates that the identity link function is used, and <span class="in">`var.power = 1.3`</span> or $p = 1.3$ is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval $p \in (1, 2)$ for data with exact zeroes.</span>
 <span id="cb25-96"><a href="#cb25-96"></a></span>
-<span id="cb25-97"><a href="#cb25-97"></a>where $p'$ is the number of parameters in the model and $\text{Var}(\mu_i) = \mu_i^p$ is the variance function.</span>
+<span id="cb25-97"><a href="#cb25-97"></a>Once $p$ is chosen, $\mu$ can be estimated independently of $\phi$, and finally dispersion $\phi$ can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the *Pearson estimator*:</span>
 <span id="cb25-98"><a href="#cb25-98"></a></span>
-<span id="cb25-101"><a href="#cb25-101"></a><span class="in">```{r}</span></span>
-<span id="cb25-102"><a href="#cb25-102"></a><span class="co"># pearson estimate of dispersion</span></span>
-<span id="cb25-103"><a href="#cb25-103"></a>(<span class="fu">sum</span>((sim_data<span class="sc">$</span>w <span class="sc">*</span> ((sim_data<span class="sc">$</span>y <span class="sc">-</span> <span class="fl">200.4661</span>)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> (<span class="fl">200.4661</span><span class="sc">^</span><span class="fl">1.3</span>))) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb25-104"><a href="#cb25-104"></a><span class="in">```</span></span>
-<span id="cb25-105"><a href="#cb25-105"></a></span>
-<span id="cb25-106"><a href="#cb25-106"></a>The second method rescales the response variable with the weights, and passes exposures as weights to the model:</span>
-<span id="cb25-107"><a href="#cb25-107"></a></span>
-<span id="cb25-110"><a href="#cb25-110"></a><span class="in">```{r}</span></span>
-<span id="cb25-111"><a href="#cb25-111"></a><span class="co"># ratio estimator</span></span>
-<span id="cb25-112"><a href="#cb25-112"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
-<span id="cb25-113"><a href="#cb25-113"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
-<span id="cb25-114"><a href="#cb25-114"></a><span class="in">```</span></span>
-<span id="cb25-115"><a href="#cb25-115"></a></span>
-<span id="cb25-116"><a href="#cb25-116"></a>This estimate corresponds to the same output as the ratio estimator from the previous section. The estimate of dispersion $\phi$ is different from the true value of 350, which makes sense as dispersion is a function of the estimated value of the mean $\mu$.</span>
-<span id="cb25-117"><a href="#cb25-117"></a></span>
-<span id="cb25-118"><a href="#cb25-118"></a><span class="fu">## What does the math look like behind these two models?</span></span>
-<span id="cb25-119"><a href="#cb25-119"></a></span>
-<span id="cb25-120"><a href="#cb25-120"></a>To fit a Tweedie model to the data with weights to calculate the two different values in the previous section, the following log-likelihood function -- taken from the Yang et al paper -- can be maximized.</span>
+<span id="cb25-99"><a href="#cb25-99"></a>$$</span>
+<span id="cb25-100"><a href="#cb25-100"></a>\phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}</span>
+<span id="cb25-101"><a href="#cb25-101"></a>$$</span>
+<span id="cb25-102"><a href="#cb25-102"></a></span>
+<span id="cb25-103"><a href="#cb25-103"></a>where $p'$ is the number of parameters in the model and $\text{Var}(\mu_i) = \mu_i^p$ is the variance function.</span>
+<span id="cb25-104"><a href="#cb25-104"></a></span>
+<span id="cb25-107"><a href="#cb25-107"></a><span class="in">```{r}</span></span>
+<span id="cb25-108"><a href="#cb25-108"></a><span class="co"># pearson estimate of dispersion</span></span>
+<span id="cb25-109"><a href="#cb25-109"></a>(<span class="fu">sum</span>((sim_data<span class="sc">$</span>w <span class="sc">*</span> ((sim_data<span class="sc">$</span>y <span class="sc">-</span> <span class="fl">200.4661</span>)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> (<span class="fl">200.4661</span><span class="sc">^</span><span class="fl">1.3</span>))) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb25-110"><a href="#cb25-110"></a><span class="in">```</span></span>
+<span id="cb25-111"><a href="#cb25-111"></a></span>
+<span id="cb25-112"><a href="#cb25-112"></a>The second method rescales the response variable with the weights, and passes exposures as weights to the model:</span>
+<span id="cb25-113"><a href="#cb25-113"></a></span>
+<span id="cb25-116"><a href="#cb25-116"></a><span class="in">```{r}</span></span>
+<span id="cb25-117"><a href="#cb25-117"></a><span class="co"># ratio estimator</span></span>
+<span id="cb25-118"><a href="#cb25-118"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-119"><a href="#cb25-119"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-120"><a href="#cb25-120"></a><span class="in">```</span></span>
 <span id="cb25-121"><a href="#cb25-121"></a></span>
-<span id="cb25-122"><a href="#cb25-122"></a>$$</span>
-<span id="cb25-123"><a href="#cb25-123"></a>l(\mu, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{\mu_i^{1-p}}{1-p} - \frac{\mu_i^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
-<span id="cb25-124"><a href="#cb25-124"></a>$$</span>
+<span id="cb25-122"><a href="#cb25-122"></a>This estimate corresponds to the same output as the ratio estimator from the previous section. The estimate of dispersion $\phi$ is different from the true value of 350, which makes sense as dispersion is a function of the estimated value of the mean $\mu$.</span>
+<span id="cb25-123"><a href="#cb25-123"></a></span>
+<span id="cb25-124"><a href="#cb25-124"></a><span class="fu">## What does the math look like behind these two models?</span></span>
 <span id="cb25-125"><a href="#cb25-125"></a></span>
-<span id="cb25-126"><a href="#cb25-126"></a>For this simulated dataset, $w_i$ and $y_i$ vary for each individual, but there are no predictors so an identity link function can be used <span class="ot">[^wrong-predictions]</span>, the overall mean is of interest so the $\mu_i$ term can be collapsed into a single $\mu$ parameter to be optimized, and the <span class="in">`log a(...)`</span> term can be ignored as it's not a function of $\mu$. Since the regression equation for an intercept only term is $\mu_i = \beta_0$, we can replace the $\mu$ with $\beta_0$.</span>
+<span id="cb25-126"><a href="#cb25-126"></a>To fit a Tweedie model to the data with weights to calculate the two different values in the previous section, the following log-likelihood function -- taken from the Yang et al paper -- can be maximized.</span>
 <span id="cb25-127"><a href="#cb25-127"></a></span>
-<span id="cb25-128"><a href="#cb25-128"></a><span class="ot">[^wrong-predictions]: </span>which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0</span>
-<span id="cb25-129"><a href="#cb25-129"></a></span>
-<span id="cb25-130"><a href="#cb25-130"></a>This makes it easy to compute the closed form solution, which is calculated by differentiating this function to produce the score function, and setting it to 0.</span>
+<span id="cb25-128"><a href="#cb25-128"></a>$$</span>
+<span id="cb25-129"><a href="#cb25-129"></a>l(\mu, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{\mu_i^{1-p}}{1-p} - \frac{\mu_i^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
+<span id="cb25-130"><a href="#cb25-130"></a>$$</span>
 <span id="cb25-131"><a href="#cb25-131"></a></span>
-<span id="cb25-132"><a href="#cb25-132"></a>$$</span>
-<span id="cb25-133"><a href="#cb25-133"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} (y_i \beta_0^{-p} - \beta_0^{1-p}) = 0</span>
-<span id="cb25-134"><a href="#cb25-134"></a>$$</span>
+<span id="cb25-132"><a href="#cb25-132"></a>For this simulated dataset, $w_i$ and $y_i$ vary for each individual, but there are no predictors so an identity link function can be used <span class="ot">[^1]</span>, the overall mean is of interest so the $\mu_i$ term can be collapsed into a single $\mu$ parameter to be optimized, and the <span class="in">`log a(...)`</span> term can be ignored as it's not a function of $\mu$. Since the regression equation for an intercept only term is $\mu_i = \beta_0$, we can replace the $\mu$ with $\beta_0$.</span>
+<span id="cb25-133"><a href="#cb25-133"></a></span>
+<span id="cb25-134"><a href="#cb25-134"></a><span class="ot">[^1]: </span>which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0</span>
 <span id="cb25-135"><a href="#cb25-135"></a></span>
-<span id="cb25-136"><a href="#cb25-136"></a>$\phi$ and $\beta_0^{-p}$ are non-zero constants, so can be pulled out of the summation to give </span>
+<span id="cb25-136"><a href="#cb25-136"></a>This makes it easy to compute the closed form solution, which is calculated by differentiating this function to produce the score function, and setting it to 0.</span>
 <span id="cb25-137"><a href="#cb25-137"></a></span>
 <span id="cb25-138"><a href="#cb25-138"></a>$$</span>
-<span id="cb25-139"><a href="#cb25-139"></a>\sum_{i = 1}^{n}{ w_i (y_i - \beta_0) } = 0</span>
+<span id="cb25-139"><a href="#cb25-139"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} (y_i \beta_0^{-p} - \beta_0^{1-p}) = 0</span>
 <span id="cb25-140"><a href="#cb25-140"></a>$$</span>
 <span id="cb25-141"><a href="#cb25-141"></a></span>
-<span id="cb25-142"><a href="#cb25-142"></a>For <span class="in">`glm(y ~ 1, weights = w, ...)`</span>, this equals </span>
+<span id="cb25-142"><a href="#cb25-142"></a>$\phi$ and $\beta_0^{-p}$ are non-zero constants, so can be pulled out of the summation to give</span>
 <span id="cb25-143"><a href="#cb25-143"></a></span>
 <span id="cb25-144"><a href="#cb25-144"></a>$$</span>
-<span id="cb25-145"><a href="#cb25-145"></a>\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}</span>
+<span id="cb25-145"><a href="#cb25-145"></a>\sum_{i = 1}^{n}{ w_i (y_i - \beta_0) } = 0</span>
 <span id="cb25-146"><a href="#cb25-146"></a>$$</span>
 <span id="cb25-147"><a href="#cb25-147"></a></span>
-<span id="cb25-148"><a href="#cb25-148"></a>and for <span class="in">`glm(y / w ~ 1, weights = w, ...)`</span>, this equals </span>
+<span id="cb25-148"><a href="#cb25-148"></a>For <span class="in">`glm(y ~ 1, weights = w, ...)`</span>, this equals</span>
 <span id="cb25-149"><a href="#cb25-149"></a></span>
 <span id="cb25-150"><a href="#cb25-150"></a>$$</span>
-<span id="cb25-151"><a href="#cb25-151"></a>\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}</span>
-<span id="cb25-152"><a href="#cb25-152"></a>$$</span>
-<span id="cb25-153"><a href="#cb25-153"></a></span>
-<span id="cb25-154"><a href="#cb25-154"></a><span class="fu">## A method that works for Poisson but not for Tweedie</span></span>
-<span id="cb25-155"><a href="#cb25-155"></a></span>
-<span id="cb25-156"><a href="#cb25-156"></a>What initially led me down this rabbit hole was finding <span class="co">[</span><span class="ot">this stackexchange post</span><span class="co">](https://stats.stackexchange.com/questions/275893/offset-in-poisson-regression-when-using-an-identity-link-function)</span> for specifying the offset with identity link in a poisson model, and naively (and incorrectly) fitting the Tweedie glm like this</span>
-<span id="cb25-157"><a href="#cb25-157"></a></span>
-<span id="cb25-160"><a href="#cb25-160"></a><span class="in">```{r}</span></span>
-<span id="cb25-161"><a href="#cb25-161"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> sim_data,</span>
-<span id="cb25-162"><a href="#cb25-162"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
-<span id="cb25-163"><a href="#cb25-163"></a><span class="in">```</span></span>
-<span id="cb25-164"><a href="#cb25-164"></a></span>
-<span id="cb25-165"><a href="#cb25-165"></a>and trying to figure out why this didn't coincide with the ratio estimate of 114.5185, which is the case for the poisson models</span>
-<span id="cb25-166"><a href="#cb25-166"></a></span>
-<span id="cb25-167"><a href="#cb25-167"></a><span class="in">```{r, warning=FALSE}</span></span>
-<span id="cb25-168"><a href="#cb25-168"></a><span class="co"># ratio estimator</span></span>
-<span id="cb25-169"><a href="#cb25-169"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
-<span id="cb25-170"><a href="#cb25-170"></a><span class="co"># generates warnings because we're passing a non-discrete response</span></span>
-<span id="cb25-171"><a href="#cb25-171"></a><span class="co"># point estimates are the same though</span></span>
-<span id="cb25-172"><a href="#cb25-172"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
-<span id="cb25-173"><a href="#cb25-173"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
-<span id="cb25-174"><a href="#cb25-174"></a><span class="in">```</span></span>
-<span id="cb25-175"><a href="#cb25-175"></a></span>
-<span id="cb25-176"><a href="#cb25-176"></a>This happens because substituting $\mu_i = w_i \beta_0$ instead of $\mu_i = \beta_0$ in the log-likelihood function </span>
-<span id="cb25-177"><a href="#cb25-177"></a></span>
-<span id="cb25-178"><a href="#cb25-178"></a>$$</span>
-<span id="cb25-179"><a href="#cb25-179"></a>l(\beta_0, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{(w_i \beta_0)^{1-p}}{1-p} - \frac{(w_i\beta_0)^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
-<span id="cb25-180"><a href="#cb25-180"></a>$$</span>
-<span id="cb25-181"><a href="#cb25-181"></a></span>
-<span id="cb25-182"><a href="#cb25-182"></a>leads to the following score function</span>
+<span id="cb25-151"><a href="#cb25-151"></a>\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 <span class="sc">\\</span></span>
+<span id="cb25-152"><a href="#cb25-152"></a>\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}</span>
+<span id="cb25-153"><a href="#cb25-153"></a>$$</span>
+<span id="cb25-154"><a href="#cb25-154"></a></span>
+<span id="cb25-155"><a href="#cb25-155"></a>and for <span class="in">`glm(y / w ~ 1, weights = w, ...)`</span>, this equals</span>
+<span id="cb25-156"><a href="#cb25-156"></a></span>
+<span id="cb25-157"><a href="#cb25-157"></a>$$</span>
+<span id="cb25-158"><a href="#cb25-158"></a>\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 <span class="sc">\\</span></span>
+<span id="cb25-159"><a href="#cb25-159"></a>\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}</span>
+<span id="cb25-160"><a href="#cb25-160"></a>$$</span>
+<span id="cb25-161"><a href="#cb25-161"></a></span>
+<span id="cb25-162"><a href="#cb25-162"></a><span class="fu">## A method that works for Poisson but not for Tweedie</span></span>
+<span id="cb25-163"><a href="#cb25-163"></a></span>
+<span id="cb25-164"><a href="#cb25-164"></a>What initially led me down this rabbit hole was finding <span class="co">[</span><span class="ot">this stackexchange post</span><span class="co">](https://stats.stackexchange.com/questions/275893/offset-in-poisson-regression-when-using-an-identity-link-function)</span> for specifying the offset with identity link in a poisson model, and naively (and incorrectly) fitting the Tweedie glm like this</span>
+<span id="cb25-165"><a href="#cb25-165"></a></span>
+<span id="cb25-168"><a href="#cb25-168"></a><span class="in">```{r}</span></span>
+<span id="cb25-169"><a href="#cb25-169"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> sim_data,</span>
+<span id="cb25-170"><a href="#cb25-170"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-171"><a href="#cb25-171"></a><span class="in">```</span></span>
+<span id="cb25-172"><a href="#cb25-172"></a></span>
+<span id="cb25-173"><a href="#cb25-173"></a>and trying to figure out why this didn't coincide with the ratio estimate of 114.5185, which is the case for the poisson models</span>
+<span id="cb25-174"><a href="#cb25-174"></a></span>
+<span id="cb25-175"><a href="#cb25-175"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb25-176"><a href="#cb25-176"></a><span class="co"># ratio estimator</span></span>
+<span id="cb25-177"><a href="#cb25-177"></a><span class="fu">sum</span>(sim_data<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(sim_data<span class="sc">$</span>w)</span>
+<span id="cb25-178"><a href="#cb25-178"></a><span class="co"># generates warnings because we're passing a non-discrete response</span></span>
+<span id="cb25-179"><a href="#cb25-179"></a><span class="co"># point estimates are the same though</span></span>
+<span id="cb25-180"><a href="#cb25-180"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
+<span id="cb25-181"><a href="#cb25-181"></a><span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(y <span class="sc">/</span> w <span class="sc">~</span> <span class="dv">1</span>, <span class="at">weights =</span> w, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> sim_data))))</span>
+<span id="cb25-182"><a href="#cb25-182"></a><span class="in">```</span></span>
 <span id="cb25-183"><a href="#cb25-183"></a></span>
-<span id="cb25-184"><a href="#cb25-184"></a>$$</span>
-<span id="cb25-185"><a href="#cb25-185"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n} \frac{w_i}{\phi} (y_i w_i^{1-p} \beta_0^{-p} - w_i^{2-p} \beta_0^{1-p}) = 0</span>
+<span id="cb25-184"><a href="#cb25-184"></a>This happens because substituting $\mu_i = w_i \beta_0$ instead of $\mu_i = \beta_0$ in the log-likelihood function</span>
+<span id="cb25-185"><a href="#cb25-185"></a></span>
 <span id="cb25-186"><a href="#cb25-186"></a>$$</span>
-<span id="cb25-187"><a href="#cb25-187"></a></span>
-<span id="cb25-188"><a href="#cb25-188"></a>The constant $\phi$ and $\beta_0^{-p}$ terms can be dropped from the equation, and the $w_i$ outside the bracket are all 1 because no weights are passed to the glm call, so the following equation is solved</span>
+<span id="cb25-187"><a href="#cb25-187"></a>l(\beta_0, \phi, p | <span class="sc">\{</span>y, x, w<span class="sc">\}</span>_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{(w_i \beta_0)^{1-p}}{1-p} - \frac{(w_i\beta_0)^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)</span>
+<span id="cb25-188"><a href="#cb25-188"></a>$$</span>
 <span id="cb25-189"><a href="#cb25-189"></a></span>
-<span id="cb25-190"><a href="#cb25-190"></a>$$</span>
-<span id="cb25-191"><a href="#cb25-191"></a>\sum_{i = 1}^{n} y_i w_i^{1-p} - w_i^{2-p} \beta_0 = 0</span>
+<span id="cb25-190"><a href="#cb25-190"></a>leads to the following score function</span>
+<span id="cb25-191"><a href="#cb25-191"></a></span>
 <span id="cb25-192"><a href="#cb25-192"></a>$$</span>
-<span id="cb25-193"><a href="#cb25-193"></a></span>
-<span id="cb25-194"><a href="#cb25-194"></a>which can be simplified by pulling $w_i^{1-p}$ as a common term</span>
+<span id="cb25-193"><a href="#cb25-193"></a>\frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n} \frac{w_i}{\phi} (y_i w_i^{1-p} \beta_0^{-p} - w_i^{2-p} \beta_0^{1-p}) = 0</span>
+<span id="cb25-194"><a href="#cb25-194"></a>$$</span>
 <span id="cb25-195"><a href="#cb25-195"></a></span>
-<span id="cb25-196"><a href="#cb25-196"></a>$$</span>
-<span id="cb25-197"><a href="#cb25-197"></a>\sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0</span>
+<span id="cb25-196"><a href="#cb25-196"></a>The constant $\phi$ and $\beta_0^{-p}$ terms can be dropped from the equation, and the $w_i$ outside the bracket are all 1 because no weights are passed to the glm call, so the following equation is solved</span>
+<span id="cb25-197"><a href="#cb25-197"></a></span>
 <span id="cb25-198"><a href="#cb25-198"></a>$$</span>
-<span id="cb25-199"><a href="#cb25-199"></a></span>
-<span id="cb25-200"><a href="#cb25-200"></a>This shows where the logical error happens, as well as how the original estimate can be obtained, i.e., by passing <span class="in">`weights = w ^ (p - 1)`</span> to the glm call, so that the $w_i^{1-p}$ term cancels out </span>
+<span id="cb25-199"><a href="#cb25-199"></a>\sum_{i = 1}^{n} y_i w_i^{1-p} - w_i^{2-p} \beta_0 = 0</span>
+<span id="cb25-200"><a href="#cb25-200"></a>$$</span>
 <span id="cb25-201"><a href="#cb25-201"></a></span>
-<span id="cb25-204"><a href="#cb25-204"></a><span class="in">```{r}</span></span>
-<span id="cb25-205"><a href="#cb25-205"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">weights =</span> <span class="fu">I</span>(w<span class="sc">^</span>(<span class="fl">1.3</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="at">data =</span> sim_data,</span>
-<span id="cb25-206"><a href="#cb25-206"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
-<span id="cb25-207"><a href="#cb25-207"></a><span class="in">```</span></span>
-<span id="cb25-208"><a href="#cb25-208"></a></span>
-<span id="cb25-209"><a href="#cb25-209"></a>Now the point estimates, standard errors, and dispersion parameters correspond to the model where the ratio estimator is correctly specified.</span>
-<span id="cb25-210"><a href="#cb25-210"></a></span>
-<span id="cb25-211"><a href="#cb25-211"></a><span class="fu">## References</span></span>
-<span id="cb25-212"><a href="#cb25-212"></a></span>
-<span id="cb25-213"><a href="#cb25-213"></a><span class="ss">- </span>Yang et al 2016 paper and supplement (<span class="co">[</span><span class="ot">link</span><span class="co">](https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981)</span>)</span>
-<span id="cb25-214"><a href="#cb25-214"></a><span class="ss">- </span>Delong et al 2021 paper (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s13385-021-00264-3)</span>)</span>
-<span id="cb25-215"><a href="#cb25-215"></a><span class="ss">- </span>Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs</span>
+<span id="cb25-202"><a href="#cb25-202"></a>which can be simplified by pulling $w_i^{1-p}$ as a common term</span>
+<span id="cb25-203"><a href="#cb25-203"></a></span>
+<span id="cb25-204"><a href="#cb25-204"></a>$$</span>
+<span id="cb25-205"><a href="#cb25-205"></a>\sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0</span>
+<span id="cb25-206"><a href="#cb25-206"></a>$$</span>
+<span id="cb25-207"><a href="#cb25-207"></a></span>
+<span id="cb25-208"><a href="#cb25-208"></a>This shows where the logical error happens, as well as how the correct estimate can be obtained, i.e., by passing <span class="in">`weights = w ^ (p - 1)`</span> to the glm call, so that the $w_i^{1-p}$ term cancels out</span>
+<span id="cb25-209"><a href="#cb25-209"></a></span>
+<span id="cb25-212"><a href="#cb25-212"></a><span class="in">```{r}</span></span>
+<span id="cb25-213"><a href="#cb25-213"></a><span class="fu">summary</span>(<span class="fu">glm</span>(y <span class="sc">~</span> w <span class="sc">-</span> <span class="dv">1</span>, <span class="at">weights =</span> <span class="fu">I</span>(w<span class="sc">^</span>(<span class="fl">1.3</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="at">data =</span> sim_data,</span>
+<span id="cb25-214"><a href="#cb25-214"></a>            <span class="at">family =</span> statmod<span class="sc">::</span><span class="fu">tweedie</span>(<span class="at">var.power =</span> <span class="fl">1.3</span>, <span class="at">link.power =</span> <span class="dv">1</span>)))</span>
+<span id="cb25-215"><a href="#cb25-215"></a><span class="in">```</span></span>
 <span id="cb25-216"><a href="#cb25-216"></a></span>
-<span id="cb25-217"><a href="#cb25-217"></a>Others </span>
+<span id="cb25-217"><a href="#cb25-217"></a>Now the point estimates, standard errors, and dispersion parameters correspond to the model where the ratio estimator is correctly specified.</span>
 <span id="cb25-218"><a href="#cb25-218"></a></span>
-<span id="cb25-219"><a href="#cb25-219"></a><span class="ss">- </span>Zhang 2013 (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s11222-012-9343-7)</span>)</span>
-<span id="cb25-220"><a href="#cb25-220"></a><span class="ss">- </span>Stan code for Tweedie</span>
-<span id="cb25-221"><a href="#cb25-221"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636</span><span class="co">](https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636)</span></span>
-<span id="cb25-222"><a href="#cb25-222"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13</span><span class="co">](https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13)</span></span>
+<span id="cb25-219"><a href="#cb25-219"></a><span class="fu">## References</span></span>
+<span id="cb25-220"><a href="#cb25-220"></a></span>
+<span id="cb25-221"><a href="#cb25-221"></a><span class="ss">-   </span>Yang et al 2016 paper and supplement (<span class="co">[</span><span class="ot">link</span><span class="co">](https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981)</span>)</span>
+<span id="cb25-222"><a href="#cb25-222"></a><span class="ss">-   </span>Delong et al 2021 paper (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s13385-021-00264-3)</span>)</span>
+<span id="cb25-223"><a href="#cb25-223"></a><span class="ss">-   </span>Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs</span>
+<span id="cb25-224"><a href="#cb25-224"></a></span>
+<span id="cb25-225"><a href="#cb25-225"></a>Others</span>
+<span id="cb25-226"><a href="#cb25-226"></a></span>
+<span id="cb25-227"><a href="#cb25-227"></a><span class="ss">-   </span>Zhang 2013 (<span class="co">[</span><span class="ot">link</span><span class="co">](https://link.springer.com/article/10.1007/s11222-012-9343-7)</span>)</span>
+<span id="cb25-228"><a href="#cb25-228"></a><span class="ss">-   </span>Stan code for Tweedie</span>
+<span id="cb25-229"><a href="#cb25-229"></a><span class="ss">    -   </span><span class="ot">&lt;https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636&gt;</span></span>
+<span id="cb25-230"><a href="#cb25-230"></a><span class="ss">    -   </span><span class="ot">&lt;https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13&gt;</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
