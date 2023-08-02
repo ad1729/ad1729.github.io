@@ -11,6 +11,8 @@ project:
     - "!ignored*.qmd"
     - "!README.md"
     - "!LICENSE.md"
+  resources:
+    - CNAME
 
 website:
   title: "Akshat Dwivedi"
