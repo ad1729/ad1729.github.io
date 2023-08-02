@@ -6,12 +6,14 @@ code-fold: false
 reference-location: margin 
 ---
 
-This post explores several things: 
+*Last modified: 2023-08-02*
 
-- differences between two ways of calculating the mean
-- specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest
-- log-likelihood and the corresponding score function for a Tweedie model with weights 
-- why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs
+This post explores several things:
+
+-   differences between two ways of calculating the mean
+-   specifying the response variable and offset in a Tweedie regression model depending on the quantity of interest
+-   log-likelihood and the corresponding score function for a Tweedie model with weights
+-   why one way of specifying offsets in poisson GLMs with the identity link does not extend to Tweedie GLMs
 
 In this article, the words duration, offset, exposure, and weight are used interchangeably.
 
@@ -46,13 +48,17 @@ For readability, let's pretend that this response variable is the individual cla
 
 The quantity of interest from such datasets may be the mean per unit exposure -- expected claim amount per individual per year, expected number of new cases of a disease per year per 100,000 people, etc. There are two separate quantities that can be calculated as expected values -- the ratio of the means of amount and duration variables, or the mean of the individual ratios. The differences between these two quantities is explained pretty well in [this stackexchange thread](https://stats.stackexchange.com/a/105715).
 
-The [ratio estimator](https://en.wikipedia.org/wiki/Ratio_estimator) estimates the first quantity $R = \sum_i{y_i} / \sum_i{w_i}$, while the [weighted sample mean](https://en.wikipedia.org/wiki/Weighted_arithmetic_mean) of the individual ratios estimates the second quantity $\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}$. In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.
+The [ratio estimator](https://en.wikipedia.org/wiki/Ratio_estimator) estimates the first quantity $R = \sum_i{y_i} / \sum_i{w_i}$. This answers the following question: given a population (or a group of individuals) who were followed-up / observed for a given amount of time, and generated a total amount of claims, how much of the total claim amount can be attributed per person per unit exposure?
+
+The [weighted sample mean](https://en.wikipedia.org/wiki/Weighted_arithmetic_mean) of the individual ratios estimates the second quantity $\mathbb{E} = \sum_i{w_i y_i} / \sum_i{w_i}$. This answers the question: given each individual's claim amount and exposure, what was the average individual's claim amount per unit exposure?
+
+In the latter case, the link between claim amount and duration at the individual level is preserved, whereas for the former, the numerator and denominators are totals at the population level.
 
 If everyone had exactly the same weight $w_i$ of 1 year, the denominator would sum to the sample size of 1 million for the data above, and both the estimates would be the same. If the weights were different, then the two results would differ.
 
-In epidemiology, the ratio estimator is used for _incidence rate_ calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.
+In epidemiology, the ratio estimator is used for *incidence rate* calculations. On the other hand, the insurance papers on Tweedie models mentioned at the bottom of this post all seem to use the weighted mean approach.
 
-For the simulated data above, the two estimates are quite different: 
+For the simulated data above, the two estimates are quite different:
 
 ```{r}
 sum(sim_data$y) / sum(sim_data$w)
@@ -62,13 +68,13 @@ sum(sim_data$y) / sum(sim_data$w)
 weighted.mean(sim_data$y, w = sim_data$w)
 ```
 
-In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures ($Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)$) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper. 
+In this case, the second estimate matches the true mean value chosen for the simulation, which makes sense given that the data are simulated from a Tweedie model with varying exposures ($Y_i \sim \text{Tweedie}(\mu_i, \phi / w_i, p)$) but with the mean-variance relationship preserved under unit exposure. This is described in part A of the supplement to the Yang et al 2016 paper.
 
 However, both the numbers are right, as they answer different questions.
 
 ## Building a regression model
 
-This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data. 
+This formula is easy enough to apply if there are no predictors, but a regression model is needed to estimate these quantities when there are predictors in the data.
 
 There are two ways of specifying the model. The first method corresponds to passing the claim amounts unmodified, and passing the exposures as weights:
 
@@ -78,9 +84,9 @@ summary(glm(y ~ 1, weights = w, data = sim_data,
             family = statmod::tweedie(var.power = 1.3, link.power = 1)))
 ```
 
-The estimated intercept and dispersion correspond to the same parameters ($\mu = 200$, $\phi = 350$) picked for the simulation. This estimate also coincides with the weighted mean estimate. `link.power = 1` indicates that the identity link function is used, and `var.power = 1.3` or $p$ is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval $p \in (1, 2)$ for data with exact zeroes.
+The estimated intercept and dispersion correspond to the same parameters ($\mu = 200$, $\phi = 350$) picked for the simulation. This estimate also coincides with the weighted mean estimate. `link.power = 1` indicates that the identity link function is used, and `var.power = 1.3` or $p = 1.3$ is assumed to be known here. Usually the profile likelihood approach is used to pick the best value on the interval $p \in (1, 2)$ for data with exact zeroes.
 
-Once $p$ is chosen, $\mu$ can be estimated independently of $\phi$, and finally dispersion $\phi$ can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the _Pearson estimator_: 
+Once $p$ is chosen, $\mu$ can be estimated independently of $\phi$, and finally dispersion $\phi$ can be estimated using an optimization algorithm, or one of the estimators described in section 6.8 of the Dunn and Smyth book. The glm function in R uses the *Pearson estimator*:
 
 $$
 \phi = \frac{1}{N-p'} \sum_{i=1}^{N} \frac{w_i (y_i - \hat\mu_i) ^ 2}{\hat\mu_i^p}
@@ -111,9 +117,9 @@ $$
 l(\mu, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{\mu_i^{1-p}}{1-p} - \frac{\mu_i^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)
 $$
 
-For this simulated dataset, $w_i$ and $y_i$ vary for each individual, but there are no predictors so an identity link function can be used [^wrong-predictions], the overall mean is of interest so the $\mu_i$ term can be collapsed into a single $\mu$ parameter to be optimized, and the `log a(...)` term can be ignored as it's not a function of $\mu$. Since the regression equation for an intercept only term is $\mu_i = \beta_0$, we can replace the $\mu$ with $\beta_0$.
+For this simulated dataset, $w_i$ and $y_i$ vary for each individual, but there are no predictors so an identity link function can be used [^1], the overall mean is of interest so the $\mu_i$ term can be collapsed into a single $\mu$ parameter to be optimized, and the `log a(...)` term can be ignored as it's not a function of $\mu$. Since the regression equation for an intercept only term is $\mu_i = \beta_0$, we can replace the $\mu$ with $\beta_0$.
 
-[^wrong-predictions]: which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0
+[^1]: which should be avoided if the model will be used for out-of-sample prediction to avoid predicting values below 0
 
 This makes it easy to compute the closed form solution, which is calculated by differentiating this function to produce the score function, and setting it to 0.
 
@@ -121,22 +127,24 @@ $$
 \frac{\partial l}{\partial \beta} = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} (y_i \beta_0^{-p} - \beta_0^{1-p}) = 0
 $$
 
-$\phi$ and $\beta_0^{-p}$ are non-zero constants, so can be pulled out of the summation to give 
+$\phi$ and $\beta_0^{-p}$ are non-zero constants, so can be pulled out of the summation to give
 
 $$
 \sum_{i = 1}^{n}{ w_i (y_i - \beta_0) } = 0
 $$
 
-For `glm(y ~ 1, weights = w, ...)`, this equals 
+For `glm(y ~ 1, weights = w, ...)`, this equals
 
 $$
-\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}
+\sum_{i = 1}^{n} w_i y_i - \beta_0 \sum_{i = 1}^{n} w_i = 0 \\
+\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {w_i y_i}}{\sum_{i = 1}^{n} w_i}
 $$
 
-and for `glm(y / w ~ 1, weights = w, ...)`, this equals 
+and for `glm(y / w ~ 1, weights = w, ...)`, this equals
 
 $$
-\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}
+\sum_{i = 1}^{n} w_i \frac{y_i}{w_i} - \beta_0 \sum_{i = 1}^{n} w_i = 0 \\
+\Rightarrow \beta_0 = \frac{\sum_{i = 1}^{n} {y_i}}{\sum_{i = 1}^{n} w_i}
 $$
 
 ## A method that works for Poisson but not for Tweedie
@@ -159,7 +167,7 @@ unname(coef(suppressWarnings(glm(y ~ w - 1, family = poisson(link = "identity"),
 unname(coef(suppressWarnings(glm(y / w ~ 1, weights = w, family = poisson(link = "identity"), data = sim_data))))
 ```
 
-This happens because substituting $\mu_i = w_i \beta_0$ instead of $\mu_i = \beta_0$ in the log-likelihood function 
+This happens because substituting $\mu_i = w_i \beta_0$ instead of $\mu_i = \beta_0$ in the log-likelihood function
 
 $$
 l(\beta_0, \phi, p | \{y, x, w\}_{i=1}^n) = \sum_{i = 1}^{n}{ \frac{w_i}{\phi}} \Bigg(y_i \frac{(w_i \beta_0)^{1-p}}{1-p} - \frac{(w_i\beta_0)^{2-p}}{2-p} \Bigg) + log\ a(y_i, \phi / w_i, p)
@@ -183,7 +191,7 @@ $$
 \sum_{i = 1}^{n} w_i^{1-p} (y_i  - w_i \beta_0) = 0
 $$
 
-This shows where the logical error happens, as well as how the original estimate can be obtained, i.e., by passing `weights = w ^ (p - 1)` to the glm call, so that the $w_i^{1-p}$ term cancels out 
+This shows where the logical error happens, as well as how the correct estimate can be obtained, i.e., by passing `weights = w ^ (p - 1)` to the glm call, so that the $w_i^{1-p}$ term cancels out
 
 ```{r}
 summary(glm(y ~ w - 1, weights = I(w^(1.3 - 1)), data = sim_data,
@@ -194,13 +202,13 @@ Now the point estimates, standard errors, and dispersion parameters correspond t
 
 ## References
 
-- Yang et al 2016 paper and supplement ([link](https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981))
-- Delong et al 2021 paper ([link](https://link.springer.com/article/10.1007/s13385-021-00264-3))
-- Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs
+-   Yang et al 2016 paper and supplement ([link](https://www.tandfonline.com/doi/full/10.1080/07350015.2016.1200981))
+-   Delong et al 2021 paper ([link](https://link.springer.com/article/10.1007/s13385-021-00264-3))
+-   Chapter 12 on Tweedie models from the Dunn and Smyth book on GLMs
 
-Others 
+Others
 
-- Zhang 2013 ([link](https://link.springer.com/article/10.1007/s11222-012-9343-7))
-- Stan code for Tweedie
-  - [https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636](https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636)
-  - [https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13](https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13)
+-   Zhang 2013 ([link](https://link.springer.com/article/10.1007/s11222-012-9343-7))
+-   Stan code for Tweedie
+    -   <https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636>
+    -   <https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13>
