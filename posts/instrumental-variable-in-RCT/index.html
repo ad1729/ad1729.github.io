@@ -211,11 +211,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>TL;DR - compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset</p>
+<p>This (longer-than-expected) post compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset. Along the way, it goes off on fun tangents like 1) comparing results from different estimators for risk difference (a.k.a. uplift), and 2) comparing the bootstrap distribution with the Bayesian posterior distribution and the normal approximation for the risk difference. Finally, it uses the estimated probabilities to get the posterior predictive distribution for the total profit under different scenarios. This was written largely for me to learn about IV methods in order to deal with the problem of estimating the effect of a treatment under non-compliance in randomized experiments.</p>
 <section id="introduction" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>One of the first problems I ever cut my teeth on as a data scientist many years ago was to analyze data from a marketing / advertising campaign to assess the impact of an advertisement (ad) on sales of a certain product.</p>
-<div class="page-columns page-full"><p>It was a simple experimental dataset from a two-arm<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> randomized control trial. The most challenging part of that analysis was how to analyze individuals – the so-called <em>non-compliers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <em>–</em> who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;i.e., an experiment with two groups – treatment and control</p></li><li id="fn2"><p><sup>2</sup>&nbsp;in the usual terminology used in the instrumental variable methods literature</p></li></div></div>
+<div class="page-columns page-full"><p>It was a simple experimental dataset from a two-arm<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> randomized controlled trial. The most challenging part of that analysis was how to analyze individuals – the so-called <em>non-compliers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <em>–</em> who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;i.e., an experiment with two groups – treatment and control</p></li><li id="fn2"><p><sup>2</sup>&nbsp;in the usual terminology used in the instrumental variable methods literature</p></li></div></div>
 <p>All details below are of a simplified version of the problem similar to the one I worked on, and have no resemblance to the real constraints / numbers / settings from the actual problem. This exact same problem shows up in pretty much every field (marketing, advertising, pharma, tech, psychology, economics, etc.) where experiments are regularly conducted, and the analyses in this post are applicable to those situations as well.</p>
 </section>
 <section id="problem-description" class="level2 page-columns page-full">
@@ -1693,13 +1693,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb77-8"><a href="#cb77-8"></a><span class="an">image:</span><span class="co"> "image.png"</span></span>
 <span id="cb77-9"><a href="#cb77-9"></a><span class="co">---</span></span>
 <span id="cb77-10"><a href="#cb77-10"></a></span>
-<span id="cb77-11"><a href="#cb77-11"></a>TL;DR - compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset</span>
+<span id="cb77-11"><a href="#cb77-11"></a>This (longer-than-expected) post compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset. Along the way, it goes off on fun tangents like 1) comparing results from different estimators for risk difference (a.k.a. uplift), and 2) comparing the bootstrap distribution with the Bayesian posterior distribution and the normal approximation for the risk difference. Finally, it uses the estimated probabilities to get the posterior predictive distribution for the total profit under different scenarios. This was written largely for me to learn about IV methods in order to deal with the problem of estimating the effect of a treatment under non-compliance in randomized experiments.</span>
 <span id="cb77-12"><a href="#cb77-12"></a></span>
 <span id="cb77-13"><a href="#cb77-13"></a><span class="fu">## Introduction</span></span>
 <span id="cb77-14"><a href="#cb77-14"></a></span>
 <span id="cb77-15"><a href="#cb77-15"></a>One of the first problems I ever cut my teeth on as a data scientist many years ago was to analyze data from a marketing / advertising campaign to assess the impact of an advertisement (ad) on sales of a certain product.</span>
 <span id="cb77-16"><a href="#cb77-16"></a></span>
-<span id="cb77-17"><a href="#cb77-17"></a>It was a simple experimental dataset from a two-arm<span class="ot">[^1]</span> randomized control trial. The most challenging part of that analysis was how to analyze individuals -- the so-called *non-compliers*[^2] *--* who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</span>
+<span id="cb77-17"><a href="#cb77-17"></a>It was a simple experimental dataset from a two-arm<span class="ot">[^1]</span> randomized controlled trial. The most challenging part of that analysis was how to analyze individuals -- the so-called *non-compliers*[^2] *--* who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</span>
 <span id="cb77-18"><a href="#cb77-18"></a></span>
 <span id="cb77-19"><a href="#cb77-19"></a><span class="ot">[^1]: </span>i.e., an experiment with two groups -- treatment and control</span>
 <span id="cb77-20"><a href="#cb77-20"></a></span>
@@ -2509,149 +2509,147 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb77-900"><a href="#cb77-900"></a></span>
 <span id="cb77-901"><a href="#cb77-901"></a>It feels a bit odd to look at the combination of compliance with 0% of the population assigned to treatment, as the (non-)compliers are only identified -- and the respective conditional probabilities estimated -- when at least some individuals are assigned to treatment. In this case, it's more of a hypothetical exercise using data from an experiment where <span class="sc">\&gt;</span>0% of the population was assigned to the treatment arm. Page 41 of the Greenland et al 1999 paper mentions</span>
 <span id="cb77-902"><a href="#cb77-902"></a></span>
-<span id="cb77-903"><a href="#cb77-903"></a><span class="at">&gt; </span><span class="sc">\[</span><span class="at">...</span><span class="sc">\]</span><span class="at"> noncompliance represents movement into a third</span></span>
-<span id="cb77-904"><a href="#cb77-904"></a><span class="at">&gt; untreated state that does not correspond to any</span></span>
-<span id="cb77-905"><a href="#cb77-905"></a><span class="at">&gt; assigned treatment (Robins, 1998).</span></span>
+<span id="cb77-903"><a href="#cb77-903"></a><span class="at">&gt; </span><span class="sc">\[</span><span class="at">...</span><span class="sc">\]</span><span class="at"> noncompliance represents movement into a third untreated state that does not correspond to any assigned treatment (Robins, 1998).</span></span>
+<span id="cb77-904"><a href="#cb77-904"></a></span>
+<span id="cb77-905"><a href="#cb77-905"></a>I haven't managed to go through the Robins 1998 paper yet but it would be interesting to dig into this further.</span>
 <span id="cb77-906"><a href="#cb77-906"></a></span>
-<span id="cb77-907"><a href="#cb77-907"></a>I haven't managed to go through the Robins 1998 paper yet but it would be interesting to dig into this further.</span>
-<span id="cb77-908"><a href="#cb77-908"></a></span>
-<span id="cb77-911"><a href="#cb77-911"></a><span class="in">```{r}</span></span>
-<span id="cb77-912"><a href="#cb77-912"></a>parameter_grid <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
-<span id="cb77-913"><a href="#cb77-913"></a>  <span class="at">compliance =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>),</span>
-<span id="cb77-914"><a href="#cb77-914"></a>  <span class="at">split =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>), </span>
-<span id="cb77-915"><a href="#cb77-915"></a>  <span class="at">n =</span> n</span>
-<span id="cb77-916"><a href="#cb77-916"></a>)</span>
-<span id="cb77-917"><a href="#cb77-917"></a><span class="in">```</span></span>
+<span id="cb77-909"><a href="#cb77-909"></a><span class="in">```{r}</span></span>
+<span id="cb77-910"><a href="#cb77-910"></a>parameter_grid <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb77-911"><a href="#cb77-911"></a>  <span class="at">compliance =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>),</span>
+<span id="cb77-912"><a href="#cb77-912"></a>  <span class="at">split =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>), </span>
+<span id="cb77-913"><a href="#cb77-913"></a>  <span class="at">n =</span> n</span>
+<span id="cb77-914"><a href="#cb77-914"></a>)</span>
+<span id="cb77-915"><a href="#cb77-915"></a><span class="in">```</span></span>
+<span id="cb77-916"><a href="#cb77-916"></a></span>
+<span id="cb77-917"><a href="#cb77-917"></a>Total profit distributions for each of these hypothetical experiments is calculated using the formulas specified above. To get the variability in the profit distribution, total sales $S \sim \text{BetaBin}(n, \alpha, \beta)$ can be sampled from the <span class="co">[</span><span class="ot">*(beta-binomial) posterior predictive distribution*</span><span class="co">](https://en.wikipedia.org/wiki/Beta-binomial_distribution#Generating_beta_binomial-distributed_random_variables)</span>*,* where the probability of conversion $p \sim \text{Beta}(\alpha, \beta)$ and $S \sim \text{Binomial}(n, p)$ under the different interventions in different settings. The total profit can be obtained from multiplying $S$ with the profit per unit, which can be fixed at (say) +100 euros.</span>
 <span id="cb77-918"><a href="#cb77-918"></a></span>
-<span id="cb77-919"><a href="#cb77-919"></a>Total profit distributions for each of these hypothetical experiments is calculated using the formulas specified above. To get the variability in the profit distribution, total sales $S \sim \text{BetaBin}(n, \alpha, \beta)$ can be sampled from the <span class="co">[</span><span class="ot">*(beta-binomial) posterior predictive distribution*</span><span class="co">](https://en.wikipedia.org/wiki/Beta-binomial_distribution#Generating_beta_binomial-distributed_random_variables)</span>*,* where the probability of conversion $p \sim \text{Beta}(\alpha, \beta)$ and $S \sim \text{Binomial}(n, p)$ under the different interventions in different settings. The total profit can be obtained from multiplying $S$ with the profit per unit, which can be fixed at (say) +100 euros.</span>
-<span id="cb77-920"><a href="#cb77-920"></a></span>
-<span id="cb77-923"><a href="#cb77-923"></a><span class="in">```{r}</span></span>
-<span id="cb77-924"><a href="#cb77-924"></a>profit_distributions <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(parameter_grid, posterior_draws) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-925"><a href="#cb77-925"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb77-926"><a href="#cb77-926"></a>    <span class="co"># get the ITT estimates for the hypothetical campaigns</span></span>
-<span id="cb77-927"><a href="#cb77-927"></a>    <span class="co"># under the different parameters</span></span>
-<span id="cb77-928"><a href="#cb77-928"></a>    <span class="co"># pY_nt is scaled by proportion of compliers</span></span>
-<span id="cb77-929"><a href="#cb77-929"></a>    <span class="co"># as this wasn't done above</span></span>
-<span id="cb77-930"><a href="#cb77-930"></a>    <span class="at">p_treated_hyp =</span> ((compliance <span class="sc">*</span> p_treated_compliers) <span class="sc">+</span> </span>
+<span id="cb77-921"><a href="#cb77-921"></a><span class="in">```{r}</span></span>
+<span id="cb77-922"><a href="#cb77-922"></a>profit_distributions <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(parameter_grid, posterior_draws) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-923"><a href="#cb77-923"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb77-924"><a href="#cb77-924"></a>    <span class="co"># get the ITT estimates for the hypothetical campaigns</span></span>
+<span id="cb77-925"><a href="#cb77-925"></a>    <span class="co"># under the different parameters</span></span>
+<span id="cb77-926"><a href="#cb77-926"></a>    <span class="co"># pY_nt is scaled by proportion of compliers</span></span>
+<span id="cb77-927"><a href="#cb77-927"></a>    <span class="co"># as this wasn't done above</span></span>
+<span id="cb77-928"><a href="#cb77-928"></a>    <span class="at">p_treated_hyp =</span> ((compliance <span class="sc">*</span> p_treated_compliers) <span class="sc">+</span> </span>
+<span id="cb77-929"><a href="#cb77-929"></a>      ((<span class="dv">1</span> <span class="sc">-</span> compliance) <span class="sc">*</span> (pY_nt <span class="sc">/</span> p_compliers))),</span>
+<span id="cb77-930"><a href="#cb77-930"></a>    <span class="at">p_control_hyp =</span> ((compliance <span class="sc">*</span> p_control_compliers) <span class="sc">+</span> </span>
 <span id="cb77-931"><a href="#cb77-931"></a>      ((<span class="dv">1</span> <span class="sc">-</span> compliance) <span class="sc">*</span> (pY_nt <span class="sc">/</span> p_compliers))),</span>
-<span id="cb77-932"><a href="#cb77-932"></a>    <span class="at">p_control_hyp =</span> ((compliance <span class="sc">*</span> p_control_compliers) <span class="sc">+</span> </span>
-<span id="cb77-933"><a href="#cb77-933"></a>      ((<span class="dv">1</span> <span class="sc">-</span> compliance) <span class="sc">*</span> (pY_nt <span class="sc">/</span> p_compliers))),</span>
-<span id="cb77-934"><a href="#cb77-934"></a>    <span class="at">n_treated =</span> <span class="fu">round</span>(split <span class="sc">*</span> n), </span>
-<span id="cb77-935"><a href="#cb77-935"></a>    <span class="at">n_control =</span> n <span class="sc">-</span> n_treated, </span>
-<span id="cb77-936"><a href="#cb77-936"></a>    <span class="at">s_treated =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n_treated, p_treated_hyp), </span>
-<span id="cb77-937"><a href="#cb77-937"></a>    <span class="at">s_control =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n_control, p_control_hyp), </span>
-<span id="cb77-938"><a href="#cb77-938"></a>    <span class="at">total_profit =</span> <span class="dv">100</span> <span class="sc">*</span> (s_treated <span class="sc">+</span> s_control)</span>
-<span id="cb77-939"><a href="#cb77-939"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-940"><a href="#cb77-940"></a>  <span class="fu">glimpse</span>()</span>
-<span id="cb77-941"><a href="#cb77-941"></a><span class="in">```</span></span>
+<span id="cb77-932"><a href="#cb77-932"></a>    <span class="at">n_treated =</span> <span class="fu">round</span>(split <span class="sc">*</span> n), </span>
+<span id="cb77-933"><a href="#cb77-933"></a>    <span class="at">n_control =</span> n <span class="sc">-</span> n_treated, </span>
+<span id="cb77-934"><a href="#cb77-934"></a>    <span class="at">s_treated =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n_treated, p_treated_hyp), </span>
+<span id="cb77-935"><a href="#cb77-935"></a>    <span class="at">s_control =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n_control, p_control_hyp), </span>
+<span id="cb77-936"><a href="#cb77-936"></a>    <span class="at">total_profit =</span> <span class="dv">100</span> <span class="sc">*</span> (s_treated <span class="sc">+</span> s_control)</span>
+<span id="cb77-937"><a href="#cb77-937"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-938"><a href="#cb77-938"></a>  <span class="fu">glimpse</span>()</span>
+<span id="cb77-939"><a href="#cb77-939"></a><span class="in">```</span></span>
+<span id="cb77-940"><a href="#cb77-940"></a></span>
+<span id="cb77-941"><a href="#cb77-941"></a>The posterior predictive distribution for the total profit is visually compared with simulated draws from the data generating process</span>
 <span id="cb77-942"><a href="#cb77-942"></a></span>
-<span id="cb77-943"><a href="#cb77-943"></a>The posterior predictive distribution for the total profit is visually compared with simulated draws from the data generating process</span>
-<span id="cb77-944"><a href="#cb77-944"></a></span>
-<span id="cb77-947"><a href="#cb77-947"></a><span class="in">```{r}</span></span>
-<span id="cb77-948"><a href="#cb77-948"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb77-949"><a href="#cb77-949"></a></span>
-<span id="cb77-950"><a href="#cb77-950"></a>simulated_profit <span class="ot">&lt;-</span> parameter_grid <span class="sc">%&gt;%</span> </span>
-<span id="cb77-951"><a href="#cb77-951"></a>  <span class="fu">expand_grid</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">20</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-952"><a href="#cb77-952"></a>  <span class="fu">pmap_dfr</span>(</span>
-<span id="cb77-953"><a href="#cb77-953"></a>    <span class="at">.f =</span> <span class="cf">function</span>(compliance, split, id, n) {</span>
-<span id="cb77-954"><a href="#cb77-954"></a>      <span class="fu">simulate_data</span>(<span class="at">n =</span> n,</span>
-<span id="cb77-955"><a href="#cb77-955"></a>                    <span class="at">p_compliers =</span> compliance, </span>
-<span id="cb77-956"><a href="#cb77-956"></a>                    <span class="at">p_treatment =</span> split,</span>
-<span id="cb77-957"><a href="#cb77-957"></a>                    <span class="at">seed =</span> id) <span class="sc">%&gt;%</span></span>
-<span id="cb77-958"><a href="#cb77-958"></a>        <span class="fu">summarise</span>(<span class="at">total_profit =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(Y)) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-959"><a href="#cb77-959"></a>        <span class="fu">tibble</span>(compliance, split, .)</span>
-<span id="cb77-960"><a href="#cb77-960"></a>    }</span>
-<span id="cb77-961"><a href="#cb77-961"></a>  )</span>
-<span id="cb77-962"><a href="#cb77-962"></a></span>
-<span id="cb77-963"><a href="#cb77-963"></a>profit_distributions_plot_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb77-964"><a href="#cb77-964"></a>  <span class="st">"extrapolated"</span> <span class="ot">=</span> profit_distributions <span class="sc">%&gt;%</span> </span>
-<span id="cb77-965"><a href="#cb77-965"></a>    <span class="fu">select</span>(compliance, split, total_profit),</span>
-<span id="cb77-966"><a href="#cb77-966"></a>  <span class="st">"simulated"</span> <span class="ot">=</span> simulated_profit</span>
-<span id="cb77-967"><a href="#cb77-967"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-968"><a href="#cb77-968"></a>  <span class="fu">map</span>(</span>
-<span id="cb77-969"><a href="#cb77-969"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
-<span id="cb77-970"><a href="#cb77-970"></a>      .x <span class="sc">%&gt;%</span> </span>
-<span id="cb77-971"><a href="#cb77-971"></a>        <span class="fu">mutate</span>(</span>
-<span id="cb77-972"><a href="#cb77-972"></a>          <span class="at">total_profit =</span> total_profit <span class="sc">/</span> <span class="fl">1e5</span>, </span>
-<span id="cb77-973"><a href="#cb77-973"></a>          <span class="at">compliance =</span> <span class="fu">paste0</span>(<span class="st">"Compliers: "</span>, compliance <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>), </span>
-<span id="cb77-974"><a href="#cb77-974"></a>          <span class="at">compliance =</span> <span class="fu">factor</span>(compliance, </span>
-<span id="cb77-975"><a href="#cb77-975"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Compliers: 50%"</span>,</span>
-<span id="cb77-976"><a href="#cb77-976"></a>                                   <span class="st">"Compliers: 80%"</span>,</span>
-<span id="cb77-977"><a href="#cb77-977"></a>                                   <span class="st">"Compliers: 100%"</span>)),</span>
-<span id="cb77-978"><a href="#cb77-978"></a>          <span class="at">split =</span> <span class="fu">paste0</span>(<span class="st">"Treatment: "</span>, split <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>), </span>
-<span id="cb77-979"><a href="#cb77-979"></a>          <span class="at">split =</span> <span class="fu">factor</span>(split, </span>
-<span id="cb77-980"><a href="#cb77-980"></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Treatment: 0%"</span>, </span>
-<span id="cb77-981"><a href="#cb77-981"></a>                                    <span class="st">"Treatment: 70%"</span>, </span>
-<span id="cb77-982"><a href="#cb77-982"></a>                                    <span class="st">"Treatment: 100%"</span>))</span>
-<span id="cb77-983"><a href="#cb77-983"></a>        )</span>
-<span id="cb77-984"><a href="#cb77-984"></a>    }</span>
-<span id="cb77-985"><a href="#cb77-985"></a>  )</span>
-<span id="cb77-986"><a href="#cb77-986"></a></span>
-<span id="cb77-987"><a href="#cb77-987"></a>profit_distributions_plot_data <span class="sc">%&gt;%</span> </span>
-<span id="cb77-988"><a href="#cb77-988"></a>  <span class="fu">pluck</span>(<span class="st">"extrapolated"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-989"><a href="#cb77-989"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_profit)) <span class="sc">+</span> </span>
-<span id="cb77-990"><a href="#cb77-990"></a>  <span class="fu">geom_density</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb77-991"><a href="#cb77-991"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb77-992"><a href="#cb77-992"></a>    <span class="at">data =</span> profit_distributions_plot_data <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"simulated"</span>), </span>
-<span id="cb77-993"><a href="#cb77-993"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> total_profit), <span class="at">color =</span> <span class="st">"maroon"</span></span>
-<span id="cb77-994"><a href="#cb77-994"></a>  ) <span class="sc">+</span> </span>
-<span id="cb77-995"><a href="#cb77-995"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb77-996"><a href="#cb77-996"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(split, compliance), <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span> </span>
-<span id="cb77-997"><a href="#cb77-997"></a>  <span class="co">#facet_grid(compliance ~ split, scales = "fixed") +</span></span>
-<span id="cb77-998"><a href="#cb77-998"></a>  <span class="fu">xlab</span>(<span class="st">"Total profit (multiples of 100,000 EUR, per 100,000 individuals)"</span>)</span>
-<span id="cb77-999"><a href="#cb77-999"></a><span class="in">```</span></span>
+<span id="cb77-945"><a href="#cb77-945"></a><span class="in">```{r}</span></span>
+<span id="cb77-946"><a href="#cb77-946"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb77-947"><a href="#cb77-947"></a></span>
+<span id="cb77-948"><a href="#cb77-948"></a>simulated_profit <span class="ot">&lt;-</span> parameter_grid <span class="sc">%&gt;%</span> </span>
+<span id="cb77-949"><a href="#cb77-949"></a>  <span class="fu">expand_grid</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">20</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-950"><a href="#cb77-950"></a>  <span class="fu">pmap_dfr</span>(</span>
+<span id="cb77-951"><a href="#cb77-951"></a>    <span class="at">.f =</span> <span class="cf">function</span>(compliance, split, id, n) {</span>
+<span id="cb77-952"><a href="#cb77-952"></a>      <span class="fu">simulate_data</span>(<span class="at">n =</span> n,</span>
+<span id="cb77-953"><a href="#cb77-953"></a>                    <span class="at">p_compliers =</span> compliance, </span>
+<span id="cb77-954"><a href="#cb77-954"></a>                    <span class="at">p_treatment =</span> split,</span>
+<span id="cb77-955"><a href="#cb77-955"></a>                    <span class="at">seed =</span> id) <span class="sc">%&gt;%</span></span>
+<span id="cb77-956"><a href="#cb77-956"></a>        <span class="fu">summarise</span>(<span class="at">total_profit =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(Y)) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-957"><a href="#cb77-957"></a>        <span class="fu">tibble</span>(compliance, split, .)</span>
+<span id="cb77-958"><a href="#cb77-958"></a>    }</span>
+<span id="cb77-959"><a href="#cb77-959"></a>  )</span>
+<span id="cb77-960"><a href="#cb77-960"></a></span>
+<span id="cb77-961"><a href="#cb77-961"></a>profit_distributions_plot_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb77-962"><a href="#cb77-962"></a>  <span class="st">"extrapolated"</span> <span class="ot">=</span> profit_distributions <span class="sc">%&gt;%</span> </span>
+<span id="cb77-963"><a href="#cb77-963"></a>    <span class="fu">select</span>(compliance, split, total_profit),</span>
+<span id="cb77-964"><a href="#cb77-964"></a>  <span class="st">"simulated"</span> <span class="ot">=</span> simulated_profit</span>
+<span id="cb77-965"><a href="#cb77-965"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-966"><a href="#cb77-966"></a>  <span class="fu">map</span>(</span>
+<span id="cb77-967"><a href="#cb77-967"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb77-968"><a href="#cb77-968"></a>      .x <span class="sc">%&gt;%</span> </span>
+<span id="cb77-969"><a href="#cb77-969"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb77-970"><a href="#cb77-970"></a>          <span class="at">total_profit =</span> total_profit <span class="sc">/</span> <span class="fl">1e5</span>, </span>
+<span id="cb77-971"><a href="#cb77-971"></a>          <span class="at">compliance =</span> <span class="fu">paste0</span>(<span class="st">"Compliers: "</span>, compliance <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>), </span>
+<span id="cb77-972"><a href="#cb77-972"></a>          <span class="at">compliance =</span> <span class="fu">factor</span>(compliance, </span>
+<span id="cb77-973"><a href="#cb77-973"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Compliers: 50%"</span>,</span>
+<span id="cb77-974"><a href="#cb77-974"></a>                                   <span class="st">"Compliers: 80%"</span>,</span>
+<span id="cb77-975"><a href="#cb77-975"></a>                                   <span class="st">"Compliers: 100%"</span>)),</span>
+<span id="cb77-976"><a href="#cb77-976"></a>          <span class="at">split =</span> <span class="fu">paste0</span>(<span class="st">"Treatment: "</span>, split <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>), </span>
+<span id="cb77-977"><a href="#cb77-977"></a>          <span class="at">split =</span> <span class="fu">factor</span>(split, </span>
+<span id="cb77-978"><a href="#cb77-978"></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Treatment: 0%"</span>, </span>
+<span id="cb77-979"><a href="#cb77-979"></a>                                    <span class="st">"Treatment: 70%"</span>, </span>
+<span id="cb77-980"><a href="#cb77-980"></a>                                    <span class="st">"Treatment: 100%"</span>))</span>
+<span id="cb77-981"><a href="#cb77-981"></a>        )</span>
+<span id="cb77-982"><a href="#cb77-982"></a>    }</span>
+<span id="cb77-983"><a href="#cb77-983"></a>  )</span>
+<span id="cb77-984"><a href="#cb77-984"></a></span>
+<span id="cb77-985"><a href="#cb77-985"></a>profit_distributions_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb77-986"><a href="#cb77-986"></a>  <span class="fu">pluck</span>(<span class="st">"extrapolated"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-987"><a href="#cb77-987"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_profit)) <span class="sc">+</span> </span>
+<span id="cb77-988"><a href="#cb77-988"></a>  <span class="fu">geom_density</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb77-989"><a href="#cb77-989"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb77-990"><a href="#cb77-990"></a>    <span class="at">data =</span> profit_distributions_plot_data <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"simulated"</span>), </span>
+<span id="cb77-991"><a href="#cb77-991"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> total_profit), <span class="at">color =</span> <span class="st">"maroon"</span></span>
+<span id="cb77-992"><a href="#cb77-992"></a>  ) <span class="sc">+</span> </span>
+<span id="cb77-993"><a href="#cb77-993"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb77-994"><a href="#cb77-994"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(split, compliance), <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span> </span>
+<span id="cb77-995"><a href="#cb77-995"></a>  <span class="co">#facet_grid(compliance ~ split, scales = "fixed") +</span></span>
+<span id="cb77-996"><a href="#cb77-996"></a>  <span class="fu">xlab</span>(<span class="st">"Total profit (multiples of 100,000 EUR, per 100,000 individuals)"</span>)</span>
+<span id="cb77-997"><a href="#cb77-997"></a><span class="in">```</span></span>
+<span id="cb77-998"><a href="#cb77-998"></a></span>
+<span id="cb77-999"><a href="#cb77-999"></a>The middle column shows the total profit distribution for this experiment with a 70-30% split and 80% compliance. In this fictional scenario, the ad campaign has a strong positive impact on the total profits (90,000 under 0% treated and 80% compliance vs 900,000 under 100% treated) so with the gift of hindsight, it could have been rolled out to the full population.</span>
 <span id="cb77-1000"><a href="#cb77-1000"></a></span>
-<span id="cb77-1001"><a href="#cb77-1001"></a>The middle column shows the total profit distribution for this experiment with a 70-30% split and 80% compliance. In this fictional scenario, the ad campaign has a strong positive impact on the total profits (90,000 under 0% treated and 80% compliance vs 900,000 under 100% treated) so with the gift of hindsight, it could have been rolled out to the full population.</span>
+<span id="cb77-1001"><a href="#cb77-1001"></a>If you're wondering why the posterior predictive distribution (black line) in each panel is not centered at the mean of the vertical lines (in maroon), it's from using the estimated probabilities from the original dataset which differ from the true probabilities because of sampling variability<span class="ot">[^18]</span>.</span>
 <span id="cb77-1002"><a href="#cb77-1002"></a></span>
-<span id="cb77-1003"><a href="#cb77-1003"></a>If you're wondering why the posterior predictive distribution (black line) in each panel is not centered at the mean of the vertical lines (in maroon), it's from using the estimated probabilities from the original dataset which differ from the true probabilities because of sampling variability<span class="ot">[^18]</span>.</span>
+<span id="cb77-1003"><a href="#cb77-1003"></a><span class="ot">[^18]: </span>This can be checked by using the true probabilities, i.e., <span class="in">`p_compliers = 0.8, pY_nt = 0.001, p_treated_compliers = 0.1, p_control_compliers = 0.01`</span> instead of the posterior distributions for these probabilities.</span>
 <span id="cb77-1004"><a href="#cb77-1004"></a></span>
-<span id="cb77-1005"><a href="#cb77-1005"></a><span class="ot">[^18]: </span>This can be checked by using the true probabilities, i.e., <span class="in">`p_compliers = 0.8, pY_nt = 0.001, p_treated_compliers = 0.1, p_control_compliers = 0.01`</span> instead of the posterior distributions for these probabilities.</span>
+<span id="cb77-1005"><a href="#cb77-1005"></a><span class="fu">## Ignored complexities</span></span>
 <span id="cb77-1006"><a href="#cb77-1006"></a></span>
-<span id="cb77-1007"><a href="#cb77-1007"></a><span class="fu">## Ignored complexities</span></span>
+<span id="cb77-1007"><a href="#cb77-1007"></a>In this post, I ignored the complexity where the exposure among the treated -- i.e., number of impressions of the ad -- would be continuous, possibly something like this</span>
 <span id="cb77-1008"><a href="#cb77-1008"></a></span>
-<span id="cb77-1009"><a href="#cb77-1009"></a>In this post, I ignored the complexity where the exposure among the treated -- i.e., number of impressions of the ad -- would be continuous, possibly something like this</span>
-<span id="cb77-1010"><a href="#cb77-1010"></a></span>
-<span id="cb77-1013"><a href="#cb77-1013"></a><span class="in">```{r}</span></span>
-<span id="cb77-1014"><a href="#cb77-1014"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb77-1015"><a href="#cb77-1015"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
-<span id="cb77-1016"><a href="#cb77-1016"></a><span class="fu">tibble</span>(<span class="at">impressions =</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fl">5e4</span>, <span class="at">shape =</span> <span class="dv">4</span>, <span class="at">scale =</span> <span class="dv">3</span>)), <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb77-1017"><a href="#cb77-1017"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> impressions)) <span class="sc">+</span> </span>
-<span id="cb77-1018"><a href="#cb77-1018"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb77-1019"><a href="#cb77-1019"></a>  <span class="co">#stat_ecdf() + </span></span>
-<span id="cb77-1020"><a href="#cb77-1020"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb77-1021"><a href="#cb77-1021"></a>  <span class="fu">xlab</span>(<span class="st">"Impressions"</span>) <span class="sc">+</span> </span>
-<span id="cb77-1022"><a href="#cb77-1022"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>), <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>))</span>
-<span id="cb77-1023"><a href="#cb77-1023"></a><span class="in">```</span></span>
+<span id="cb77-1011"><a href="#cb77-1011"></a><span class="in">```{r}</span></span>
+<span id="cb77-1012"><a href="#cb77-1012"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb77-1013"><a href="#cb77-1013"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb77-1014"><a href="#cb77-1014"></a><span class="fu">tibble</span>(<span class="at">impressions =</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fl">5e4</span>, <span class="at">shape =</span> <span class="dv">4</span>, <span class="at">scale =</span> <span class="dv">3</span>)), <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-1015"><a href="#cb77-1015"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> impressions)) <span class="sc">+</span> </span>
+<span id="cb77-1016"><a href="#cb77-1016"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb77-1017"><a href="#cb77-1017"></a>  <span class="co">#stat_ecdf() + </span></span>
+<span id="cb77-1018"><a href="#cb77-1018"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb77-1019"><a href="#cb77-1019"></a>  <span class="fu">xlab</span>(<span class="st">"Impressions"</span>) <span class="sc">+</span> </span>
+<span id="cb77-1020"><a href="#cb77-1020"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>), <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>))</span>
+<span id="cb77-1021"><a href="#cb77-1021"></a><span class="in">```</span></span>
+<span id="cb77-1022"><a href="#cb77-1022"></a></span>
+<span id="cb77-1023"><a href="#cb77-1023"></a>Ignoring the actual impressions effectively assumes *treatment variation irrelevance*, i.e, seeing 1 impression is as effective as seeing 20 impressions with regards to conversion. This might be fun to explore in a future post on binary instruments, with a continuous exposure<span class="ot">[^19]</span>. Baiocchi et al. (section 12) describes an analysis with continuous treatments.</span>
 <span id="cb77-1024"><a href="#cb77-1024"></a></span>
-<span id="cb77-1025"><a href="#cb77-1025"></a>Ignoring the actual impressions effectively assumes *treatment variation irrelevance*, i.e, seeing 1 impression is as effective as seeing 20 impressions with regards to conversion. This might be fun to explore in a future post on binary instruments, with a continuous exposure<span class="ot">[^19]</span>. Baiocchi et al. (section 12) describes an analysis with continuous treatments.</span>
+<span id="cb77-1025"><a href="#cb77-1025"></a><span class="ot">[^19]: </span>although all references mention that this complicates the analysis</span>
 <span id="cb77-1026"><a href="#cb77-1026"></a></span>
-<span id="cb77-1027"><a href="#cb77-1027"></a><span class="ot">[^19]: </span>although all references mention that this complicates the analysis</span>
+<span id="cb77-1027"><a href="#cb77-1027"></a>Issue with handling partial exposures, i.e., people with one or more partial impressions are also not tackled here.</span>
 <span id="cb77-1028"><a href="#cb77-1028"></a></span>
-<span id="cb77-1029"><a href="#cb77-1029"></a>Issue with handling partial exposures, i.e., people with one or more partial impressions are also not tackled here.</span>
+<span id="cb77-1029"><a href="#cb77-1029"></a>For building more complex / full Bayesian IV models using brms / Stan, see <span class="co">[</span><span class="ot">this</span><span class="co">](https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs)</span>, <span class="co">[</span><span class="ot">this</span><span class="co">](https://avehtari.github.io/ROS-Examples/Sesame/sesame.html)</span>, <span class="co">[</span><span class="ot">this</span><span class="co">](https://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html)</span>, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://rpsychologist.com/adherence-analysis-IV-brms)</span>.</span>
 <span id="cb77-1030"><a href="#cb77-1030"></a></span>
-<span id="cb77-1031"><a href="#cb77-1031"></a>For building more complex / full Bayesian IV models using brms / Stan, see <span class="co">[</span><span class="ot">this</span><span class="co">](https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs)</span>, <span class="co">[</span><span class="ot">this</span><span class="co">](https://avehtari.github.io/ROS-Examples/Sesame/sesame.html)</span>, <span class="co">[</span><span class="ot">this</span><span class="co">](https://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html)</span>, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://rpsychologist.com/adherence-analysis-IV-brms)</span>.</span>
+<span id="cb77-1031"><a href="#cb77-1031"></a><span class="fu">## References</span></span>
 <span id="cb77-1032"><a href="#cb77-1032"></a></span>
-<span id="cb77-1033"><a href="#cb77-1033"></a><span class="fu">## References</span></span>
+<span id="cb77-1033"><a href="#cb77-1033"></a>These are the main references I'm using for this post<span class="ot">[^20]</span>.</span>
 <span id="cb77-1034"><a href="#cb77-1034"></a></span>
-<span id="cb77-1035"><a href="#cb77-1035"></a>These are the main references I'm using for this post<span class="ot">[^20]</span>.</span>
+<span id="cb77-1035"><a href="#cb77-1035"></a><span class="ot">[^20]: </span>although I can't claim to have read and mastered all these.</span>
 <span id="cb77-1036"><a href="#cb77-1036"></a></span>
-<span id="cb77-1037"><a href="#cb77-1037"></a><span class="ot">[^20]: </span>although I can't claim to have read and mastered all these.</span>
-<span id="cb77-1038"><a href="#cb77-1038"></a></span>
-<span id="cb77-1039"><a href="#cb77-1039"></a><span class="ss">-   </span>Simulating data for instrumental variables - <span class="co">[</span><span class="ot">Andrew Gelman blog post link</span><span class="co">](https://statmodeling.stat.columbia.edu/2019/06/20/how-to-simulate-an-instrumental-variables-problem/)</span>, or <span class="co">[</span><span class="ot">this link</span><span class="co">](https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs)</span> to *statistical rethinking* models implemented using brms</span>
-<span id="cb77-1040"><a href="#cb77-1040"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins</span><span class="co">](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)</span> - Causal Inference - What if? - Chapters 16 (instrumental variables), and 22 (sections on intention-to-treat and per-protocol analyses)</span>
-<span id="cb77-1041"><a href="#cb77-1041"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Gelman, Hill, Vehtari</span><span class="co">](https://avehtari.github.io/ROS-Examples/)</span> - Regression and other stories, Sections 21.1-21.2</span>
-<span id="cb77-1042"><a href="#cb77-1042"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins 2006</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/16755261/)</span> - Instruments for causal inference: an epidemiologist's dream?</span>
-<span id="cb77-1043"><a href="#cb77-1043"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Burgess, Small, Thompson 2017</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5642006/)</span> - A review of instrumental variable estimators for Mendelian randomization</span>
-<span id="cb77-1044"><a href="#cb77-1044"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Baiocchi, Cheng, Small 2014</span><span class="co">](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.6128)</span> - Instrumental variable methods for causal inference</span>
-<span id="cb77-1045"><a href="#cb77-1045"></a><span class="ss">    -   </span>Good review paper for different IV situations</span>
-<span id="cb77-1046"><a href="#cb77-1046"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Sussman, Hayward 2010</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/20442226/)</span> - An IV for the RCT: using instrumental variables to adjust for treatment contamination in randomised controlled trials</span>
-<span id="cb77-1047"><a href="#cb77-1047"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Naimi, Whitcomb 2020</span><span class="co">](https://academic.oup.com/aje/article/189/6/508/5812650)</span> - Calculating risk differences and risk ratios from regression models</span>
-<span id="cb77-1048"><a href="#cb77-1048"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Imbens, Rubin 1997</span><span class="co">](https://projecteuclid.org/journals/annals-of-statistics/volume-25/issue-1/Bayesian-inference-for-causal-effects-in-randomized-experiments-with-noncompliance/10.1214/aos/1034276631.full)</span> - Bayesian inference for causal effects in randomized experiments with noncompliance</span>
-<span id="cb77-1049"><a href="#cb77-1049"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Balke, Pearl 1997</span><span class="co">](https://arxiv.org/abs/1302.6784)</span> - Counterfactual Probabilities: Computational Methods, Bounds and Applications</span>
-<span id="cb77-1050"><a href="#cb77-1050"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Swanson et al 2018</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6752717/)</span> - Partial Identification of the Average Treatment Effect Using Instrumental Variables: Review of Methods for Binary Instruments, Treatments, and Outcomes</span>
-<span id="cb77-1051"><a href="#cb77-1051"></a><span class="ss">    -   </span>Note to future self: good rabbit hole to go down to calculate bounds on the ATE under different assumption sets</span>
-<span id="cb77-1052"><a href="#cb77-1052"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Greenland, Pearl, Robins 1999</span><span class="co">](https://projecteuclid.org/journals/statistical-science/volume-14/issue-1/Confounding-and-Collapsibility-in-Causal-Inference/10.1214/ss/1009211805.full)</span> - Confounding and Collapsibility in Causal Inference</span>
-<span id="cb77-1053"><a href="#cb77-1053"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Robins 1998</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/9493255/)</span> - Correction for non-compliance in equivalence trials (<span class="co">[</span><span class="ot">free link</span><span class="co">](https://www.hsph.harvard.edu/wp-content/uploads/sites/343/2013/03/corr-noncomp-98.pdf)</span>)</span>
+<span id="cb77-1037"><a href="#cb77-1037"></a><span class="ss">-   </span>Simulating data for instrumental variables - <span class="co">[</span><span class="ot">Andrew Gelman blog post link</span><span class="co">](https://statmodeling.stat.columbia.edu/2019/06/20/how-to-simulate-an-instrumental-variables-problem/)</span>, or <span class="co">[</span><span class="ot">this link</span><span class="co">](https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs)</span> to *statistical rethinking* models implemented using brms</span>
+<span id="cb77-1038"><a href="#cb77-1038"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins</span><span class="co">](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)</span> - Causal Inference - What if? - Chapters 16 (instrumental variables), and 22 (sections on intention-to-treat and per-protocol analyses)</span>
+<span id="cb77-1039"><a href="#cb77-1039"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Gelman, Hill, Vehtari</span><span class="co">](https://avehtari.github.io/ROS-Examples/)</span> - Regression and other stories, Sections 21.1-21.2</span>
+<span id="cb77-1040"><a href="#cb77-1040"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins 2006</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/16755261/)</span> - Instruments for causal inference: an epidemiologist's dream?</span>
+<span id="cb77-1041"><a href="#cb77-1041"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Burgess, Small, Thompson 2017</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5642006/)</span> - A review of instrumental variable estimators for Mendelian randomization</span>
+<span id="cb77-1042"><a href="#cb77-1042"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Baiocchi, Cheng, Small 2014</span><span class="co">](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.6128)</span> - Instrumental variable methods for causal inference</span>
+<span id="cb77-1043"><a href="#cb77-1043"></a><span class="ss">    -   </span>Good review paper for different IV situations</span>
+<span id="cb77-1044"><a href="#cb77-1044"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Sussman, Hayward 2010</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/20442226/)</span> - An IV for the RCT: using instrumental variables to adjust for treatment contamination in randomised controlled trials</span>
+<span id="cb77-1045"><a href="#cb77-1045"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Naimi, Whitcomb 2020</span><span class="co">](https://academic.oup.com/aje/article/189/6/508/5812650)</span> - Calculating risk differences and risk ratios from regression models</span>
+<span id="cb77-1046"><a href="#cb77-1046"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Imbens, Rubin 1997</span><span class="co">](https://projecteuclid.org/journals/annals-of-statistics/volume-25/issue-1/Bayesian-inference-for-causal-effects-in-randomized-experiments-with-noncompliance/10.1214/aos/1034276631.full)</span> - Bayesian inference for causal effects in randomized experiments with noncompliance</span>
+<span id="cb77-1047"><a href="#cb77-1047"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Balke, Pearl 1997</span><span class="co">](https://arxiv.org/abs/1302.6784)</span> - Counterfactual Probabilities: Computational Methods, Bounds and Applications</span>
+<span id="cb77-1048"><a href="#cb77-1048"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Swanson et al 2018</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6752717/)</span> - Partial Identification of the Average Treatment Effect Using Instrumental Variables: Review of Methods for Binary Instruments, Treatments, and Outcomes</span>
+<span id="cb77-1049"><a href="#cb77-1049"></a><span class="ss">    -   </span>Note to future self: good rabbit hole to go down to calculate bounds on the ATE under different assumption sets</span>
+<span id="cb77-1050"><a href="#cb77-1050"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Greenland, Pearl, Robins 1999</span><span class="co">](https://projecteuclid.org/journals/statistical-science/volume-14/issue-1/Confounding-and-Collapsibility-in-Causal-Inference/10.1214/ss/1009211805.full)</span> - Confounding and Collapsibility in Causal Inference</span>
+<span id="cb77-1051"><a href="#cb77-1051"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Robins 1998</span><span class="co">](https://pubmed.ncbi.nlm.nih.gov/9493255/)</span> - Correction for non-compliance in equivalence trials (<span class="co">[</span><span class="ot">free link</span><span class="co">](https://www.hsph.harvard.edu/wp-content/uploads/sites/343/2013/03/corr-noncomp-98.pdf)</span>)</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
