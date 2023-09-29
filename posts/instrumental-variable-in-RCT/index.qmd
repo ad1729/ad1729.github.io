@@ -8,13 +8,13 @@ reference-location: margin
 image: "image.png"
 ---
 
-TL;DR - compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset
+This (longer-than-expected) post compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset. Along the way, it goes off on fun tangents like 1) comparing results from different estimators for risk difference (a.k.a. uplift), and 2) comparing the bootstrap distribution with the Bayesian posterior distribution and the normal approximation for the risk difference. Finally, it uses the estimated probabilities to get the posterior predictive distribution for the total profit under different scenarios. This was written largely for me to learn about IV methods in order to deal with the problem of estimating the effect of a treatment under non-compliance in randomized experiments.
 
 ## Introduction
 
 One of the first problems I ever cut my teeth on as a data scientist many years ago was to analyze data from a marketing / advertising campaign to assess the impact of an advertisement (ad) on sales of a certain product.
 
-It was a simple experimental dataset from a two-arm[^1] randomized control trial. The most challenging part of that analysis was how to analyze individuals -- the so-called *non-compliers*[^2] *--* who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.
+It was a simple experimental dataset from a two-arm[^1] randomized controlled trial. The most challenging part of that analysis was how to analyze individuals -- the so-called *non-compliers*[^2] *--* who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.
 
 [^1]: i.e., an experiment with two groups -- treatment and control
 
@@ -824,9 +824,7 @@ For the plot below, there are two dimensions
 
 It feels a bit odd to look at the combination of compliance with 0% of the population assigned to treatment, as the (non-)compliers are only identified -- and the respective conditional probabilities estimated -- when at least some individuals are assigned to treatment. In this case, it's more of a hypothetical exercise using data from an experiment where \>0% of the population was assigned to the treatment arm. Page 41 of the Greenland et al 1999 paper mentions
 
-> \[...\] noncompliance represents movement into a third
-> untreated state that does not correspond to any
-> assigned treatment (Robins, 1998).
+> \[...\] noncompliance represents movement into a third untreated state that does not correspond to any assigned treatment (Robins, 1998).
 
 I haven't managed to go through the Robins 1998 paper yet but it would be interesting to dig into this further.
 
