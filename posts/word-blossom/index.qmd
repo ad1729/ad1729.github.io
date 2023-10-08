@@ -1,5 +1,5 @@
 ---
-title: Setup and test Python by programming a word blossom solver
+title: Setup and test Python by programming a spelling bee solver
 date: '2023-10-08'
 categories:
   - Python
@@ -9,9 +9,9 @@ image: image.png
 jupyter: python3
 ---
 
-All the previous posts on this blog have been in R. But sometimes I want to program in another language -- Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the *word blossom*[^1] game given a set of letters along with some constraints (min / max / total word length, etc).
+All the previous posts on this blog have been in R. But sometimes I want to program in another language -- Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the *word blossom / spelling bee*[^1] game given a set of letters along with some constraints (min / max / total word length, etc).
 
-[^1]: Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post.
+[^1]: Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post. I could only find "word blossom" while Googling, but a friend I sent this to mentioned that it's called spelling bee. Which makes sense since it looks like a honeycomb.
 
 Before proceeding, let's load some packages.
 
@@ -32,7 +32,7 @@ import json
 from typing import List
 ```
 
-The variants I've encountered online -- [this](https://blossomwordgame.com/), or [this](https://www.merriam-webster.com/games/blossom-word-game) -- consist of a sequence of 6 letters arranged around a central letter.
+The variants I've encountered online -- [this](https://www.nytimes.com/puzzles/spelling-bee), [this](https://blossomwordgame.com/), or [this](https://www.merriam-webster.com/games/blossom-word-game) -- consist of a sequence of 6 letters arranged around a central letter.
 
 ```{python}
 def generate_letters(seed: int, nchar: int = 7) -> List[str]:
