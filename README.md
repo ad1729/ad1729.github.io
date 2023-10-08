@@ -69,6 +69,20 @@ I should probably use poetry -- which I would for complex projects -- but will s
 
 The `reticulate` package in R is key when writing and running Python code from within RStudio.
 
+### Python with VS Code
+
+See these links:
+
+-   <https://quarto.org/docs/computations/python.html>
+
+-   <https://quarto.org/docs/tools/jupyter-lab.html>
+
+-   <https://quarto.org/docs/tools/vscode.html>
+
+-   <https://quarto.org/docs/tools/vscode-notebook.html>
+
+-   <https://quarto.org/docs/visual-editor/vscode/>
+
 ## Extras
 
 -   Should the footnote be capitalized and end in a full stop? See [this](https://english.stackexchange.com/questions/242129/should-the-footnote-be-capitalized) thread.
