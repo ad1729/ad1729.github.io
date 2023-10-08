@@ -142,4 +142,4 @@ Hmm, some of these words are pretty uncommon. For example, 'paque' -- [pronounce
 
 I was tempted to add a little self-contained *Shiny* application within this quarto document using [shinylive](https://shiny.posit.co/py/docs/shinylive.html) ([github link](https://github.com/quarto-ext/shinylive)) which I discovered while writing this post. However, I decided against this for the moment since the shinylive examples hosted on github-pages took a noticeable amount of time to load on my fast laptop + browser + internet connection.
 
-Trying to use both RStudio and VS Code, qmd and ipynb files seems a bit clunky at the moment. I guess with time I will end up finding workarounds to reduce friction in this workflow.
+Trying to use both RStudio and VS Code, qmd and ipynb files together seems a bit clunky at the moment. I guess with time I'll end up finding workarounds to reduce friction in this workflow.
