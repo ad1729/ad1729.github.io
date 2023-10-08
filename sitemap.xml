@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://akshat.blog/about.html</loc>
-    <lastmod>2023-09-29T13:02:05.299Z</lastmod>
+    <lastmod>2023-10-08T20:34:04.995Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/index.html</loc>
-    <lastmod>2023-09-29T13:02:05.783Z</lastmod>
+    <lastmod>2023-10-08T20:34:05.523Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/gee-on-aggregated-data/index.html</loc>
-    <lastmod>2023-09-29T13:02:06.575Z</lastmod>
+    <lastmod>2023-10-08T20:34:06.343Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/hello-world/index.html</loc>
-    <lastmod>2023-09-29T13:02:06.987Z</lastmod>
+    <lastmod>2023-10-08T20:34:06.735Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/how-many-ratings-do-i-need/index.html</loc>
-    <lastmod>2023-09-29T13:02:07.487Z</lastmod>
+    <lastmod>2023-10-08T20:34:07.251Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/instrumental-variable-in-RCT/index.html</loc>
-    <lastmod>2023-09-29T13:02:09.347Z</lastmod>
+    <lastmod>2023-10-08T20:34:09.111Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/jigger-volume-estimation/index.html</loc>
-    <lastmod>2023-09-29T13:02:09.883Z</lastmod>
+    <lastmod>2023-10-08T20:34:09.611Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/one-reason-why-a-glm-coefficient-is-NA/index.html</loc>
-    <lastmod>2023-09-29T13:02:10.339Z</lastmod>
+    <lastmod>2023-10-08T20:34:10.063Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/tweedie-with-identity-link-and-offset/index.html</loc>
-    <lastmod>2023-09-29T13:02:11.075Z</lastmod>
+    <lastmod>2023-10-08T20:34:10.799Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/word-blossom/index.html</loc>
+    <lastmod>2023-10-08T20:34:11.587Z</lastmod>
   </url>
 </urlset>

@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/word-blossom/index.html",
       "/posts/instrumental-variable-in-RCT/index.html",
       "/posts/tweedie-with-identity-link-and-offset/index.html",
       "/posts/one-reason-why-a-glm-coefficient-is-NA/index.html",
