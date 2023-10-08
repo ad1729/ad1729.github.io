@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://akshat.blog/about.html</loc>
-    <lastmod>2023-10-08T20:43:43.267Z</lastmod>
+    <lastmod>2023-10-08T21:14:55.589Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/index.html</loc>
-    <lastmod>2023-10-08T20:43:43.811Z</lastmod>
+    <lastmod>2023-10-08T21:14:56.113Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/gee-on-aggregated-data/index.html</loc>
-    <lastmod>2023-10-08T20:43:44.575Z</lastmod>
+    <lastmod>2023-10-08T21:14:56.925Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/hello-world/index.html</loc>
-    <lastmod>2023-10-08T20:43:44.943Z</lastmod>
+    <lastmod>2023-10-08T21:14:57.313Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/how-many-ratings-do-i-need/index.html</loc>
-    <lastmod>2023-10-08T20:43:45.455Z</lastmod>
+    <lastmod>2023-10-08T21:14:57.781Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/instrumental-variable-in-RCT/index.html</loc>
-    <lastmod>2023-10-08T20:43:47.367Z</lastmod>
+    <lastmod>2023-10-08T21:14:59.661Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/jigger-volume-estimation/index.html</loc>
-    <lastmod>2023-10-08T20:43:47.887Z</lastmod>
+    <lastmod>2023-10-08T21:15:00.161Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/one-reason-why-a-glm-coefficient-is-NA/index.html</loc>
-    <lastmod>2023-10-08T20:43:48.331Z</lastmod>
+    <lastmod>2023-10-08T21:15:00.601Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/spelling-bee/index.html</loc>
+    <lastmod>2023-10-08T21:15:01.385Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/tweedie-with-identity-link-and-offset/index.html</loc>
-    <lastmod>2023-10-08T20:43:49.075Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/word-blossom/index.html</loc>
-    <lastmod>2023-10-08T20:43:49.859Z</lastmod>
+    <lastmod>2023-10-08T21:15:02.113Z</lastmod>
   </url>
 </urlset>

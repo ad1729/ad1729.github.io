@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2023-10-08">
 
-<title>Akshat Dwivedi - Setup and test Python by programming a word blossom solver</title>
+<title>Akshat Dwivedi - Setup and test Python by programming a spelling bee solver</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <div class="quarto-title-block"><div><h1 class="title">Setup and test Python by programming a word blossom solver</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+      <div class="quarto-title-block"><div><h1 class="title">Setup and test Python by programming a spelling bee solver</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Python</div>
               </div>
@@ -183,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="page-columns page-full"><p>All the previous posts on this blog have been in R. But sometimes I want to program in another language – Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the <em>word blossom</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> game given a set of letters along with some constraints (min / max / total word length, etc).</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post.</p></li></div></div>
+<div class="page-columns page-full"><p>All the previous posts on this blog have been in R. But sometimes I want to program in another language – Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the <em>word blossom / spelling bee</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> game given a set of letters along with some constraints (min / max / total word length, etc).</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post. I could only find “word blossom” while Googling, but a friend I sent this to mentioned that it’s called spelling bee. Which makes sense since it looks like a honeycomb.</p></li></div></div>
 <p>Before proceeding, let’s load some packages.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># for generating list of letters</span></span>
@@ -201,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13"></a><span class="co"># for typing, because why not</span></span>
 <span id="cb1-14"><a href="#cb1-14"></a><span class="im">from</span> typing <span class="im">import</span> List</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The variants I’ve encountered online – <a href="https://blossomwordgame.com/">this</a>, or <a href="https://www.merriam-webster.com/games/blossom-word-game">this</a> – consist of a sequence of 6 letters arranged around a central letter.</p>
+<p>The variants I’ve encountered online – <a href="https://www.nytimes.com/puzzles/spelling-bee">this</a>, <a href="https://blossomwordgame.com/">this</a>, or <a href="https://www.merriam-webster.com/games/blossom-word-game">this</a> – consist of a sequence of 6 letters arranged around a central letter.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> generate_letters(seed: <span class="bu">int</span>, nchar: <span class="bu">int</span> <span class="op">=</span> <span class="dv">7</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    random.seed(seed)</span>
@@ -719,7 +719,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">---</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="an">title:</span><span class="co"> Setup and test Python by programming a word blossom solver</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="an">title:</span><span class="co"> Setup and test Python by programming a spelling bee solver</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="an">date:</span><span class="co"> '2023-10-08'</span></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="an">categories:</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="co">  - Python</span></span>
@@ -729,9 +729,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-9"><a href="#cb9-9"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="co">---</span></span>
 <span id="cb9-11"><a href="#cb9-11"></a></span>
-<span id="cb9-12"><a href="#cb9-12"></a>All the previous posts on this blog have been in R. But sometimes I want to program in another language -- Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the *word blossom*<span class="ot">[^1]</span> game given a set of letters along with some constraints (min / max / total word length, etc).</span>
+<span id="cb9-12"><a href="#cb9-12"></a>All the previous posts on this blog have been in R. But sometimes I want to program in another language -- Python, Scala, etc. So in the process of setting up and testing Python with Quarto, I decided to write this test post where I implement a set of simple functions to solve the *word blossom / spelling bee*<span class="ot">[^1]</span> game given a set of letters along with some constraints (min / max / total word length, etc).</span>
 <span id="cb9-13"><a href="#cb9-13"></a></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="ot">[^1]: </span>Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post.</span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="ot">[^1]: </span>Twenty years of being familiar with this game and I never knew what it was called until I looked it up for this post. I could only find "word blossom" while Googling, but a friend I sent this to mentioned that it's called spelling bee. Which makes sense since it looks like a honeycomb.</span>
 <span id="cb9-15"><a href="#cb9-15"></a></span>
 <span id="cb9-16"><a href="#cb9-16"></a>Before proceeding, let's load some packages.</span>
 <span id="cb9-17"><a href="#cb9-17"></a></span>
@@ -752,7 +752,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-34"><a href="#cb9-34"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb9-35"><a href="#cb9-35"></a><span class="in">```</span></span>
 <span id="cb9-36"><a href="#cb9-36"></a></span>
-<span id="cb9-37"><a href="#cb9-37"></a>The variants I've encountered online -- <span class="co">[</span><span class="ot">this</span><span class="co">](https://blossomwordgame.com/)</span>, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://www.merriam-webster.com/games/blossom-word-game)</span> -- consist of a sequence of 6 letters arranged around a central letter.</span>
+<span id="cb9-37"><a href="#cb9-37"></a>The variants I've encountered online -- <span class="co">[</span><span class="ot">this</span><span class="co">](https://www.nytimes.com/puzzles/spelling-bee)</span>, <span class="co">[</span><span class="ot">this</span><span class="co">](https://blossomwordgame.com/)</span>, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://www.merriam-webster.com/games/blossom-word-game)</span> -- consist of a sequence of 6 letters arranged around a central letter.</span>
 <span id="cb9-38"><a href="#cb9-38"></a></span>
 <span id="cb9-41"><a href="#cb9-41"></a><span class="in">```{python}</span></span>
 <span id="cb9-42"><a href="#cb9-42"></a><span class="kw">def</span> generate_letters(seed: <span class="bu">int</span>, nchar: <span class="bu">int</span> <span class="op">=</span> <span class="dv">7</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
