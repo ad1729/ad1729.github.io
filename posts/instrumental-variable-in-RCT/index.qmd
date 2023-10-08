@@ -85,9 +85,9 @@ What the following code does is it first partitions the population of 100,000 in
 
 If $C_i = 1$ denotes whether individual $i$ is a complier, and $C_i = 0$ otherwise, then $\text{Pr}[Y^{a = 0}_i = 1| C_i = 0] = \text{Pr}[Y^{a = 1}_i = 1| C_i = 0] = 0.1\%$, where the probability of purchasing the new product is very small among the non-compliers independent of whether they're assigned to the treatment or the control group.
 
-Among the compliers, $\text{Pr}[Y^{a = 0}_i = 1| C_i = 1] = 1\%$, i.e., 1% of the individuals would buy the new product if nobody was shown the ad. If the ad is rolled out to the full population, then $\text{Pr}[Y^{a = 1}_i = 1| C_i = 1] = 11\%$, which leads to an *average treatment effect (ATE)* of +10 percentage points.
+Among the compliers, $\text{Pr}[Y^{a = 0}_i = 1| C_i = 1] = 1\%$, i.e., 1% of the individuals would buy the new product if nobody was shown the ad. If the ad is rolled out to the full population, then $\text{Pr}[Y^{a = 1}_i = 1| C_i = 1] = 11\%$, which leads to an *average treatment effect (ATE)* among the compliers of +10 percentage points.
 
-These 100,000 individuals are randomly assigned to the treatment (70%) or control (30%) group. Their actual treatment status (i.e., treated or untreated) is a product of the group they're assigned to and their compliance. Their realized outcome is the outcome corresponding to the group they're assigned to.
+These individuals are randomly assigned to the treatment (70%) or control (30%) group. Their actual treatment status (i.e., treated or untreated) is a product of the group they're assigned to and their compliance. Their realized outcome is the outcome corresponding to the group they're assigned to.
 
 ```{r}
 #| code-fold: true
