@@ -9,6 +9,7 @@ project:
     - "*.qmd"
     - "!ignored.qmd"
     - "!ignored*.qmd"
+    - "!ignored.ipynb"
     - "!README.md"
     - "!LICENSE.md"
   resources:
