@@ -18,9 +18,10 @@ This project contains all the files for the blog.
 
 -   When satisfied with the result, send `Ctrl+C` to the terminal to cancel `quarto preview`
 
--   For converting the final ipynb file, this command can be used from the terminal
+-   For converting the final ipynb file, this command should be run from the terminal
 
-    ```{quarto convert posts/<post_dir>/ignored.ipynb --output posts/<post_dir>/index.qmd}
+    ```         
+    quarto convert posts/<post_dir>/ignored.ipynb --output posts/<post_dir>/index.qmd
     ```
 
 -   Optionally run styler on the source files (.R, .qmd). Useful to stage the source file to see what styler has changed and whether it should be accepted or rejected.
@@ -68,6 +69,20 @@ python -m pip freeze > requirements.txt
 I should probably use poetry -- which I would for complex projects -- but will switch in the future if I end up having enough Python posts.
 
 The `reticulate` package in R is key when writing and running Python code from within RStudio.
+
+### Python with VS Code
+
+See these links:
+
+-   <https://quarto.org/docs/computations/python.html>
+
+-   <https://quarto.org/docs/tools/jupyter-lab.html>
+
+-   <https://quarto.org/docs/tools/vscode.html>
+
+-   <https://quarto.org/docs/tools/vscode-notebook.html>
+
+-   <https://quarto.org/docs/visual-editor/vscode/>
 
 ## Extras
 
