@@ -10,7 +10,7 @@ image: "image-MSMM-IV.png"
 
 ## Introduction
 
-In a [previous post](#0), I used the *ratio estimator* and the method of *instrumental variables* (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.
+In a [previous post](../instrumental-variable-in-RCT/index.qmd), I used the *ratio estimator* and the method of *instrumental variables* (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.
 
 This post uses the lesser-known method of *g-estimation*[^1] to estimate the effect of a continuous exposure variable in a *multiplicative structural mean model* (MSMM) by using the randomization indicator as an instrumental variable to obtain valid treatment effect estimates in the presence of unmeasured confounding.
 

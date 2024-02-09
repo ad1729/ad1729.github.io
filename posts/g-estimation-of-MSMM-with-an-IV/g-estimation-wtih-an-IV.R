@@ -848,3 +848,31 @@ bind_rows(
   scale_x_continuous(breaks = seq(0, 80, 10)) +
   theme(legend.position = "bottom", legend.title = element_blank()) +
   ylab("Predicted probability of Y = 1")
+
+title_plot <- bind_rows(
+  g_computation_dose_response_extrapolated_levels,
+  g_estimation_dose_response
+) %>%
+  ggplot(aes(x = A, y = estimate, color = type)) +
+  geom_line() +
+  # plot the true curve
+  geom_line(
+    data = true_dose_response_curve,
+    aes(x = A, y = estimate),
+    color = "gray20", linewidth = 1.2,, linetype = "dotdash",
+    inherit.aes = FALSE
+  ) +
+  geom_ribbon(
+    aes(ymin = conf.low, ymax = conf.high, fill = type), alpha = 0.2
+  ) +
+  scale_y_continuous(breaks = seq(0, 0.25, 0.05)) +
+  scale_x_continuous(breaks = seq(0, 80, 10)) +
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  ylab("Predicted probability of Y = 1") +
+  xlab("A (true curve in gray)")
+
+title_plot
+
+ggsave(plot = title_plot, filename = "image-MSMM-IV.png",
+       device = "png", units = "px", width = 900, height = 800, dpi = 180,
+       path = fs::path("posts", "g-estimation-of-MSMM-with-an-IV"))
