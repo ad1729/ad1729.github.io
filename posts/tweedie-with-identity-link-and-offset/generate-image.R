@@ -59,5 +59,5 @@ plt <- estimating_equation_curves %>%
 plt
 
 ggsave(plot = plt, filename = "tweedie-image.png",
-       device = "png", units = "px", width = 900, height = 800,
+       device = "png", units = "px", width = 900, height = 800, dpi = 180,
        path = fs::path("posts", "tweedie-with-identity-link-and-offset"))
