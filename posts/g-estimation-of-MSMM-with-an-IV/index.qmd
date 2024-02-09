@@ -532,18 +532,18 @@ bind_rows(
   xlab("A (true curve in gray)")
 ```
 
-The point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
+Assuming no-effect modification by $U$, The point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
 
 [^18]: assuming consistency
 
 $$
-\text{Pr}[Y^{a = 0} = 1 | Z] = \text{Pr}[Y = 1 | A = 0, Z] = \text{E}[Y\ \text{exp}(\psi A)]
+\text{Pr}[Y^{a = 0} = 1] = \text{Pr}[Y = 1 | A = 0] = \text{E}[Y\ \text{exp}(\psi A)]
 $$
 
 and then using these to get the dose response curves and the following CIs
 
 $$
-\text{Pr}[Y = 1 | A, Z] = \text{Pr}[Y = 1 | A = 0, Z]\ \text{exp}[\psi A]
+\text{Pr}[Y = 1 | A] = \text{Pr}[Y = 1 | A = 0]\ \text{exp}[\psi A]
 $$
 
 The g-computation estimate is far narrower as the model has access to the information provided by $U$, compared to the MSMM. The MSMM estimate for this sample underestimates the true value, which shows up as a large difference between the true and the MSMM curves at values of $A$ higher than 60.
@@ -568,7 +568,7 @@ This post is based on the following references
 
 ## Simulated data
 
-The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$), 2) the realized distribution of the treatment levels among those who received the treatment[^19] (simulated from the truncated *Gamma* distribution $x_i \sim \Gamma(\text{shape} = 5, \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)$), 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)
+The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$), 2) the realized distribution of the treatment levels among those who received the treatment[^19] (simulated from the truncated *Gamma* distribution $x_i \sim \Gamma(\text{shape} = 5,\ \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)$), 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)
 
 [^19]: a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)
 
