@@ -14,6 +14,14 @@ This project contains all the files for the blog.
 
 -   For R - When the post is ready for editing / proofreading, rename the file to `index.qmd`
 
+-   Save the image shown on the main page with these parameters
+
+    ```         
+    ggsave(plot = plot_object, filename = "plot_name.png",
+           device = "png", units = "px", width = 900, height = 800, dpi = 180,
+           path = fs::path("posts", "subdirectory"))
+    ```
+
 -   Run `quarto preview` in the terminal, or click the Render button and see the post in the Viewer pane within RStudio. Same works for VS Code.
 
 -   When satisfied with the result, send `Ctrl+C` to the terminal to cancel `quarto preview`
