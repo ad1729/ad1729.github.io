@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/g-estimation-of-MSMM-with-an-IV/index.html",
       "/posts/spelling-bee/index.html",
       "/posts/instrumental-variable-in-RCT/index.html",
       "/posts/tweedie-with-identity-link-and-offset/index.html",
