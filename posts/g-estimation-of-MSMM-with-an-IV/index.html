@@ -158,6 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                 <div class="quarto-category">G-Estimation</div>
                 <div class="quarto-category">G-computation</div>
                 <div class="quarto-category">GEE</div>
+                <div class="quarto-category">Advertising</div>
                 <div class="quarto-category">R</div>
               </div>
                   </div>
@@ -204,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In a <a href="#0">previous post</a>, I used the <em>ratio estimator</em> and the method of <em>instrumental variables</em> (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</p>
+<p>In a <a href="../../posts/instrumental-variable-in-RCT/index.html">previous post</a>, I used the <em>ratio estimator</em> and the method of <em>instrumental variables</em> (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</p>
 <div class="page-columns page-full"><p>This post uses the lesser-known method of <em>g-estimation</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to estimate the effect of a continuous exposure variable in a <em>multiplicative structural mean model</em> (MSMM) by using the randomization indicator as an instrumental variable to obtain valid treatment effect estimates in the presence of unmeasured confounding.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;less popular compared to IPTW and PSM, hence the clickbait-y title</p></li></div></div>
 <div class="page-columns page-full"><p>As mentioned towards the end of the previous post, analyzing the treated individuals by collapsing them into a single ‘treated’ group was a simplification. The observed treatment variable would in reality be the number of impressions of the ad — naturally varying between individuals in the treated group, but zero among the individuals assigned to the control group and among the <em>never-takers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;i.e., people who would not take the treatment if assigned to the treatment group. <em>Defiers</em> and <em>always-takers</em> aren’t possible as individuals in the control group cannot see an ad, because compliance in the control arm is ensured by design.</p></li></div></div>
 </section>
@@ -776,13 +777,13 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="page-columns page-full"><p>The point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;assuming consistency</p></li></div></div>
+<div class="page-columns page-full"><p>Assuming no-effect modification by <span class="math inline">\(U\)</span>, The point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;assuming consistency</p></li></div></div>
 <p><span class="math display">\[
-\text{Pr}[Y^{a = 0} = 1 | Z] = \text{Pr}[Y = 1 | A = 0, Z] = \text{E}[Y\ \text{exp}(\psi A)]
+\text{Pr}[Y^{a = 0} = 1] = \text{Pr}[Y = 1 | A = 0] = \text{E}[Y\ \text{exp}(\psi A)]
 \]</span></p>
 <p>and then using these to get the dose response curves and the following CIs</p>
 <p><span class="math display">\[
-\text{Pr}[Y = 1 | A, Z] = \text{Pr}[Y = 1 | A = 0, Z]\ \text{exp}[\psi A]
+\text{Pr}[Y = 1 | A] = \text{Pr}[Y = 1 | A = 0]\ \text{exp}[\psi A]
 \]</span></p>
 <p>The g-computation estimate is far narrower as the model has access to the information provided by <span class="math inline">\(U\)</span>, compared to the MSMM. The MSMM estimate for this sample underestimates the true value, which shows up as a large difference between the true and the MSMM curves at values of <span class="math inline">\(A\)</span> higher than 60.</p>
 <p>These probabilities can be mapped to total sales / profit given the number of individuals within each treatment level. Whether these numbers can be <em>transported</em> or extrapolated to future campaigns or other populations depends on how similar the distribution of <span class="math inline">\(U\)</span> is across these groups. In that sense, these marginal estimates are actually conditional on the distribution of confounders and effect modifiers. I came across <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5784860/">this paper</a> which would be interesting to read in the future.</p>
@@ -801,7 +802,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 </section>
 <section id="simulated-data" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="simulated-data">Simulated data</h2>
-<div class="page-columns page-full"><p>The four figures — going clockwise from top left — show 1) the probability of compliance as a function of the confounder <span class="math inline">\(U\)</span> (where <span class="math inline">\(\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]\)</span>), 2) the realized distribution of the treatment levels among those who received the treatment<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> (simulated from the truncated <em>Gamma</em> distribution <span class="math inline">\(x_i \sim \Gamma(\text{shape} = 5, \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)\)</span>), 3) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(Z\)</span> (which is balanced because of randomization), and 4) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(A\)</span> (which is <em>not</em> balanced because of confounding by <span class="math inline">\(U\)</span>)</p><div class="no-row-height column-margin column-container"><li id="fn19"><p><sup>19</sup>&nbsp;a value is sampled for each individual, but is realized only if <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(C = 1\)</span> (where <span class="math inline">\(C\)</span> is the compliance indicator)</p></li></div></div>
+<div class="page-columns page-full"><p>The four figures — going clockwise from top left — show 1) the probability of compliance as a function of the confounder <span class="math inline">\(U\)</span> (where <span class="math inline">\(\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]\)</span>), 2) the realized distribution of the treatment levels among those who received the treatment<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> (simulated from the truncated <em>Gamma</em> distribution <span class="math inline">\(x_i \sim \Gamma(\text{shape} = 5,\ \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)\)</span>), 3) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(Z\)</span> (which is balanced because of randomization), and 4) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(A\)</span> (which is <em>not</em> balanced because of confounding by <span class="math inline">\(U\)</span>)</p><div class="no-row-height column-margin column-container"><li id="fn19"><p><sup>19</sup>&nbsp;a value is sampled for each individual, but is realized only if <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(C = 1\)</span> (where <span class="math inline">\(C\)</span> is the compliance indicator)</p></li></div></div>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -1257,7 +1258,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div class="sourceCode" id="cb31" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1"></a><span class="co">---</span></span>
 <span id="cb31-2"><a href="#cb31-2"></a><span class="an">title:</span><span class="co"> "Using an obscure causal inference method to estimate treatment effects with the help of another less obscure causal inference method"</span></span>
 <span id="cb31-3"><a href="#cb31-3"></a><span class="an">date:</span><span class="co"> "2024-02-09"</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="an">categories:</span><span class="co"> [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, R]</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="an">categories:</span><span class="co"> [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, Advertising, R]</span></span>
 <span id="cb31-5"><a href="#cb31-5"></a><span class="an">code-fold:</span><span class="co"> true</span></span>
 <span id="cb31-6"><a href="#cb31-6"></a><span class="an">toc-expand:</span><span class="co"> true</span></span>
 <span id="cb31-7"><a href="#cb31-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
@@ -1266,7 +1267,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-10"><a href="#cb31-10"></a></span>
 <span id="cb31-11"><a href="#cb31-11"></a><span class="fu">## Introduction</span></span>
 <span id="cb31-12"><a href="#cb31-12"></a></span>
-<span id="cb31-13"><a href="#cb31-13"></a>In a <span class="co">[</span><span class="ot">previous post</span><span class="co">](#0)</span>, I used the *ratio estimator* and the method of *instrumental variables* (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</span>
+<span id="cb31-13"><a href="#cb31-13"></a>In a <span class="co">[</span><span class="ot">previous post</span><span class="co">](../instrumental-variable-in-RCT/index.qmd)</span>, I used the *ratio estimator* and the method of *instrumental variables* (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</span>
 <span id="cb31-14"><a href="#cb31-14"></a></span>
 <span id="cb31-15"><a href="#cb31-15"></a>This post uses the lesser-known method of *g-estimation*[^1] to estimate the effect of a continuous exposure variable in a *multiplicative structural mean model* (MSMM) by using the randomization indicator as an instrumental variable to obtain valid treatment effect estimates in the presence of unmeasured confounding.</span>
 <span id="cb31-16"><a href="#cb31-16"></a></span>
@@ -1788,18 +1789,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-564"><a href="#cb31-564"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span>
 <span id="cb31-565"><a href="#cb31-565"></a><span class="in">```</span></span>
 <span id="cb31-566"><a href="#cb31-566"></a></span>
-<span id="cb31-567"><a href="#cb31-567"></a>The point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
+<span id="cb31-567"><a href="#cb31-567"></a>Assuming no-effect modification by $U$, The point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
 <span id="cb31-568"><a href="#cb31-568"></a></span>
 <span id="cb31-569"><a href="#cb31-569"></a><span class="ot">[^18]: </span>assuming consistency</span>
 <span id="cb31-570"><a href="#cb31-570"></a></span>
 <span id="cb31-571"><a href="#cb31-571"></a>$$</span>
-<span id="cb31-572"><a href="#cb31-572"></a>\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1 | Z</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0, Z</span><span class="co">]</span> = \text{E}<span class="co">[</span><span class="ot">Y\ \text{exp}(\psi A)</span><span class="co">]</span></span>
+<span id="cb31-572"><a href="#cb31-572"></a>\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span> = \text{E}<span class="co">[</span><span class="ot">Y\ \text{exp}(\psi A)</span><span class="co">]</span></span>
 <span id="cb31-573"><a href="#cb31-573"></a>$$</span>
 <span id="cb31-574"><a href="#cb31-574"></a></span>
 <span id="cb31-575"><a href="#cb31-575"></a>and then using these to get the dose response curves and the following CIs</span>
 <span id="cb31-576"><a href="#cb31-576"></a></span>
 <span id="cb31-577"><a href="#cb31-577"></a>$$</span>
-<span id="cb31-578"><a href="#cb31-578"></a>\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A, Z</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0, Z</span><span class="co">]</span>\ \text{exp}<span class="co">[</span><span class="ot">\psi A</span><span class="co">]</span></span>
+<span id="cb31-578"><a href="#cb31-578"></a>\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>\ \text{exp}<span class="co">[</span><span class="ot">\psi A</span><span class="co">]</span></span>
 <span id="cb31-579"><a href="#cb31-579"></a>$$</span>
 <span id="cb31-580"><a href="#cb31-580"></a></span>
 <span id="cb31-581"><a href="#cb31-581"></a>The g-computation estimate is far narrower as the model has access to the information provided by $U$, compared to the MSMM. The MSMM estimate for this sample underestimates the true value, which shows up as a large difference between the true and the MSMM curves at values of $A$ higher than 60.</span>
@@ -1824,7 +1825,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-600"><a href="#cb31-600"></a></span>
 <span id="cb31-601"><a href="#cb31-601"></a><span class="fu">## Simulated data</span></span>
 <span id="cb31-602"><a href="#cb31-602"></a></span>
-<span id="cb31-603"><a href="#cb31-603"></a>The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$), 2) the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> (simulated from the truncated *Gamma* distribution $x_i \sim \Gamma(\text{shape} = 5, \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)$), 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)</span>
+<span id="cb31-603"><a href="#cb31-603"></a>The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$), 2) the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> (simulated from the truncated *Gamma* distribution $x_i \sim \Gamma(\text{shape} = 5,\ \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)$), 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)</span>
 <span id="cb31-604"><a href="#cb31-604"></a></span>
 <span id="cb31-605"><a href="#cb31-605"></a><span class="ot">[^19]: </span>a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)</span>
 <span id="cb31-606"><a href="#cb31-606"></a></span>
