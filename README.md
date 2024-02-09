@@ -28,6 +28,8 @@ This project contains all the files for the blog.
 
 -   Run `quarto render` if `quarto preview` was used to review the file
 
+    -   If the change doesn't show up, then the subdirectory in `/posts` has to be rendered explicitly via `quarto render posts/<post-subdir>`
+
 -   Commit changes and push to master / main branch
 
 -   Run `quarto publish gh-pages`
