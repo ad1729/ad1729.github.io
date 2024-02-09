@@ -110,15 +110,12 @@ simulate_data <- function(n = 100000L,
     complier = rbinom(n, 1, prob = p_compliers), 
     # generate individual potential outcomes
     # under control and treatment, i.e., Pr[Y^0 = 1]
-    #Y0 = rbinom(n, 1, prob = pY0),
     Y0 = case_when(
       complier == 0 ~ rbinom(n, 1, pY_nc),
       complier == 1 ~ rbinom(n, 1, pY0),
     ),
     # assuming a constant effect of +10 percentage points
     # among the compliers, and no average effect under the never-takers
-    # this generates stochastic counterfactuals for the non-compliers
-    # to generate deterministic counterfactuals, we can just keep Y0
     Y1 = case_when(
       complier == 0 ~ rbinom(n, 1, pY_nc),
       complier == 1 ~ rbinom(n, 1, pY1)

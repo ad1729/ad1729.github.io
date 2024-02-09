@@ -37,8 +37,6 @@ simulate_data <- function(n = 100000L,
     ),
     # assuming a constant effect of +10 percentage points
     # among the compliers, and no average effect under the never-takers
-    # this generates stochastic counterfactuals for the non-compliers
-    # to generate deterministic counterfactuals, we can just keep Y0
     Y1 = case_when(
       complier == 0 ~ rbinom(n, 1, pY_nc),
       complier == 1 ~ rbinom(n, 1, pY1)
