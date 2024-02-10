@@ -27,7 +27,9 @@ If $U$ indicates the (possibly multivalued) set of unmeasured confounders, $Z$ t
 $$
 \text{ATE} = \frac{\text{Pr}[Y^{a + 1} = 1]}{\text{Pr}[Y^{a} = 1]}
 $$\
-This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population. Another estimand of interest may be the average treatment effect in the treated (ATT) or the *effect of the treatment on the treated* (ETT). This compares the treated individuals to the *counterfactual scenario had they not been treated*. This corresponds to $$
+This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population.
+
+Another estimand of interest may be the *average treatment effect in the treated* (ATT) or the *effect of the treatment on the treated* (ETT). This compares the treated individuals to the *counterfactual scenario had they not been treated*. This corresponds to $$
 \text{ATT} = \frac{\text{Pr}[Y^a = 1 | A = a]}{\text{Pr}[Y^{a = 0} = 1 | A = a]}
 $$
 
@@ -85,7 +87,7 @@ The essence of g-estimation is simple[^7] -- once the true effect of the treatme
 
 [^9]: For a binary exposure variable, the $\mathbb{E}[A]$ is replaced by $\text{logit(Pr[A = 1])}$, where $\text{logit}(p) = \text{log}\Big(\frac{p}{1-p}\Big)$ and $p$ is the probability $\text{Pr}[A = 1]$.
 
-This is works because of the *conditional mean independence* assumption --- that the exposed and unexposed individuals are exchangeable within levels of $U$ (i.e., $Y^{a = 0} \perp\!\!\!\perp A|U$) as would be the case for a conditionally randomized experiment. In a marginally randomized experiment, the treatment assigned and received is independent of the potential outcomes, which would not be the case if people with (say) higher levels of $U$ were more likely to take the treatment ($A > 0$) and have a positive outcome $Y = 1$. In this scenario, it wouldn't be possible to say whether it was $A$ or $U$ causing better outcomes. This *lack-of-identification* is due to confounding between the effect of $U$ on $Y$ and the effect of $A$ on $Y$.
+This works because of the *conditional mean independence* assumption --- that the exposed and unexposed individuals are exchangeable within levels of $U$ (i.e., $Y^{a = 0} \perp\!\!\!\perp A|U$) as would be the case for a conditionally randomized experiment. In a marginally randomized experiment, the treatment assigned and received is independent of the potential outcomes, which would not be the case if people with (say) higher levels of $U$ were more likely to take the treatment ($A > 0$) and have a positive outcome $Y = 1$. In this scenario, it wouldn't be possible to say whether it was $A$ or $U$ causing better outcomes. This *lack-of-identification* is due to confounding between the effect of $U$ on $Y$ and the effect of $A$ on $Y$.
 
 Suppose the following dataset is available (with a true CRR value of 1.02, 70% treatment-control split, and 40% non-compliance (never-takers))
 
