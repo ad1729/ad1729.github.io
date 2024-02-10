@@ -1,7 +1,7 @@
 ---
 title: "Using an obscure causal inference method to estimate treatment effects with the help of another less obscure causal inference method"
 date: "2024-02-09"
-categories: [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, Advertising, R]
+categories: [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, R]
 code-fold: true
 toc-expand: true
 reference-location: margin
@@ -534,7 +534,7 @@ bind_rows(
   xlab("A (true curve in gray)")
 ```
 
-Assuming no-effect modification by $U$, The point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
+Assuming no-effect modification by $U$, the point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
 
 [^18]: assuming consistency
 

@@ -7,19 +7,19 @@ code-fold: false
 reference-location: margin
 ---
 
-In the Fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:
+In the fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:
 
 ![](5-star-rating.jpg)
 
-The screenshot indicates an average[^avg] rating of 4.5 stars out of a total of $n = 363$ reviews, and additionally lists the percent of time a rating between 1-5 was given.
+The screenshot indicates an average[^1] rating of 4.5 stars out of a total of $n = 363$ reviews, and additionally lists the percent of time a rating between 1-5 was given.
 
-[^avg]: Unweighted, I assume.
+[^1]: Unweighted, I assume.
 
 It seemed like an easy enough problem -- perfect to explore on a rainy, gray Saturday in November -- so I decided to have a crack at it.
 
-After doing some trivial algebra, somewhat successfully writing a for-loop, and adequately pleased with the solution, I posted the write-up for my initial approach on [RPubs](https://rpubs.com/akshatdwivedi/five-star-ratings) and sent off the answer[^3] to my friend.
+After doing some trivial algebra, somewhat successfully writing a for-loop, and adequately pleased with the solution, I posted the write-up for my initial approach on [RPubs](https://rpubs.com/akshatdwivedi/five-star-ratings) and sent off the answer[^2] to my friend.
 
-[^3]: Spoiler: she needed between 47-50 5-star ratings to pull up the average rating to 4.6. Apologies if you were eagerly waiting for the end to find out what the answer was.
+[^2]: Spoiler: she needed between 47-50 5-star ratings to pull up the average rating to 4.6. Apologies if you were eagerly waiting for the end to find out what the answer was.
 
 However, while going through this document to clean it up for the blog (in 2022), I realized there's a simpler way of solving this problem. Before I describe it further, I'm going to load some R packages and extract the data from the image into R objects.
 
@@ -36,9 +36,9 @@ p <- c(0.06, 0.01, 0.02, 0.12, 0.79) %>%
   print()
 ```
 
-What made me rethink my approach was that I previously ended up with the wrong ratings vector after converting the (rounded) percentages into counts[^1].
+What made me rethink my approach was that I previously ended up with the wrong ratings vector after converting the (rounded) percentages into counts[^3].
 
-[^1]: Although I mostly worked around it afterwards via simulation.
+[^3]: Although I mostly worked around it afterwards via simulation.
 
 So for example, 79% out of 363 ratings were 5-star ratings, which translates to `r p[5] * n` and rounded to the nearest integer becomes `r round(p[5] * n)`. But this isn't the only integer that rounds to 79% when divided by `r n`. Any integer $k$ when divided by `r n` that ends up in the (open) interval (78.5%, 79.5%) would be a possible candidate.
 
@@ -47,7 +47,7 @@ seq(284, 289, 1) %>%
   set_names(nm = ~ .x) %>% 
   map_dbl(.f = ~ round(100 * .x / 363))
 ```
- 
+
 So any one of 285-288 5-star ratings are compatible with the information in the screenshot. We can get the same range for the other ratings (i.e., 1-4).
 
 ```{r}
@@ -115,6 +115,6 @@ possible_ratings %>%
   select(-total_ratings, -mean_rating)
 ```
 
-so 47-50 additional 5-star ratings are needed to pull up the average[^5] to 4.6, assuming that the future ratings are all five-star ratings. 
+so 47-50 additional 5-star ratings are needed to pull up the average[^4] to 4.6, assuming that the future ratings are all five-star ratings.
 
-[^5]: exact average, not an average resulting from rounding 4.57 (say) to 4.6. In the latter case, fewer than 47 five-star ratings would be required.
+[^4]: exact average, not an average resulting from rounding 4.57 (say) to 4.6. In the latter case, fewer than 47 five-star ratings would be required.
