@@ -158,7 +158,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                 <div class="quarto-category">G-Estimation</div>
                 <div class="quarto-category">G-computation</div>
                 <div class="quarto-category">GEE</div>
-                <div class="quarto-category">Advertising</div>
                 <div class="quarto-category">R</div>
               </div>
                   </div>
@@ -778,7 +777,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="page-columns page-full"><p>Assuming no-effect modification by <span class="math inline">\(U\)</span>, The point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;assuming consistency</p></li></div></div>
+<div class="page-columns page-full"><p>Assuming no-effect modification by <span class="math inline">\(U\)</span>, the point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;assuming consistency</p></li></div></div>
 <p><span class="math display">\[
 \text{Pr}[Y^{a = 0} = 1] = \text{Pr}[Y = 1 | A = 0] = \text{E}[Y\ \text{exp}(\psi A)]
 \]</span></p>
@@ -1259,7 +1258,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div class="sourceCode" id="cb31" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1"></a><span class="co">---</span></span>
 <span id="cb31-2"><a href="#cb31-2"></a><span class="an">title:</span><span class="co"> "Using an obscure causal inference method to estimate treatment effects with the help of another less obscure causal inference method"</span></span>
 <span id="cb31-3"><a href="#cb31-3"></a><span class="an">date:</span><span class="co"> "2024-02-09"</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="an">categories:</span><span class="co"> [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, Advertising, R]</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="an">categories:</span><span class="co"> [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, R]</span></span>
 <span id="cb31-5"><a href="#cb31-5"></a><span class="an">code-fold:</span><span class="co"> true</span></span>
 <span id="cb31-6"><a href="#cb31-6"></a><span class="an">toc-expand:</span><span class="co"> true</span></span>
 <span id="cb31-7"><a href="#cb31-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
@@ -1792,7 +1791,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-566"><a href="#cb31-566"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span>
 <span id="cb31-567"><a href="#cb31-567"></a><span class="in">```</span></span>
 <span id="cb31-568"><a href="#cb31-568"></a></span>
-<span id="cb31-569"><a href="#cb31-569"></a>Assuming no-effect modification by $U$, The point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
+<span id="cb31-569"><a href="#cb31-569"></a>Assuming no-effect modification by $U$, the point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
 <span id="cb31-570"><a href="#cb31-570"></a></span>
 <span id="cb31-571"><a href="#cb31-571"></a><span class="ot">[^18]: </span>assuming consistency</span>
 <span id="cb31-572"><a href="#cb31-572"></a></span>

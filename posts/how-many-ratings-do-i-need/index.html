@@ -186,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>In the Fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</p>
+<p>In the fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</p>
 <p><img src="5-star-rating.jpg" class="img-fluid"></p>
 <div class="page-columns page-full"><p>The screenshot indicates an average<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> rating of 4.5 stars out of a total of <span class="math inline">\(n = 363\)</span> reviews, and additionally lists the percent of time a rating between 1-5 was given.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Unweighted, I assume.</p></li></div></div>
 <p>It seemed like an easy enough problem – perfect to explore on a rainy, gray Saturday in November – so I decided to have a crack at it.</p>
@@ -265,6 +265,13 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb11-6"><a href="#cb11-6"></a>         <span class="at">sum_ratings =</span> x1 <span class="sc">+</span> (<span class="dv">2</span> <span class="sc">*</span> x2) <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">*</span> x3) <span class="sc">+</span> (<span class="dv">4</span> <span class="sc">*</span> x4) <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">*</span> x5), </span>
 <span id="cb11-7"><a href="#cb11-7"></a>         <span class="at">mean_rating =</span> <span class="fu">round</span>(sum_ratings <span class="sc">/</span> <span class="dv">363</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `across(.fns = as.integer)`.
+Caused by warning:
+! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+ℹ Please supply `.cols` instead.</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,024 × 8
       x1    x2    x3    x4    x5 total_ratings sum_ratings mean_rating
@@ -279,14 +286,13 @@ Attaching package: 'dplyr'</code></pre>
  8    20     2     6    43   288           359        1654         4.6
  9    20     2     6    44   285           357        1643         4.5
 10    20     2     6    44   286           358        1648         4.5
-# … with 1,014 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+# ℹ 1,014 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>possible_ratings <span class="ot">&lt;-</span> rating_combinations <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(total_ratings <span class="sc">==</span> <span class="dv">363</span>, mean_rating <span class="sc">==</span> <span class="fl">4.5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>possible_ratings <span class="ot">&lt;-</span> rating_combinations <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">filter</span>(total_ratings <span class="sc">==</span> <span class="dv">363</span>, mean_rating <span class="sc">==</span> <span class="fl">4.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 8
      x1    x2    x3    x4    x5 total_ratings sum_ratings mean_rating
@@ -306,15 +312,15 @@ Attaching package: 'dplyr'</code></pre>
 <p><span class="math display">\[n_1 = \frac{(4.6 \times n) - y}{0.4}\]</span></p>
 <p>and coded up as an R function</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>num_five_star <span class="ot">&lt;-</span> <span class="cf">function</span>(sum_ratings, total_ratings) {</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  ((<span class="fl">4.6</span> <span class="sc">*</span> total_ratings) <span class="sc">-</span> sum_ratings) <span class="sc">/</span> <span class="fl">0.4</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>num_five_star <span class="ot">&lt;-</span> <span class="cf">function</span>(sum_ratings, total_ratings) {</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  ((<span class="fl">4.6</span> <span class="sc">*</span> total_ratings) <span class="sc">-</span> sum_ratings) <span class="sc">/</span> <span class="fl">0.4</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Applying this function to the possible ratings vector leads to</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>possible_ratings <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">mutate</span>(<span class="at">extra_5_stars =</span> <span class="fu">ceiling</span>(<span class="fu">num_five_star</span>(sum_ratings, total_ratings))) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_ratings, <span class="sc">-</span>mean_rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>possible_ratings <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">mutate</span>(<span class="at">extra_5_stars =</span> <span class="fu">ceiling</span>(<span class="fu">num_five_star</span>(sum_ratings, total_ratings))) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_ratings, <span class="sc">-</span>mean_rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 7
      x1    x2    x3    x4    x5 sum_ratings extra_5_stars
@@ -731,126 +737,126 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1"></a><span class="co">---</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="an">title:</span><span class="co"> "How Many Five-Star Ratings Do I Need?"</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="an">date:</span><span class="co"> "2022-08-16"</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="an">categories:</span><span class="co"> [Analysis, Simulation, R]</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="an">toc:</span><span class="co"> false</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">---</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a></span>
-<span id="cb18-10"><a href="#cb18-10"></a>In the Fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</span>
-<span id="cb18-11"><a href="#cb18-11"></a></span>
-<span id="cb18-12"><a href="#cb18-12"></a><span class="al">![](5-star-rating.jpg)</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a></span>
-<span id="cb18-14"><a href="#cb18-14"></a>The screenshot indicates an average<span class="ot">[^avg]</span> rating of 4.5 stars out of a total of $n = 363$ reviews, and additionally lists the percent of time a rating between 1-5 was given.</span>
-<span id="cb18-15"><a href="#cb18-15"></a></span>
-<span id="cb18-16"><a href="#cb18-16"></a><span class="ot">[^avg]: </span>Unweighted, I assume.</span>
-<span id="cb18-17"><a href="#cb18-17"></a></span>
-<span id="cb18-18"><a href="#cb18-18"></a>It seemed like an easy enough problem -- perfect to explore on a rainy, gray Saturday in November -- so I decided to have a crack at it.</span>
-<span id="cb18-19"><a href="#cb18-19"></a></span>
-<span id="cb18-20"><a href="#cb18-20"></a>After doing some trivial algebra, somewhat successfully writing a for-loop, and adequately pleased with the solution, I posted the write-up for my initial approach on <span class="co">[</span><span class="ot">RPubs</span><span class="co">](https://rpubs.com/akshatdwivedi/five-star-ratings)</span> and sent off the answer<span class="ot">[^3]</span> to my friend.</span>
-<span id="cb18-21"><a href="#cb18-21"></a></span>
-<span id="cb18-22"><a href="#cb18-22"></a><span class="ot">[^3]: </span>Spoiler: she needed between 47-50 5-star ratings to pull up the average rating to 4.6. Apologies if you were eagerly waiting for the end to find out what the answer was.</span>
-<span id="cb18-23"><a href="#cb18-23"></a></span>
-<span id="cb18-24"><a href="#cb18-24"></a>However, while going through this document to clean it up for the blog (in 2022), I realized there's a simpler way of solving this problem. Before I describe it further, I'm going to load some R packages and extract the data from the image into R objects.</span>
-<span id="cb18-25"><a href="#cb18-25"></a></span>
-<span id="cb18-28"><a href="#cb18-28"></a><span class="in">```{r}</span></span>
-<span id="cb18-29"><a href="#cb18-29"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb18-30"><a href="#cb18-30"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb18-31"><a href="#cb18-31"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb18-32"><a href="#cb18-32"></a></span>
-<span id="cb18-33"><a href="#cb18-33"></a>n <span class="ot">&lt;-</span> <span class="dv">363</span></span>
-<span id="cb18-34"><a href="#cb18-34"></a></span>
-<span id="cb18-35"><a href="#cb18-35"></a><span class="co"># percent ratings scaled to [0,1]</span></span>
-<span id="cb18-36"><a href="#cb18-36"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.06</span>, <span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="fl">0.12</span>, <span class="fl">0.79</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-37"><a href="#cb18-37"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-38"><a href="#cb18-38"></a>  <span class="fu">print</span>()</span>
-<span id="cb18-39"><a href="#cb18-39"></a><span class="in">```</span></span>
-<span id="cb18-40"><a href="#cb18-40"></a></span>
-<span id="cb18-41"><a href="#cb18-41"></a>What made me rethink my approach was that I previously ended up with the wrong ratings vector after converting the (rounded) percentages into counts<span class="ot">[^1]</span>.</span>
-<span id="cb18-42"><a href="#cb18-42"></a></span>
-<span id="cb18-43"><a href="#cb18-43"></a><span class="ot">[^1]: </span>Although I mostly worked around it afterwards via simulation.</span>
-<span id="cb18-44"><a href="#cb18-44"></a></span>
-<span id="cb18-45"><a href="#cb18-45"></a>So for example, 79% out of 363 ratings were 5-star ratings, which translates to <span class="in">`r p[5] * n`</span> and rounded to the nearest integer becomes <span class="in">`r round(p[5] * n)`</span>. But this isn't the only integer that rounds to 79% when divided by <span class="in">`r n`</span>. Any integer $k$ when divided by <span class="in">`r n`</span> that ends up in the (open) interval (78.5%, 79.5%) would be a possible candidate.</span>
-<span id="cb18-46"><a href="#cb18-46"></a></span>
-<span id="cb18-49"><a href="#cb18-49"></a><span class="in">```{r}</span></span>
-<span id="cb18-50"><a href="#cb18-50"></a><span class="fu">seq</span>(<span class="dv">284</span>, <span class="dv">289</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-51"><a href="#cb18-51"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="sc">~</span> .x) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-52"><a href="#cb18-52"></a>  <span class="fu">map_dbl</span>(<span class="at">.f =</span> <span class="sc">~</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> .x <span class="sc">/</span> <span class="dv">363</span>))</span>
-<span id="cb18-53"><a href="#cb18-53"></a><span class="in">```</span></span>
-<span id="cb18-54"><a href="#cb18-54"></a> </span>
-<span id="cb18-55"><a href="#cb18-55"></a>So any one of 285-288 5-star ratings are compatible with the information in the screenshot. We can get the same range for the other ratings (i.e., 1-4).</span>
-<span id="cb18-56"><a href="#cb18-56"></a></span>
-<span id="cb18-59"><a href="#cb18-59"></a><span class="in">```{r}</span></span>
-<span id="cb18-60"><a href="#cb18-60"></a>plausible_counts_per_rating <span class="ot">&lt;-</span> p <span class="sc">%&gt;%</span> <span class="fu">map</span>(<span class="at">.f =</span> <span class="cf">function</span>(prop) {</span>
-<span id="cb18-61"><a href="#cb18-61"></a>  approx_val <span class="ot">&lt;-</span> <span class="fu">round</span>(prop <span class="sc">*</span> n)</span>
-<span id="cb18-62"><a href="#cb18-62"></a>  possible_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> approx_val <span class="sc">-</span> <span class="dv">10</span>, <span class="at">to =</span> approx_val <span class="sc">+</span> <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-63"><a href="#cb18-63"></a>    <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="sc">~</span> .x) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-64"><a href="#cb18-64"></a>    <span class="fu">map_dbl</span>(<span class="at">.f =</span> <span class="sc">~</span> <span class="fu">round</span>(.x <span class="sc">/</span> n, <span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-65"><a href="#cb18-65"></a>    <span class="fu">keep</span>(<span class="at">.p =</span> <span class="sc">~</span> .x <span class="sc">==</span> prop) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-66"><a href="#cb18-66"></a>    <span class="fu">names</span>()</span>
-<span id="cb18-67"><a href="#cb18-67"></a>}) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-68"><a href="#cb18-68"></a>  <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="sc">~</span> <span class="fu">paste</span>(<span class="st">'x'</span>, .x, <span class="at">sep =</span> <span class="st">""</span>))</span>
-<span id="cb18-69"><a href="#cb18-69"></a></span>
-<span id="cb18-70"><a href="#cb18-70"></a>plausible_counts_per_rating</span>
-<span id="cb18-71"><a href="#cb18-71"></a><span class="in">```</span></span>
-<span id="cb18-72"><a href="#cb18-72"></a></span>
-<span id="cb18-73"><a href="#cb18-73"></a>Each column shows the plausible values for the number of times a rating was provided. We can create all possible combinations of these values to identify the subset of $4 ^ 5 = 1024$ possible combinations that are compatible with the information in the screenshot, i.e., a mean of 4.5 when rounded to 1 decimal place and a total of 363 ratings.</span>
-<span id="cb18-74"><a href="#cb18-74"></a></span>
-<span id="cb18-77"><a href="#cb18-77"></a><span class="in">```{r}</span></span>
-<span id="cb18-78"><a href="#cb18-78"></a>rating_combinations <span class="ot">&lt;-</span> plausible_counts_per_rating <span class="sc">%&gt;%</span></span>
-<span id="cb18-79"><a href="#cb18-79"></a>  <span class="co"># create all combinations of all values in all columns</span></span>
-<span id="cb18-80"><a href="#cb18-80"></a>  <span class="fu">expand</span>(<span class="fu">crossing</span>(x1, x2, x3, x4, x5)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-81"><a href="#cb18-81"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.fns =</span> as.integer), </span>
-<span id="cb18-82"><a href="#cb18-82"></a>         <span class="at">total_ratings =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5, </span>
-<span id="cb18-83"><a href="#cb18-83"></a>         <span class="at">sum_ratings =</span> x1 <span class="sc">+</span> (<span class="dv">2</span> <span class="sc">*</span> x2) <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">*</span> x3) <span class="sc">+</span> (<span class="dv">4</span> <span class="sc">*</span> x4) <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">*</span> x5), </span>
-<span id="cb18-84"><a href="#cb18-84"></a>         <span class="at">mean_rating =</span> <span class="fu">round</span>(sum_ratings <span class="sc">/</span> <span class="dv">363</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-85"><a href="#cb18-85"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
-<span id="cb18-86"><a href="#cb18-86"></a><span class="in">```</span></span>
-<span id="cb18-87"><a href="#cb18-87"></a></span>
-<span id="cb18-90"><a href="#cb18-90"></a><span class="in">```{r}</span></span>
-<span id="cb18-91"><a href="#cb18-91"></a>possible_ratings <span class="ot">&lt;-</span> rating_combinations <span class="sc">%&gt;%</span> </span>
-<span id="cb18-92"><a href="#cb18-92"></a>  <span class="fu">filter</span>(total_ratings <span class="sc">==</span> <span class="dv">363</span>, mean_rating <span class="sc">==</span> <span class="fl">4.5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-93"><a href="#cb18-93"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span>
-<span id="cb18-94"><a href="#cb18-94"></a><span class="in">```</span></span>
-<span id="cb18-95"><a href="#cb18-95"></a></span>
-<span id="cb18-96"><a href="#cb18-96"></a>So one of these three possible vectors is used to produce the statistics shown in the screenshot.</span>
-<span id="cb18-97"><a href="#cb18-97"></a></span>
-<span id="cb18-98"><a href="#cb18-98"></a>The formula for computing the (arithmetic) mean can be rearranged to easily calculate the required number of five-star ratings to bring the mean from 4.5 to 4.6.</span>
-<span id="cb18-99"><a href="#cb18-99"></a></span>
-<span id="cb18-100"><a href="#cb18-100"></a>Let $n_1$ denote the number of additional five-star ratings, $y$ the (weighted) sum of the rating counts, and $n$ the current number of ratings (i.e., <span class="in">`r n`</span>) in the following equation:</span>
-<span id="cb18-101"><a href="#cb18-101"></a></span>
-<span id="cb18-102"><a href="#cb18-102"></a>$$\frac{y + (n_1 \times 5)}{n + n_1} = 4.6$$</span>
-<span id="cb18-103"><a href="#cb18-103"></a></span>
-<span id="cb18-104"><a href="#cb18-104"></a>This can be rewritten as</span>
-<span id="cb18-105"><a href="#cb18-105"></a></span>
-<span id="cb18-106"><a href="#cb18-106"></a>$$5n_1 = 4.6 \times (n + n_1) - y$$</span>
-<span id="cb18-107"><a href="#cb18-107"></a></span>
-<span id="cb18-108"><a href="#cb18-108"></a>and simplified to yield</span>
-<span id="cb18-109"><a href="#cb18-109"></a></span>
-<span id="cb18-110"><a href="#cb18-110"></a>$$n_1 = \frac{(4.6 \times n) - y}{0.4}$$</span>
-<span id="cb18-111"><a href="#cb18-111"></a></span>
-<span id="cb18-112"><a href="#cb18-112"></a>and coded up as an R function</span>
-<span id="cb18-113"><a href="#cb18-113"></a></span>
-<span id="cb18-116"><a href="#cb18-116"></a><span class="in">```{r}</span></span>
-<span id="cb18-117"><a href="#cb18-117"></a>num_five_star <span class="ot">&lt;-</span> <span class="cf">function</span>(sum_ratings, total_ratings) {</span>
-<span id="cb18-118"><a href="#cb18-118"></a>  ((<span class="fl">4.6</span> <span class="sc">*</span> total_ratings) <span class="sc">-</span> sum_ratings) <span class="sc">/</span> <span class="fl">0.4</span></span>
-<span id="cb18-119"><a href="#cb18-119"></a>}</span>
-<span id="cb18-120"><a href="#cb18-120"></a><span class="in">```</span></span>
-<span id="cb18-121"><a href="#cb18-121"></a></span>
-<span id="cb18-122"><a href="#cb18-122"></a>Applying this function to the possible ratings vector leads to</span>
-<span id="cb18-123"><a href="#cb18-123"></a></span>
-<span id="cb18-126"><a href="#cb18-126"></a><span class="in">```{r}</span></span>
-<span id="cb18-127"><a href="#cb18-127"></a>possible_ratings <span class="sc">%&gt;%</span> </span>
-<span id="cb18-128"><a href="#cb18-128"></a>  <span class="fu">mutate</span>(<span class="at">extra_5_stars =</span> <span class="fu">ceiling</span>(<span class="fu">num_five_star</span>(sum_ratings, total_ratings))) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-129"><a href="#cb18-129"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_ratings, <span class="sc">-</span>mean_rating)</span>
-<span id="cb18-130"><a href="#cb18-130"></a><span class="in">```</span></span>
-<span id="cb18-131"><a href="#cb18-131"></a></span>
-<span id="cb18-132"><a href="#cb18-132"></a>so 47-50 additional 5-star ratings are needed to pull up the average<span class="ot">[^5]</span> to 4.6, assuming that the future ratings are all five-star ratings. </span>
-<span id="cb18-133"><a href="#cb18-133"></a></span>
-<span id="cb18-134"><a href="#cb18-134"></a><span class="ot">[^5]: </span>exact average, not an average resulting from rounding 4.57 (say) to 4.6. In the latter case, fewer than 47 five-star ratings would be required.</span>
+<div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">---</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="an">title:</span><span class="co"> "How Many Five-Star Ratings Do I Need?"</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="an">date:</span><span class="co"> "2022-08-16"</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="an">categories:</span><span class="co"> [Analysis, Simulation, R]</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="an">toc:</span><span class="co"> false</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co">---</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a>In the fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</span>
+<span id="cb19-11"><a href="#cb19-11"></a></span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="al">![](5-star-rating.jpg)</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a></span>
+<span id="cb19-14"><a href="#cb19-14"></a>The screenshot indicates an average<span class="ot">[^1]</span> rating of 4.5 stars out of a total of $n = 363$ reviews, and additionally lists the percent of time a rating between 1-5 was given.</span>
+<span id="cb19-15"><a href="#cb19-15"></a></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="ot">[^1]: </span>Unweighted, I assume.</span>
+<span id="cb19-17"><a href="#cb19-17"></a></span>
+<span id="cb19-18"><a href="#cb19-18"></a>It seemed like an easy enough problem -- perfect to explore on a rainy, gray Saturday in November -- so I decided to have a crack at it.</span>
+<span id="cb19-19"><a href="#cb19-19"></a></span>
+<span id="cb19-20"><a href="#cb19-20"></a>After doing some trivial algebra, somewhat successfully writing a for-loop, and adequately pleased with the solution, I posted the write-up for my initial approach on <span class="co">[</span><span class="ot">RPubs</span><span class="co">](https://rpubs.com/akshatdwivedi/five-star-ratings)</span> and sent off the answer<span class="ot">[^2]</span> to my friend.</span>
+<span id="cb19-21"><a href="#cb19-21"></a></span>
+<span id="cb19-22"><a href="#cb19-22"></a><span class="ot">[^2]: </span>Spoiler: she needed between 47-50 5-star ratings to pull up the average rating to 4.6. Apologies if you were eagerly waiting for the end to find out what the answer was.</span>
+<span id="cb19-23"><a href="#cb19-23"></a></span>
+<span id="cb19-24"><a href="#cb19-24"></a>However, while going through this document to clean it up for the blog (in 2022), I realized there's a simpler way of solving this problem. Before I describe it further, I'm going to load some R packages and extract the data from the image into R objects.</span>
+<span id="cb19-25"><a href="#cb19-25"></a></span>
+<span id="cb19-28"><a href="#cb19-28"></a><span class="in">```{r}</span></span>
+<span id="cb19-29"><a href="#cb19-29"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb19-30"><a href="#cb19-30"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb19-31"><a href="#cb19-31"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb19-32"><a href="#cb19-32"></a></span>
+<span id="cb19-33"><a href="#cb19-33"></a>n <span class="ot">&lt;-</span> <span class="dv">363</span></span>
+<span id="cb19-34"><a href="#cb19-34"></a></span>
+<span id="cb19-35"><a href="#cb19-35"></a><span class="co"># percent ratings scaled to [0,1]</span></span>
+<span id="cb19-36"><a href="#cb19-36"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.06</span>, <span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="fl">0.12</span>, <span class="fl">0.79</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-37"><a href="#cb19-37"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-38"><a href="#cb19-38"></a>  <span class="fu">print</span>()</span>
+<span id="cb19-39"><a href="#cb19-39"></a><span class="in">```</span></span>
+<span id="cb19-40"><a href="#cb19-40"></a></span>
+<span id="cb19-41"><a href="#cb19-41"></a>What made me rethink my approach was that I previously ended up with the wrong ratings vector after converting the (rounded) percentages into counts<span class="ot">[^3]</span>.</span>
+<span id="cb19-42"><a href="#cb19-42"></a></span>
+<span id="cb19-43"><a href="#cb19-43"></a><span class="ot">[^3]: </span>Although I mostly worked around it afterwards via simulation.</span>
+<span id="cb19-44"><a href="#cb19-44"></a></span>
+<span id="cb19-45"><a href="#cb19-45"></a>So for example, 79% out of 363 ratings were 5-star ratings, which translates to <span class="in">`r p[5] * n`</span> and rounded to the nearest integer becomes <span class="in">`r round(p[5] * n)`</span>. But this isn't the only integer that rounds to 79% when divided by <span class="in">`r n`</span>. Any integer $k$ when divided by <span class="in">`r n`</span> that ends up in the (open) interval (78.5%, 79.5%) would be a possible candidate.</span>
+<span id="cb19-46"><a href="#cb19-46"></a></span>
+<span id="cb19-49"><a href="#cb19-49"></a><span class="in">```{r}</span></span>
+<span id="cb19-50"><a href="#cb19-50"></a><span class="fu">seq</span>(<span class="dv">284</span>, <span class="dv">289</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-51"><a href="#cb19-51"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="sc">~</span> .x) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-52"><a href="#cb19-52"></a>  <span class="fu">map_dbl</span>(<span class="at">.f =</span> <span class="sc">~</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> .x <span class="sc">/</span> <span class="dv">363</span>))</span>
+<span id="cb19-53"><a href="#cb19-53"></a><span class="in">```</span></span>
+<span id="cb19-54"><a href="#cb19-54"></a></span>
+<span id="cb19-55"><a href="#cb19-55"></a>So any one of 285-288 5-star ratings are compatible with the information in the screenshot. We can get the same range for the other ratings (i.e., 1-4).</span>
+<span id="cb19-56"><a href="#cb19-56"></a></span>
+<span id="cb19-59"><a href="#cb19-59"></a><span class="in">```{r}</span></span>
+<span id="cb19-60"><a href="#cb19-60"></a>plausible_counts_per_rating <span class="ot">&lt;-</span> p <span class="sc">%&gt;%</span> <span class="fu">map</span>(<span class="at">.f =</span> <span class="cf">function</span>(prop) {</span>
+<span id="cb19-61"><a href="#cb19-61"></a>  approx_val <span class="ot">&lt;-</span> <span class="fu">round</span>(prop <span class="sc">*</span> n)</span>
+<span id="cb19-62"><a href="#cb19-62"></a>  possible_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> approx_val <span class="sc">-</span> <span class="dv">10</span>, <span class="at">to =</span> approx_val <span class="sc">+</span> <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-63"><a href="#cb19-63"></a>    <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="sc">~</span> .x) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-64"><a href="#cb19-64"></a>    <span class="fu">map_dbl</span>(<span class="at">.f =</span> <span class="sc">~</span> <span class="fu">round</span>(.x <span class="sc">/</span> n, <span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-65"><a href="#cb19-65"></a>    <span class="fu">keep</span>(<span class="at">.p =</span> <span class="sc">~</span> .x <span class="sc">==</span> prop) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-66"><a href="#cb19-66"></a>    <span class="fu">names</span>()</span>
+<span id="cb19-67"><a href="#cb19-67"></a>}) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-68"><a href="#cb19-68"></a>  <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="sc">~</span> <span class="fu">paste</span>(<span class="st">'x'</span>, .x, <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb19-69"><a href="#cb19-69"></a></span>
+<span id="cb19-70"><a href="#cb19-70"></a>plausible_counts_per_rating</span>
+<span id="cb19-71"><a href="#cb19-71"></a><span class="in">```</span></span>
+<span id="cb19-72"><a href="#cb19-72"></a></span>
+<span id="cb19-73"><a href="#cb19-73"></a>Each column shows the plausible values for the number of times a rating was provided. We can create all possible combinations of these values to identify the subset of $4 ^ 5 = 1024$ possible combinations that are compatible with the information in the screenshot, i.e., a mean of 4.5 when rounded to 1 decimal place and a total of 363 ratings.</span>
+<span id="cb19-74"><a href="#cb19-74"></a></span>
+<span id="cb19-77"><a href="#cb19-77"></a><span class="in">```{r}</span></span>
+<span id="cb19-78"><a href="#cb19-78"></a>rating_combinations <span class="ot">&lt;-</span> plausible_counts_per_rating <span class="sc">%&gt;%</span></span>
+<span id="cb19-79"><a href="#cb19-79"></a>  <span class="co"># create all combinations of all values in all columns</span></span>
+<span id="cb19-80"><a href="#cb19-80"></a>  <span class="fu">expand</span>(<span class="fu">crossing</span>(x1, x2, x3, x4, x5)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-81"><a href="#cb19-81"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.fns =</span> as.integer), </span>
+<span id="cb19-82"><a href="#cb19-82"></a>         <span class="at">total_ratings =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5, </span>
+<span id="cb19-83"><a href="#cb19-83"></a>         <span class="at">sum_ratings =</span> x1 <span class="sc">+</span> (<span class="dv">2</span> <span class="sc">*</span> x2) <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">*</span> x3) <span class="sc">+</span> (<span class="dv">4</span> <span class="sc">*</span> x4) <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">*</span> x5), </span>
+<span id="cb19-84"><a href="#cb19-84"></a>         <span class="at">mean_rating =</span> <span class="fu">round</span>(sum_ratings <span class="sc">/</span> <span class="dv">363</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-85"><a href="#cb19-85"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb19-86"><a href="#cb19-86"></a><span class="in">```</span></span>
+<span id="cb19-87"><a href="#cb19-87"></a></span>
+<span id="cb19-90"><a href="#cb19-90"></a><span class="in">```{r}</span></span>
+<span id="cb19-91"><a href="#cb19-91"></a>possible_ratings <span class="ot">&lt;-</span> rating_combinations <span class="sc">%&gt;%</span> </span>
+<span id="cb19-92"><a href="#cb19-92"></a>  <span class="fu">filter</span>(total_ratings <span class="sc">==</span> <span class="dv">363</span>, mean_rating <span class="sc">==</span> <span class="fl">4.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-93"><a href="#cb19-93"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span>
+<span id="cb19-94"><a href="#cb19-94"></a><span class="in">```</span></span>
+<span id="cb19-95"><a href="#cb19-95"></a></span>
+<span id="cb19-96"><a href="#cb19-96"></a>So one of these three possible vectors is used to produce the statistics shown in the screenshot.</span>
+<span id="cb19-97"><a href="#cb19-97"></a></span>
+<span id="cb19-98"><a href="#cb19-98"></a>The formula for computing the (arithmetic) mean can be rearranged to easily calculate the required number of five-star ratings to bring the mean from 4.5 to 4.6.</span>
+<span id="cb19-99"><a href="#cb19-99"></a></span>
+<span id="cb19-100"><a href="#cb19-100"></a>Let $n_1$ denote the number of additional five-star ratings, $y$ the (weighted) sum of the rating counts, and $n$ the current number of ratings (i.e., <span class="in">`r n`</span>) in the following equation:</span>
+<span id="cb19-101"><a href="#cb19-101"></a></span>
+<span id="cb19-102"><a href="#cb19-102"></a>$$\frac{y + (n_1 \times 5)}{n + n_1} = 4.6$$</span>
+<span id="cb19-103"><a href="#cb19-103"></a></span>
+<span id="cb19-104"><a href="#cb19-104"></a>This can be rewritten as</span>
+<span id="cb19-105"><a href="#cb19-105"></a></span>
+<span id="cb19-106"><a href="#cb19-106"></a>$$5n_1 = 4.6 \times (n + n_1) - y$$</span>
+<span id="cb19-107"><a href="#cb19-107"></a></span>
+<span id="cb19-108"><a href="#cb19-108"></a>and simplified to yield</span>
+<span id="cb19-109"><a href="#cb19-109"></a></span>
+<span id="cb19-110"><a href="#cb19-110"></a>$$n_1 = \frac{(4.6 \times n) - y}{0.4}$$</span>
+<span id="cb19-111"><a href="#cb19-111"></a></span>
+<span id="cb19-112"><a href="#cb19-112"></a>and coded up as an R function</span>
+<span id="cb19-113"><a href="#cb19-113"></a></span>
+<span id="cb19-116"><a href="#cb19-116"></a><span class="in">```{r}</span></span>
+<span id="cb19-117"><a href="#cb19-117"></a>num_five_star <span class="ot">&lt;-</span> <span class="cf">function</span>(sum_ratings, total_ratings) {</span>
+<span id="cb19-118"><a href="#cb19-118"></a>  ((<span class="fl">4.6</span> <span class="sc">*</span> total_ratings) <span class="sc">-</span> sum_ratings) <span class="sc">/</span> <span class="fl">0.4</span></span>
+<span id="cb19-119"><a href="#cb19-119"></a>}</span>
+<span id="cb19-120"><a href="#cb19-120"></a><span class="in">```</span></span>
+<span id="cb19-121"><a href="#cb19-121"></a></span>
+<span id="cb19-122"><a href="#cb19-122"></a>Applying this function to the possible ratings vector leads to</span>
+<span id="cb19-123"><a href="#cb19-123"></a></span>
+<span id="cb19-126"><a href="#cb19-126"></a><span class="in">```{r}</span></span>
+<span id="cb19-127"><a href="#cb19-127"></a>possible_ratings <span class="sc">%&gt;%</span> </span>
+<span id="cb19-128"><a href="#cb19-128"></a>  <span class="fu">mutate</span>(<span class="at">extra_5_stars =</span> <span class="fu">ceiling</span>(<span class="fu">num_five_star</span>(sum_ratings, total_ratings))) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-129"><a href="#cb19-129"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_ratings, <span class="sc">-</span>mean_rating)</span>
+<span id="cb19-130"><a href="#cb19-130"></a><span class="in">```</span></span>
+<span id="cb19-131"><a href="#cb19-131"></a></span>
+<span id="cb19-132"><a href="#cb19-132"></a>so 47-50 additional 5-star ratings are needed to pull up the average<span class="ot">[^4]</span> to 4.6, assuming that the future ratings are all five-star ratings.</span>
+<span id="cb19-133"><a href="#cb19-133"></a></span>
+<span id="cb19-134"><a href="#cb19-134"></a><span class="ot">[^4]: </span>exact average, not an average resulting from rounding 4.57 (say) to 4.6. In the latter case, fewer than 47 five-star ratings would be required.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
