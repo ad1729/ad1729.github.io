@@ -1,7 +1,7 @@
 ---
 title: "Using an obscure causal inference method to estimate treatment effects with the help of another less obscure causal inference method"
 date: "2024-02-09"
-categories: [Causal Inference, Instrumental Variables, G-Estimation, G-computation, GEE, R]
+categories: [Causal Inference, Instrumental Variables, G-estimation, G-computation, GEE, R]
 code-fold: true
 toc-expand: true
 reference-location: margin
@@ -27,7 +27,7 @@ If $U$ indicates the (possibly multivalued) set of unmeasured confounders, $Z$ t
 $$
 \text{ATE} = \frac{\text{Pr}[Y^{a + 1} = 1]}{\text{Pr}[Y^{a} = 1]}
 $$\
-This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population.
+This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population ($Y^a$ denotes the potential outcome under treatment level $a$).
 
 Another estimand of interest may be the *average treatment effect in the treated* (ATT) or the *effect of the treatment on the treated* (ETT). This compares the treated individuals to the *counterfactual scenario had they not been treated*. This corresponds to $$
 \text{ATT} = \frac{\text{Pr}[Y^a = 1 | A = a]}{\text{Pr}[Y^{a = 0} = 1 | A = a]}
@@ -570,7 +570,7 @@ This post is based on the following references
 
 ## Simulated data
 
-The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$), 2) the realized distribution of the treatment levels among those who received the treatment[^19] (simulated from the truncated *Gamma* distribution $x_i \sim \Gamma(\text{shape} = 5,\ \text{scale} = 4) \cdot I(1 \leq x_i \leq 100)$), 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)
+The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$), 2) the realized distribution of the treatment levels among those who received the treatment[^19] simulated from the truncated *Gamma* distribution $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$, 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)
 
 [^19]: a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)
 
