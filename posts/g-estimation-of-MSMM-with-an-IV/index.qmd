@@ -445,6 +445,7 @@ The following plot with conditional dose-response curves at quartiles of $U$ sho
 # get predicted probabilities from the model at quartiles of U
 glm_model %>%
   marginaleffects::plot_predictions(condition = list("A", "U" = "fivenum")) +
+  xlab("A") +
   ylab("Predicted probability of Y = 1") + 
   theme(legend.position = "bottom")
 ```
@@ -531,7 +532,7 @@ bind_rows(
   scale_x_continuous(breaks = seq(0, 80, 10)) +
   theme(legend.position = "bottom", legend.title = element_blank()) +
   ylab("Predicted probability of Y = 1") + 
-  xlab("Number of impressions (true curve in gray)")
+  xlab("A (true curve in gray)")
 ```
 
 Assuming no-effect modification by $U$, the point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
