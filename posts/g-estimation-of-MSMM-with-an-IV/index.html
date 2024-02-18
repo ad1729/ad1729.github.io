@@ -749,7 +749,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb29-55"><a href="#cb29-55"></a>  <span class="fu">mutate</span>(<span class="at">pY =</span> pY0 <span class="sc">*</span> <span class="fu">exp</span>(logRR <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
 <span id="cb29-56"><a href="#cb29-56"></a>  <span class="fu">select</span>(<span class="sc">-</span>pY0, <span class="sc">-</span>logRR) <span class="sc">%&gt;%</span></span>
 <span id="cb29-57"><a href="#cb29-57"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> A, <span class="at">names_from =</span> <span class="st">"name"</span>, <span class="at">values_from =</span> <span class="st">"pY"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-58"><a href="#cb29-58"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation"</span>)</span>
+<span id="cb29-58"><a href="#cb29-58"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation (using an IV)"</span>)</span>
 <span id="cb29-59"><a href="#cb29-59"></a></span>
 <span id="cb29-60"><a href="#cb29-60"></a><span class="fu">bind_rows</span>(</span>
 <span id="cb29-61"><a href="#cb29-61"></a>  g_computation_dose_response_extrapolated_levels,</span>
@@ -771,7 +771,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb29-77"><a href="#cb29-77"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb29-78"><a href="#cb29-78"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb29-79"><a href="#cb29-79"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb29-80"><a href="#cb29-80"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-80"><a href="#cb29-80"></a>  <span class="fu">xlab</span>(<span class="st">"Number of impressions (true curve in gray)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
@@ -1766,7 +1766,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-541"><a href="#cb31-541"></a>  <span class="fu">mutate</span>(<span class="at">pY =</span> pY0 <span class="sc">*</span> <span class="fu">exp</span>(logRR <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
 <span id="cb31-542"><a href="#cb31-542"></a>  <span class="fu">select</span>(<span class="sc">-</span>pY0, <span class="sc">-</span>logRR) <span class="sc">%&gt;%</span></span>
 <span id="cb31-543"><a href="#cb31-543"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> A, <span class="at">names_from =</span> <span class="st">"name"</span>, <span class="at">values_from =</span> <span class="st">"pY"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-544"><a href="#cb31-544"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation"</span>)</span>
+<span id="cb31-544"><a href="#cb31-544"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation (using an IV)"</span>)</span>
 <span id="cb31-545"><a href="#cb31-545"></a></span>
 <span id="cb31-546"><a href="#cb31-546"></a><span class="fu">bind_rows</span>(</span>
 <span id="cb31-547"><a href="#cb31-547"></a>  g_computation_dose_response_extrapolated_levels,</span>
@@ -1788,7 +1788,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-563"><a href="#cb31-563"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb31-564"><a href="#cb31-564"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb31-565"><a href="#cb31-565"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb31-566"><a href="#cb31-566"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span>
+<span id="cb31-566"><a href="#cb31-566"></a>  <span class="fu">xlab</span>(<span class="st">"Number of impressions (true curve in gray)"</span>)</span>
 <span id="cb31-567"><a href="#cb31-567"></a><span class="in">```</span></span>
 <span id="cb31-568"><a href="#cb31-568"></a></span>
 <span id="cb31-569"><a href="#cb31-569"></a>Assuming no-effect modification by $U$, the point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
