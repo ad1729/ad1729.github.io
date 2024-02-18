@@ -681,8 +681,9 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># get predicted probabilities from the model at quartiles of U</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a>glm_model <span class="sc">%&gt;%</span></span>
 <span id="cb28-3"><a href="#cb28-3"></a>  marginaleffects<span class="sc">::</span><span class="fu">plot_predictions</span>(<span class="at">condition =</span> <span class="fu">list</span>(<span class="st">"A"</span>, <span class="st">"U"</span> <span class="ot">=</span> <span class="st">"fivenum"</span>)) <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb28-5"><a href="#cb28-5"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="fu">xlab</span>(<span class="st">"A"</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
+<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
@@ -771,7 +772,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb29-77"><a href="#cb29-77"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb29-78"><a href="#cb29-78"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb29-79"><a href="#cb29-79"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb29-80"><a href="#cb29-80"></a>  <span class="fu">xlab</span>(<span class="st">"Number of impressions (true curve in gray)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-80"><a href="#cb29-80"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
@@ -1702,174 +1703,175 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-475"><a href="#cb31-475"></a><span class="co"># get predicted probabilities from the model at quartiles of U</span></span>
 <span id="cb31-476"><a href="#cb31-476"></a>glm_model <span class="sc">%&gt;%</span></span>
 <span id="cb31-477"><a href="#cb31-477"></a>  marginaleffects<span class="sc">::</span><span class="fu">plot_predictions</span>(<span class="at">condition =</span> <span class="fu">list</span>(<span class="st">"A"</span>, <span class="st">"U"</span> <span class="ot">=</span> <span class="st">"fivenum"</span>)) <span class="sc">+</span></span>
-<span id="cb31-478"><a href="#cb31-478"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb31-479"><a href="#cb31-479"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb31-480"><a href="#cb31-480"></a><span class="in">```</span></span>
-<span id="cb31-481"><a href="#cb31-481"></a></span>
-<span id="cb31-482"><a href="#cb31-482"></a>When $U$ is unmeasured, only the marginal dose-response curve can be estimated, and the following plot compares g-computation and g-estimation estimates and their CIs, with the true curve plotted for comparison</span>
-<span id="cb31-483"><a href="#cb31-483"></a></span>
-<span id="cb31-486"><a href="#cb31-486"></a><span class="in">```{r}</span></span>
-<span id="cb31-487"><a href="#cb31-487"></a><span class="co"># simulate 100 datasets and take the mean of probabilities under A = 0</span></span>
-<span id="cb31-488"><a href="#cb31-488"></a>baseline_conversion_probability <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(</span>
-<span id="cb31-489"><a href="#cb31-489"></a>  <span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
-<span id="cb31-490"><a href="#cb31-490"></a>  <span class="at">.f =</span> <span class="sc">~</span> {</span>
-<span id="cb31-491"><a href="#cb31-491"></a>    <span class="fu">simulate_data</span>(<span class="at">seed =</span> .x, <span class="at">n =</span> <span class="fl">1e5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-492"><a href="#cb31-492"></a>      <span class="fu">pull</span>(logpY0) <span class="sc">%&gt;%</span></span>
-<span id="cb31-493"><a href="#cb31-493"></a>      <span class="fu">exp</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb31-494"><a href="#cb31-494"></a>      <span class="fu">mean</span>()</span>
-<span id="cb31-495"><a href="#cb31-495"></a>    }) <span class="sc">%&gt;%</span></span>
-<span id="cb31-496"><a href="#cb31-496"></a>  <span class="fu">mean</span>()</span>
-<span id="cb31-497"><a href="#cb31-497"></a></span>
-<span id="cb31-498"><a href="#cb31-498"></a><span class="co"># true dose-response curve</span></span>
-<span id="cb31-499"><a href="#cb31-499"></a>true_dose_response_curve <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb31-500"><a href="#cb31-500"></a>  <span class="at">A =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">73</span>,</span>
-<span id="cb31-501"><a href="#cb31-501"></a>  <span class="at">estimate =</span> baseline_conversion_probability <span class="sc">*</span> <span class="fu">exp</span>(<span class="fu">log</span>(<span class="fl">1.02</span>) <span class="sc">*</span> A)</span>
-<span id="cb31-502"><a href="#cb31-502"></a>)</span>
-<span id="cb31-503"><a href="#cb31-503"></a></span>
-<span id="cb31-504"><a href="#cb31-504"></a><span class="co"># g-computation by creating counterfactual predictions</span></span>
-<span id="cb31-505"><a href="#cb31-505"></a><span class="co"># by setting A = a and averaging the predicted probabilities</span></span>
-<span id="cb31-506"><a href="#cb31-506"></a><span class="co"># doing this over a coarser grid to get faster run times</span></span>
-<span id="cb31-507"><a href="#cb31-507"></a>g_computation_dose_response_extrapolated_levels <span class="ot">&lt;-</span> glm_model <span class="sc">%&gt;%</span></span>
-<span id="cb31-508"><a href="#cb31-508"></a>  marginaleffects<span class="sc">::</span><span class="fu">predictions</span>(</span>
-<span id="cb31-509"><a href="#cb31-509"></a>    <span class="at">by =</span> <span class="st">"A"</span>, <span class="at">type =</span> <span class="st">"response"</span>,</span>
-<span id="cb31-510"><a href="#cb31-510"></a>    <span class="at">newdata =</span> marginaleffects<span class="sc">::</span><span class="fu">datagrid</span>(</span>
-<span id="cb31-511"><a href="#cb31-511"></a>      <span class="at">A =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">seq</span>(<span class="dv">5</span>, <span class="dv">70</span>, <span class="dv">5</span>), <span class="dv">73</span>), <span class="at">grid_type =</span> <span class="st">"counterfactual"</span></span>
-<span id="cb31-512"><a href="#cb31-512"></a>    )</span>
-<span id="cb31-513"><a href="#cb31-513"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb31-514"><a href="#cb31-514"></a>  <span class="fu">select</span>(A, estimate, conf.low, conf.high) <span class="sc">%&gt;%</span></span>
-<span id="cb31-515"><a href="#cb31-515"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb31-516"><a href="#cb31-516"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"G-computation"</span>)</span>
-<span id="cb31-517"><a href="#cb31-517"></a></span>
-<span id="cb31-518"><a href="#cb31-518"></a><span class="co"># get estimates of Pr[Y = 1 | A = 0]</span></span>
-<span id="cb31-519"><a href="#cb31-519"></a><span class="co"># by shaving off the effect of the treatment</span></span>
-<span id="cb31-520"><a href="#cb31-520"></a><span class="co"># using the point estimate and CI endpoints from ivglm</span></span>
-<span id="cb31-521"><a href="#cb31-521"></a>g_estimation_pY0 <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb31-522"><a href="#cb31-522"></a>  IV_gest <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"est"</span>) <span class="sc">%&gt;%</span> <span class="fu">unname</span>(),</span>
-<span id="cb31-523"><a href="#cb31-523"></a>  IV_gest <span class="sc">%&gt;%</span> <span class="fu">confint</span>() <span class="sc">%&gt;%</span> <span class="fu">unname</span>()</span>
-<span id="cb31-524"><a href="#cb31-524"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-525"><a href="#cb31-525"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="fu">c</span>(<span class="st">"estimate"</span>, <span class="st">"conf.low"</span>, <span class="st">"conf.high"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-526"><a href="#cb31-526"></a>  <span class="fu">map_dfr</span>(</span>
-<span id="cb31-527"><a href="#cb31-527"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
-<span id="cb31-528"><a href="#cb31-528"></a>      df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-529"><a href="#cb31-529"></a>        <span class="fu">mutate</span>(<span class="at">H =</span> Y <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>.x <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-530"><a href="#cb31-530"></a>        <span class="fu">pull</span>(H) <span class="sc">%&gt;%</span></span>
-<span id="cb31-531"><a href="#cb31-531"></a>        <span class="fu">mean</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb31-532"><a href="#cb31-532"></a>        <span class="fu">tibble</span>(<span class="at">logRR =</span> .x, <span class="at">pY0 =</span> .)</span>
-<span id="cb31-533"><a href="#cb31-533"></a>    }, </span>
-<span id="cb31-534"><a href="#cb31-534"></a>    <span class="at">.id =</span> <span class="st">"name"</span></span>
-<span id="cb31-535"><a href="#cb31-535"></a>  )</span>
-<span id="cb31-536"><a href="#cb31-536"></a></span>
-<span id="cb31-537"><a href="#cb31-537"></a><span class="co"># using logRR estimate + CI and Pr[Y = 1 | A = 0]</span></span>
-<span id="cb31-538"><a href="#cb31-538"></a>g_estimation_dose_response <span class="ot">&lt;-</span> g_estimation_pY0 <span class="sc">%&gt;%</span></span>
-<span id="cb31-539"><a href="#cb31-539"></a>  <span class="fu">expand_grid</span>(., <span class="at">A =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">73</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-540"><a href="#cb31-540"></a>  <span class="co"># get P[Y = 1 | A = a]</span></span>
-<span id="cb31-541"><a href="#cb31-541"></a>  <span class="fu">mutate</span>(<span class="at">pY =</span> pY0 <span class="sc">*</span> <span class="fu">exp</span>(logRR <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-542"><a href="#cb31-542"></a>  <span class="fu">select</span>(<span class="sc">-</span>pY0, <span class="sc">-</span>logRR) <span class="sc">%&gt;%</span></span>
-<span id="cb31-543"><a href="#cb31-543"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> A, <span class="at">names_from =</span> <span class="st">"name"</span>, <span class="at">values_from =</span> <span class="st">"pY"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-544"><a href="#cb31-544"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation (using an IV)"</span>)</span>
-<span id="cb31-545"><a href="#cb31-545"></a></span>
-<span id="cb31-546"><a href="#cb31-546"></a><span class="fu">bind_rows</span>(</span>
-<span id="cb31-547"><a href="#cb31-547"></a>  g_computation_dose_response_extrapolated_levels,</span>
-<span id="cb31-548"><a href="#cb31-548"></a>  g_estimation_dose_response</span>
-<span id="cb31-549"><a href="#cb31-549"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-550"><a href="#cb31-550"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> estimate, <span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb31-551"><a href="#cb31-551"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb31-552"><a href="#cb31-552"></a>  <span class="co"># plot the true curve</span></span>
-<span id="cb31-553"><a href="#cb31-553"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb31-554"><a href="#cb31-554"></a>    <span class="at">data =</span> true_dose_response_curve, </span>
-<span id="cb31-555"><a href="#cb31-555"></a>    <span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> estimate), </span>
-<span id="cb31-556"><a href="#cb31-556"></a>    <span class="at">color =</span> <span class="st">"gray20"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>,, <span class="at">linetype =</span> <span class="st">"dotdash"</span>,</span>
-<span id="cb31-557"><a href="#cb31-557"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
-<span id="cb31-558"><a href="#cb31-558"></a>  ) <span class="sc">+</span> </span>
-<span id="cb31-559"><a href="#cb31-559"></a>  <span class="fu">geom_ribbon</span>(</span>
-<span id="cb31-560"><a href="#cb31-560"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span></span>
-<span id="cb31-561"><a href="#cb31-561"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-562"><a href="#cb31-562"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.05</span>)) <span class="sc">+</span></span>
-<span id="cb31-563"><a href="#cb31-563"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb31-564"><a href="#cb31-564"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb31-565"><a href="#cb31-565"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
-<span id="cb31-566"><a href="#cb31-566"></a>  <span class="fu">xlab</span>(<span class="st">"Number of impressions (true curve in gray)"</span>)</span>
-<span id="cb31-567"><a href="#cb31-567"></a><span class="in">```</span></span>
-<span id="cb31-568"><a href="#cb31-568"></a></span>
-<span id="cb31-569"><a href="#cb31-569"></a>Assuming no-effect modification by $U$, the point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
-<span id="cb31-570"><a href="#cb31-570"></a></span>
-<span id="cb31-571"><a href="#cb31-571"></a><span class="ot">[^18]: </span>assuming consistency</span>
-<span id="cb31-572"><a href="#cb31-572"></a></span>
-<span id="cb31-573"><a href="#cb31-573"></a>$$</span>
-<span id="cb31-574"><a href="#cb31-574"></a>\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span> = \text{E}<span class="co">[</span><span class="ot">Y\ \text{exp}(\psi A)</span><span class="co">]</span></span>
-<span id="cb31-575"><a href="#cb31-575"></a>$$</span>
-<span id="cb31-576"><a href="#cb31-576"></a></span>
-<span id="cb31-577"><a href="#cb31-577"></a>and then using these to get the dose response curves and the following CIs</span>
-<span id="cb31-578"><a href="#cb31-578"></a></span>
-<span id="cb31-579"><a href="#cb31-579"></a>$$</span>
-<span id="cb31-580"><a href="#cb31-580"></a>\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>\ \text{exp}<span class="co">[</span><span class="ot">\psi A</span><span class="co">]</span></span>
-<span id="cb31-581"><a href="#cb31-581"></a>$$</span>
-<span id="cb31-582"><a href="#cb31-582"></a></span>
-<span id="cb31-583"><a href="#cb31-583"></a>The g-computation estimate is far narrower as the model has access to the information provided by $U$, compared to the MSMM. The MSMM estimate for this sample underestimates the true value, which shows up as a large difference between the true and the MSMM curves at values of $A$ higher than 60.</span>
-<span id="cb31-584"><a href="#cb31-584"></a></span>
-<span id="cb31-585"><a href="#cb31-585"></a>These probabilities can be mapped to total sales / profit given the number of individuals within each treatment level. Whether these numbers can be *transported* or extrapolated to future campaigns or other populations depends on how similar the distribution of $U$ is across these groups. In that sense, these marginal estimates are actually conditional on the distribution of confounders and effect modifiers. I came across <span class="co">[</span><span class="ot">this paper</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5784860/)</span> which would be interesting to read in the future.</span>
-<span id="cb31-586"><a href="#cb31-586"></a></span>
-<span id="cb31-587"><a href="#cb31-587"></a><span class="fu">## References</span></span>
-<span id="cb31-588"><a href="#cb31-588"></a></span>
-<span id="cb31-589"><a href="#cb31-589"></a>This post is based on the following references</span>
-<span id="cb31-590"><a href="#cb31-590"></a></span>
-<span id="cb31-591"><a href="#cb31-591"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins</span><span class="co">](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)</span> - Causal Inference: What If? - Chapters 14 (g-estimation), and 16 (instrumental variables)</span>
-<span id="cb31-592"><a href="#cb31-592"></a></span>
-<span id="cb31-593"><a href="#cb31-593"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Vansteelandt et al. 2011</span><span class="co">](https://projecteuclid.org/journals/statistical-science/volume-26/issue-3/On-Instrumental-Variables-Estimation-of-Causal-Odds-Ratios/10.1214/11-STS360.full)</span> - On Instrumental Variables Estimation of Causal Odds Ratios</span>
-<span id="cb31-594"><a href="#cb31-594"></a></span>
-<span id="cb31-595"><a href="#cb31-595"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Palmer et al. 2011</span><span class="co">](https://academic.oup.com/aje/article/173/12/1392/205870)</span> - Instrumental Variable Estimation of Causal Risk Ratios and Causal Odds Ratios in Mendelian Randomization Analyses</span>
-<span id="cb31-596"><a href="#cb31-596"></a></span>
-<span id="cb31-597"><a href="#cb31-597"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Dukes, Vansteelandt 2018</span><span class="co">](https://academic.oup.com/aje/article/187/5/1079/4930819)</span> - A Note on G-Estimation of Causal Risk Ratios</span>
-<span id="cb31-598"><a href="#cb31-598"></a></span>
-<span id="cb31-599"><a href="#cb31-599"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Burgess et al. 2014</span><span class="co">](https://academic.oup.com/aje/article/180/1/111/2739174)</span> - Lack of Identification in Semiparametric Instrumental Variable Models With Binary Outcomes</span>
-<span id="cb31-600"><a href="#cb31-600"></a></span>
-<span id="cb31-601"><a href="#cb31-601"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Sjolander, Martinussen 2019</span><span class="co">](https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html)</span> - Instrumental Variable Estimation with the R Package ivtools</span>
-<span id="cb31-602"><a href="#cb31-602"></a></span>
-<span id="cb31-603"><a href="#cb31-603"></a><span class="fu">## Simulated data</span></span>
-<span id="cb31-604"><a href="#cb31-604"></a></span>
-<span id="cb31-605"><a href="#cb31-605"></a>The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$), 2) the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> simulated from the truncated *Gamma* distribution $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$, 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)</span>
-<span id="cb31-606"><a href="#cb31-606"></a></span>
-<span id="cb31-607"><a href="#cb31-607"></a><span class="ot">[^19]: </span>a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)</span>
-<span id="cb31-608"><a href="#cb31-608"></a></span>
-<span id="cb31-611"><a href="#cb31-611"></a><span class="in">```{r}</span></span>
-<span id="cb31-612"><a href="#cb31-612"></a><span class="co"># probability of compliance as a function of the confounder</span></span>
-<span id="cb31-613"><a href="#cb31-613"></a>p_compliance <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-614"><a href="#cb31-614"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">y =</span> prob_C)) <span class="sc">+</span></span>
-<span id="cb31-615"><a href="#cb31-615"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb31-616"><a href="#cb31-616"></a>  <span class="fu">ylab</span>(<span class="st">"Compliance probability"</span>) <span class="sc">+</span></span>
-<span id="cb31-617"><a href="#cb31-617"></a>  <span class="fu">coord_cartesian</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb31-618"><a href="#cb31-618"></a></span>
-<span id="cb31-619"><a href="#cb31-619"></a><span class="co"># observed distribution of exposure levels</span></span>
-<span id="cb31-620"><a href="#cb31-620"></a>A_dist <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-621"><a href="#cb31-621"></a>  <span class="fu">filter</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-622"><a href="#cb31-622"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A)) <span class="sc">+</span></span>
-<span id="cb31-623"><a href="#cb31-623"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb31-624"><a href="#cb31-624"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), </span>
-<span id="cb31-625"><a href="#cb31-625"></a>                     <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span>
-<span id="cb31-626"><a href="#cb31-626"></a></span>
-<span id="cb31-627"><a href="#cb31-627"></a><span class="co"># check balance of U across Z</span></span>
-<span id="cb31-628"><a href="#cb31-628"></a><span class="co"># balanced as expected, because Z is a randomization indicator</span></span>
-<span id="cb31-629"><a href="#cb31-629"></a>UZ_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-630"><a href="#cb31-630"></a>  <span class="fu">mutate</span>(<span class="at">Z =</span> <span class="fu">factor</span>(Z, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
-<span id="cb31-631"><a href="#cb31-631"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb31-632"><a href="#cb31-632"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> Z)) <span class="sc">+</span></span>
-<span id="cb31-633"><a href="#cb31-633"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb31-634"><a href="#cb31-634"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb31-635"><a href="#cb31-635"></a></span>
-<span id="cb31-636"><a href="#cb31-636"></a><span class="co"># check balance across (dichotomized version of) A</span></span>
-<span id="cb31-637"><a href="#cb31-637"></a><span class="co"># not balanced because U and A are associated</span></span>
-<span id="cb31-638"><a href="#cb31-638"></a>UA_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-639"><a href="#cb31-639"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb31-640"><a href="#cb31-640"></a>    <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.numeric</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>), </span>
-<span id="cb31-641"><a href="#cb31-641"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
-<span id="cb31-642"><a href="#cb31-642"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treated"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb31-643"><a href="#cb31-643"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb31-644"><a href="#cb31-644"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb31-645"><a href="#cb31-645"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb31-646"><a href="#cb31-646"></a></span>
-<span id="cb31-647"><a href="#cb31-647"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p_compliance, A_dist, </span>
-<span id="cb31-648"><a href="#cb31-648"></a>                        UZ_plot, UA_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb31-649"><a href="#cb31-649"></a><span class="in">```</span></span>
+<span id="cb31-478"><a href="#cb31-478"></a>  <span class="fu">xlab</span>(<span class="st">"A"</span>) <span class="sc">+</span></span>
+<span id="cb31-479"><a href="#cb31-479"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
+<span id="cb31-480"><a href="#cb31-480"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb31-481"><a href="#cb31-481"></a><span class="in">```</span></span>
+<span id="cb31-482"><a href="#cb31-482"></a></span>
+<span id="cb31-483"><a href="#cb31-483"></a>When $U$ is unmeasured, only the marginal dose-response curve can be estimated, and the following plot compares g-computation and g-estimation estimates and their CIs, with the true curve plotted for comparison</span>
+<span id="cb31-484"><a href="#cb31-484"></a></span>
+<span id="cb31-487"><a href="#cb31-487"></a><span class="in">```{r}</span></span>
+<span id="cb31-488"><a href="#cb31-488"></a><span class="co"># simulate 100 datasets and take the mean of probabilities under A = 0</span></span>
+<span id="cb31-489"><a href="#cb31-489"></a>baseline_conversion_probability <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(</span>
+<span id="cb31-490"><a href="#cb31-490"></a>  <span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb31-491"><a href="#cb31-491"></a>  <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb31-492"><a href="#cb31-492"></a>    <span class="fu">simulate_data</span>(<span class="at">seed =</span> .x, <span class="at">n =</span> <span class="fl">1e5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-493"><a href="#cb31-493"></a>      <span class="fu">pull</span>(logpY0) <span class="sc">%&gt;%</span></span>
+<span id="cb31-494"><a href="#cb31-494"></a>      <span class="fu">exp</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-495"><a href="#cb31-495"></a>      <span class="fu">mean</span>()</span>
+<span id="cb31-496"><a href="#cb31-496"></a>    }) <span class="sc">%&gt;%</span></span>
+<span id="cb31-497"><a href="#cb31-497"></a>  <span class="fu">mean</span>()</span>
+<span id="cb31-498"><a href="#cb31-498"></a></span>
+<span id="cb31-499"><a href="#cb31-499"></a><span class="co"># true dose-response curve</span></span>
+<span id="cb31-500"><a href="#cb31-500"></a>true_dose_response_curve <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb31-501"><a href="#cb31-501"></a>  <span class="at">A =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">73</span>,</span>
+<span id="cb31-502"><a href="#cb31-502"></a>  <span class="at">estimate =</span> baseline_conversion_probability <span class="sc">*</span> <span class="fu">exp</span>(<span class="fu">log</span>(<span class="fl">1.02</span>) <span class="sc">*</span> A)</span>
+<span id="cb31-503"><a href="#cb31-503"></a>)</span>
+<span id="cb31-504"><a href="#cb31-504"></a></span>
+<span id="cb31-505"><a href="#cb31-505"></a><span class="co"># g-computation by creating counterfactual predictions</span></span>
+<span id="cb31-506"><a href="#cb31-506"></a><span class="co"># by setting A = a and averaging the predicted probabilities</span></span>
+<span id="cb31-507"><a href="#cb31-507"></a><span class="co"># doing this over a coarser grid to get faster run times</span></span>
+<span id="cb31-508"><a href="#cb31-508"></a>g_computation_dose_response_extrapolated_levels <span class="ot">&lt;-</span> glm_model <span class="sc">%&gt;%</span></span>
+<span id="cb31-509"><a href="#cb31-509"></a>  marginaleffects<span class="sc">::</span><span class="fu">predictions</span>(</span>
+<span id="cb31-510"><a href="#cb31-510"></a>    <span class="at">by =</span> <span class="st">"A"</span>, <span class="at">type =</span> <span class="st">"response"</span>,</span>
+<span id="cb31-511"><a href="#cb31-511"></a>    <span class="at">newdata =</span> marginaleffects<span class="sc">::</span><span class="fu">datagrid</span>(</span>
+<span id="cb31-512"><a href="#cb31-512"></a>      <span class="at">A =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">seq</span>(<span class="dv">5</span>, <span class="dv">70</span>, <span class="dv">5</span>), <span class="dv">73</span>), <span class="at">grid_type =</span> <span class="st">"counterfactual"</span></span>
+<span id="cb31-513"><a href="#cb31-513"></a>    )</span>
+<span id="cb31-514"><a href="#cb31-514"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb31-515"><a href="#cb31-515"></a>  <span class="fu">select</span>(A, estimate, conf.low, conf.high) <span class="sc">%&gt;%</span></span>
+<span id="cb31-516"><a href="#cb31-516"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb31-517"><a href="#cb31-517"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"G-computation"</span>)</span>
+<span id="cb31-518"><a href="#cb31-518"></a></span>
+<span id="cb31-519"><a href="#cb31-519"></a><span class="co"># get estimates of Pr[Y = 1 | A = 0]</span></span>
+<span id="cb31-520"><a href="#cb31-520"></a><span class="co"># by shaving off the effect of the treatment</span></span>
+<span id="cb31-521"><a href="#cb31-521"></a><span class="co"># using the point estimate and CI endpoints from ivglm</span></span>
+<span id="cb31-522"><a href="#cb31-522"></a>g_estimation_pY0 <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb31-523"><a href="#cb31-523"></a>  IV_gest <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"est"</span>) <span class="sc">%&gt;%</span> <span class="fu">unname</span>(),</span>
+<span id="cb31-524"><a href="#cb31-524"></a>  IV_gest <span class="sc">%&gt;%</span> <span class="fu">confint</span>() <span class="sc">%&gt;%</span> <span class="fu">unname</span>()</span>
+<span id="cb31-525"><a href="#cb31-525"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-526"><a href="#cb31-526"></a>  <span class="fu">set_names</span>(<span class="at">nm =</span> <span class="fu">c</span>(<span class="st">"estimate"</span>, <span class="st">"conf.low"</span>, <span class="st">"conf.high"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-527"><a href="#cb31-527"></a>  <span class="fu">map_dfr</span>(</span>
+<span id="cb31-528"><a href="#cb31-528"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb31-529"><a href="#cb31-529"></a>      df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-530"><a href="#cb31-530"></a>        <span class="fu">mutate</span>(<span class="at">H =</span> Y <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>.x <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-531"><a href="#cb31-531"></a>        <span class="fu">pull</span>(H) <span class="sc">%&gt;%</span></span>
+<span id="cb31-532"><a href="#cb31-532"></a>        <span class="fu">mean</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-533"><a href="#cb31-533"></a>        <span class="fu">tibble</span>(<span class="at">logRR =</span> .x, <span class="at">pY0 =</span> .)</span>
+<span id="cb31-534"><a href="#cb31-534"></a>    }, </span>
+<span id="cb31-535"><a href="#cb31-535"></a>    <span class="at">.id =</span> <span class="st">"name"</span></span>
+<span id="cb31-536"><a href="#cb31-536"></a>  )</span>
+<span id="cb31-537"><a href="#cb31-537"></a></span>
+<span id="cb31-538"><a href="#cb31-538"></a><span class="co"># using logRR estimate + CI and Pr[Y = 1 | A = 0]</span></span>
+<span id="cb31-539"><a href="#cb31-539"></a>g_estimation_dose_response <span class="ot">&lt;-</span> g_estimation_pY0 <span class="sc">%&gt;%</span></span>
+<span id="cb31-540"><a href="#cb31-540"></a>  <span class="fu">expand_grid</span>(., <span class="at">A =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">73</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-541"><a href="#cb31-541"></a>  <span class="co"># get P[Y = 1 | A = a]</span></span>
+<span id="cb31-542"><a href="#cb31-542"></a>  <span class="fu">mutate</span>(<span class="at">pY =</span> pY0 <span class="sc">*</span> <span class="fu">exp</span>(logRR <span class="sc">*</span> A)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-543"><a href="#cb31-543"></a>  <span class="fu">select</span>(<span class="sc">-</span>pY0, <span class="sc">-</span>logRR) <span class="sc">%&gt;%</span></span>
+<span id="cb31-544"><a href="#cb31-544"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> A, <span class="at">names_from =</span> <span class="st">"name"</span>, <span class="at">values_from =</span> <span class="st">"pY"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-545"><a href="#cb31-545"></a>  <span class="fu">mutate</span>(<span class="at">type  =</span> <span class="st">"G-estimation (using an IV)"</span>)</span>
+<span id="cb31-546"><a href="#cb31-546"></a></span>
+<span id="cb31-547"><a href="#cb31-547"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb31-548"><a href="#cb31-548"></a>  g_computation_dose_response_extrapolated_levels,</span>
+<span id="cb31-549"><a href="#cb31-549"></a>  g_estimation_dose_response</span>
+<span id="cb31-550"><a href="#cb31-550"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-551"><a href="#cb31-551"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> estimate, <span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb31-552"><a href="#cb31-552"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb31-553"><a href="#cb31-553"></a>  <span class="co"># plot the true curve</span></span>
+<span id="cb31-554"><a href="#cb31-554"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb31-555"><a href="#cb31-555"></a>    <span class="at">data =</span> true_dose_response_curve, </span>
+<span id="cb31-556"><a href="#cb31-556"></a>    <span class="fu">aes</span>(<span class="at">x =</span> A, <span class="at">y =</span> estimate), </span>
+<span id="cb31-557"><a href="#cb31-557"></a>    <span class="at">color =</span> <span class="st">"gray20"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>,, <span class="at">linetype =</span> <span class="st">"dotdash"</span>,</span>
+<span id="cb31-558"><a href="#cb31-558"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb31-559"><a href="#cb31-559"></a>  ) <span class="sc">+</span> </span>
+<span id="cb31-560"><a href="#cb31-560"></a>  <span class="fu">geom_ribbon</span>(</span>
+<span id="cb31-561"><a href="#cb31-561"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span></span>
+<span id="cb31-562"><a href="#cb31-562"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-563"><a href="#cb31-563"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.05</span>)) <span class="sc">+</span></span>
+<span id="cb31-564"><a href="#cb31-564"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb31-565"><a href="#cb31-565"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb31-566"><a href="#cb31-566"></a>  <span class="fu">ylab</span>(<span class="st">"Predicted probability of Y = 1"</span>) <span class="sc">+</span> </span>
+<span id="cb31-567"><a href="#cb31-567"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span>
+<span id="cb31-568"><a href="#cb31-568"></a><span class="in">```</span></span>
+<span id="cb31-569"><a href="#cb31-569"></a></span>
+<span id="cb31-570"><a href="#cb31-570"></a>Assuming no-effect modification by $U$, the point estimate and the CI endpoints from <span class="in">`ivglm`</span> are used to first estimate $\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>$ (which is the same as $\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span>$<span class="ot">[^18]</span>) by using the following relation</span>
+<span id="cb31-571"><a href="#cb31-571"></a></span>
+<span id="cb31-572"><a href="#cb31-572"></a><span class="ot">[^18]: </span>assuming consistency</span>
+<span id="cb31-573"><a href="#cb31-573"></a></span>
+<span id="cb31-574"><a href="#cb31-574"></a>$$</span>
+<span id="cb31-575"><a href="#cb31-575"></a>\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span> = \text{E}<span class="co">[</span><span class="ot">Y\ \text{exp}(\psi A)</span><span class="co">]</span></span>
+<span id="cb31-576"><a href="#cb31-576"></a>$$</span>
+<span id="cb31-577"><a href="#cb31-577"></a></span>
+<span id="cb31-578"><a href="#cb31-578"></a>and then using these to get the dose response curves and the following CIs</span>
+<span id="cb31-579"><a href="#cb31-579"></a></span>
+<span id="cb31-580"><a href="#cb31-580"></a>$$</span>
+<span id="cb31-581"><a href="#cb31-581"></a>\text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A</span><span class="co">]</span> = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | A = 0</span><span class="co">]</span>\ \text{exp}<span class="co">[</span><span class="ot">\psi A</span><span class="co">]</span></span>
+<span id="cb31-582"><a href="#cb31-582"></a>$$</span>
+<span id="cb31-583"><a href="#cb31-583"></a></span>
+<span id="cb31-584"><a href="#cb31-584"></a>The g-computation estimate is far narrower as the model has access to the information provided by $U$, compared to the MSMM. The MSMM estimate for this sample underestimates the true value, which shows up as a large difference between the true and the MSMM curves at values of $A$ higher than 60.</span>
+<span id="cb31-585"><a href="#cb31-585"></a></span>
+<span id="cb31-586"><a href="#cb31-586"></a>These probabilities can be mapped to total sales / profit given the number of individuals within each treatment level. Whether these numbers can be *transported* or extrapolated to future campaigns or other populations depends on how similar the distribution of $U$ is across these groups. In that sense, these marginal estimates are actually conditional on the distribution of confounders and effect modifiers. I came across <span class="co">[</span><span class="ot">this paper</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5784860/)</span> which would be interesting to read in the future.</span>
+<span id="cb31-587"><a href="#cb31-587"></a></span>
+<span id="cb31-588"><a href="#cb31-588"></a><span class="fu">## References</span></span>
+<span id="cb31-589"><a href="#cb31-589"></a></span>
+<span id="cb31-590"><a href="#cb31-590"></a>This post is based on the following references</span>
+<span id="cb31-591"><a href="#cb31-591"></a></span>
+<span id="cb31-592"><a href="#cb31-592"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Hernán, Robins</span><span class="co">](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)</span> - Causal Inference: What If? - Chapters 14 (g-estimation), and 16 (instrumental variables)</span>
+<span id="cb31-593"><a href="#cb31-593"></a></span>
+<span id="cb31-594"><a href="#cb31-594"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Vansteelandt et al. 2011</span><span class="co">](https://projecteuclid.org/journals/statistical-science/volume-26/issue-3/On-Instrumental-Variables-Estimation-of-Causal-Odds-Ratios/10.1214/11-STS360.full)</span> - On Instrumental Variables Estimation of Causal Odds Ratios</span>
+<span id="cb31-595"><a href="#cb31-595"></a></span>
+<span id="cb31-596"><a href="#cb31-596"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Palmer et al. 2011</span><span class="co">](https://academic.oup.com/aje/article/173/12/1392/205870)</span> - Instrumental Variable Estimation of Causal Risk Ratios and Causal Odds Ratios in Mendelian Randomization Analyses</span>
+<span id="cb31-597"><a href="#cb31-597"></a></span>
+<span id="cb31-598"><a href="#cb31-598"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Dukes, Vansteelandt 2018</span><span class="co">](https://academic.oup.com/aje/article/187/5/1079/4930819)</span> - A Note on G-Estimation of Causal Risk Ratios</span>
+<span id="cb31-599"><a href="#cb31-599"></a></span>
+<span id="cb31-600"><a href="#cb31-600"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Burgess et al. 2014</span><span class="co">](https://academic.oup.com/aje/article/180/1/111/2739174)</span> - Lack of Identification in Semiparametric Instrumental Variable Models With Binary Outcomes</span>
+<span id="cb31-601"><a href="#cb31-601"></a></span>
+<span id="cb31-602"><a href="#cb31-602"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Sjolander, Martinussen 2019</span><span class="co">](https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html)</span> - Instrumental Variable Estimation with the R Package ivtools</span>
+<span id="cb31-603"><a href="#cb31-603"></a></span>
+<span id="cb31-604"><a href="#cb31-604"></a><span class="fu">## Simulated data</span></span>
+<span id="cb31-605"><a href="#cb31-605"></a></span>
+<span id="cb31-606"><a href="#cb31-606"></a>The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$), 2) the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> simulated from the truncated *Gamma* distribution $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$, 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)</span>
+<span id="cb31-607"><a href="#cb31-607"></a></span>
+<span id="cb31-608"><a href="#cb31-608"></a><span class="ot">[^19]: </span>a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)</span>
+<span id="cb31-609"><a href="#cb31-609"></a></span>
+<span id="cb31-612"><a href="#cb31-612"></a><span class="in">```{r}</span></span>
+<span id="cb31-613"><a href="#cb31-613"></a><span class="co"># probability of compliance as a function of the confounder</span></span>
+<span id="cb31-614"><a href="#cb31-614"></a>p_compliance <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-615"><a href="#cb31-615"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">y =</span> prob_C)) <span class="sc">+</span></span>
+<span id="cb31-616"><a href="#cb31-616"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb31-617"><a href="#cb31-617"></a>  <span class="fu">ylab</span>(<span class="st">"Compliance probability"</span>) <span class="sc">+</span></span>
+<span id="cb31-618"><a href="#cb31-618"></a>  <span class="fu">coord_cartesian</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb31-619"><a href="#cb31-619"></a></span>
+<span id="cb31-620"><a href="#cb31-620"></a><span class="co"># observed distribution of exposure levels</span></span>
+<span id="cb31-621"><a href="#cb31-621"></a>A_dist <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-622"><a href="#cb31-622"></a>  <span class="fu">filter</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-623"><a href="#cb31-623"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A)) <span class="sc">+</span></span>
+<span id="cb31-624"><a href="#cb31-624"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb31-625"><a href="#cb31-625"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), </span>
+<span id="cb31-626"><a href="#cb31-626"></a>                     <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span>
+<span id="cb31-627"><a href="#cb31-627"></a></span>
+<span id="cb31-628"><a href="#cb31-628"></a><span class="co"># check balance of U across Z</span></span>
+<span id="cb31-629"><a href="#cb31-629"></a><span class="co"># balanced as expected, because Z is a randomization indicator</span></span>
+<span id="cb31-630"><a href="#cb31-630"></a>UZ_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-631"><a href="#cb31-631"></a>  <span class="fu">mutate</span>(<span class="at">Z =</span> <span class="fu">factor</span>(Z, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb31-632"><a href="#cb31-632"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb31-633"><a href="#cb31-633"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> Z)) <span class="sc">+</span></span>
+<span id="cb31-634"><a href="#cb31-634"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb31-635"><a href="#cb31-635"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb31-636"><a href="#cb31-636"></a></span>
+<span id="cb31-637"><a href="#cb31-637"></a><span class="co"># check balance across (dichotomized version of) A</span></span>
+<span id="cb31-638"><a href="#cb31-638"></a><span class="co"># not balanced because U and A are associated</span></span>
+<span id="cb31-639"><a href="#cb31-639"></a>UA_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-640"><a href="#cb31-640"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb31-641"><a href="#cb31-641"></a>    <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.numeric</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>), </span>
+<span id="cb31-642"><a href="#cb31-642"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb31-643"><a href="#cb31-643"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treated"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb31-644"><a href="#cb31-644"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb31-645"><a href="#cb31-645"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb31-646"><a href="#cb31-646"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb31-647"><a href="#cb31-647"></a></span>
+<span id="cb31-648"><a href="#cb31-648"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p_compliance, A_dist, </span>
+<span id="cb31-649"><a href="#cb31-649"></a>                        UZ_plot, UA_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb31-650"><a href="#cb31-650"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
