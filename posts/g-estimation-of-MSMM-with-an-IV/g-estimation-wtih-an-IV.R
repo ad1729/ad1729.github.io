@@ -13,6 +13,8 @@ library(broom, include.only = "tidy")
 # library(marginaleffects)
 # library(glue)
 
+theme_set(theme_bw())
+
 # simulation parameters ----
 confounder_values <- seq(0, 1e5, 50) / 1e4
 
@@ -622,6 +624,10 @@ marginal_predictions <- bind_rows(
   print(n = 10)
 
 # plot with the extrapolated predictions
+#
+# some extreme plots, but that can probably be improved by increasing the
+# number of simulations to 5,000-10,000 and using the results between the
+# 2.5% and 97.5% percentiles
 marginal_predictions %>%
   ggplot(aes(x = A, y = probability, group = interaction(id, category),
              color = extrapolation)) +
@@ -702,7 +708,7 @@ g_computation_dose_response_extrapolated_levels <- glm_model %>%
   select(A, estimate, conf.low, conf.high) %>%
   as_tibble() %>%
   arrange(A) %>%
-  mutate(type = "G-computation (extrapolated (A, U) levels)") %>%
+  mutate(type = "G-computation") %>%
   print()
 
 g_computation_dose_response_observed_levels <- glm_model %>%
@@ -824,7 +830,7 @@ g_estimation_dose_response <- g_estimation_pY0 %>%
   mutate(pY = pY0 * exp(logRR * A)) %>%
   select(-pY0, -logRR) %>%
   pivot_wider(id_cols = A, names_from = "name", values_from = "pY") %>%
-  mutate(type  = "G-estimation") %>%
+  mutate(type  = "G-estimation (using an IV)") %>%
   print()
 
 g_estimation_dose_response
@@ -840,9 +846,9 @@ bind_rows(
   ) %>%
   ggplot(aes(x = A, y = estimate, color = type)) +
   geom_line() +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = type),
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high),
               #fill = "gray70",
-              alpha = 0.5) +
+              alpha = 0.1) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 0.25, 0.05)) +
   scale_x_continuous(breaks = seq(0, 80, 10)) +
@@ -869,7 +875,7 @@ title_plot <- bind_rows(
   scale_x_continuous(breaks = seq(0, 80, 10)) +
   theme(legend.position = "bottom", legend.title = element_blank()) +
   ylab("Predicted probability of Y = 1") +
-  xlab("A (true curve in gray)")
+  xlab("Number of impressions (true curve in gray)")
 
 title_plot
 
