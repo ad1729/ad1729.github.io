@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://akshat.blog/about.html</loc>
-    <lastmod>2024-02-18T06:37:38.338Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/index.html</loc>
-    <lastmod>2024-02-18T06:37:38.918Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/g-estimation-of-MSMM-with-an-IV/index.html</loc>
-    <lastmod>2024-02-18T06:37:40.066Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/gee-on-aggregated-data/index.html</loc>
-    <lastmod>2024-02-18T06:37:40.874Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/hello-world/index.html</loc>
-    <lastmod>2024-02-18T06:37:41.258Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/how-many-ratings-do-i-need/index.html</loc>
-    <lastmod>2024-02-18T06:37:41.766Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/instrumental-variable-in-RCT/index.html</loc>
-    <lastmod>2024-02-18T06:37:43.714Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/jigger-volume-estimation/index.html</loc>
-    <lastmod>2024-02-18T06:37:44.250Z</lastmod>
+    <loc>https://akshat.blog/posts/tweedie-with-identity-link-and-offset/index.html</loc>
+    <lastmod>2024-01-23T07:27:50.123Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/one-reason-why-a-glm-coefficient-is-NA/index.html</loc>
-    <lastmod>2024-02-18T06:37:44.702Z</lastmod>
+    <lastmod>2024-02-10T13:10:54.650Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/instrumental-variable-in-RCT/index.html</loc>
+    <lastmod>2023-10-15T19:23:16.220Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/hello-world/index.html</loc>
+    <lastmod>2022-08-08T16:17:04.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/g-estimation-of-MSMM-with-an-IV/index.html</loc>
+    <lastmod>2024-03-01T05:49:37.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/about.html</loc>
+    <lastmod>2023-07-30T19:00:10.702Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/index.html</loc>
+    <lastmod>2022-08-08T16:17:04.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/gee-on-aggregated-data/index.html</loc>
+    <lastmod>2023-03-24T18:41:12.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/how-many-ratings-do-i-need/index.html</loc>
+    <lastmod>2024-02-10T13:05:45.900Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/posts/jigger-volume-estimation/index.html</loc>
+    <lastmod>2023-01-09T15:26:50.000Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/spelling-bee/index.html</loc>
-    <lastmod>2024-02-18T06:37:45.494Z</lastmod>
-  </url>
-  <url>
-    <loc>https://akshat.blog/posts/tweedie-with-identity-link-and-offset/index.html</loc>
-    <lastmod>2024-02-18T06:37:46.302Z</lastmod>
+    <lastmod>2023-10-08T21:02:38.967Z</lastmod>
   </url>
 </urlset>

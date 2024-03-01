@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -83,7 +83,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -92,13 +98,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -106,10 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Akshat Dwivedi</span>
     </a>
@@ -121,29 +156,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ad1729" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ad1729"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos" rel="" target=""><i class="bi bi-images" role="img">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"> <i class="bi bi-images" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -194,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   <li><a href="#simulated-data" id="toc-simulated-data" class="nav-link" data-scroll-target="#simulated-data">Simulated data</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
@@ -202,11 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <section id="introduction" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>In a <a href="../../posts/instrumental-variable-in-RCT/index.html">previous post</a>, I used the <em>ratio estimator</em> and the method of <em>instrumental variables</em> (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</p>
-<div class="page-columns page-full"><p>This post uses the lesser-known method of <em>g-estimation</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to estimate the effect of a continuous exposure variable in a <em>multiplicative structural mean model</em> (MSMM) by using the randomization indicator as an instrumental variable to obtain valid treatment effect estimates in the presence of unmeasured confounding.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;less popular compared to IPTW and PSM, hence the clickbait-y title</p></li></div></div>
-<div class="page-columns page-full"><p>As mentioned towards the end of the previous post, analyzing the treated individuals by collapsing them into a single ‘treated’ group was a simplification. The observed treatment variable would in reality be the number of impressions of the ad — naturally varying between individuals in the treated group, but zero among the individuals assigned to the control group and among the <em>never-takers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;i.e., people who would not take the treatment if assigned to the treatment group. <em>Defiers</em> and <em>always-takers</em> aren’t possible as individuals in the control group cannot see an ad, because compliance in the control arm is ensured by design.</p></li></div></div>
+<p>This post uses the lesser-known method of <em>g-estimation</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to estimate the effect of a continuous exposure variable in a <em>multiplicative structural mean model</em> (MSMM) by using the randomization indicator as an instrumental variable to obtain valid treatment effect estimates in the presence of unmeasured confounding.</p>
+<div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;less popular compared to IPTW and PSM, hence the clickbait-y title</p><p><sup>2</sup>&nbsp;i.e., people who would not take the treatment if assigned to the treatment group. <em>Defiers</em> and <em>always-takers</em> aren’t possible as individuals in the control group cannot see an ad, because compliance in the control arm is ensured by design.</p></div><p>As mentioned towards the end of the previous post, analyzing the treated individuals by collapsing them into a single ‘treated’ group was a simplification. The observed treatment variable would in reality be the number of impressions of the ad — naturally varying between individuals in the treated group, but zero among the individuals assigned to the control group and among the <em>never-takers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 </section>
 <section id="parameter-of-interest" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="parameter-of-interest">Parameter of interest</h2>
@@ -214,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><span class="math display">\[
 \text{ATE} = \frac{\text{Pr}[Y^{a + 1} = 1]}{\text{Pr}[Y^{a} = 1]}
 \]</span><br>
-This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to <span class="math inline">\(A = a + 1\)</span> vs <span class="math inline">\(A = a\)</span> for the full population (<span class="math inline">\(Y^a\)</span> denotes the potential outcome under treatment level <span class="math inline">\(a\)</span>).</p>
+This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to <span class="math inline">\(A = a + 1\)</span> vs <span class="math inline">\(A = a\)</span> for the full population (<span class="math inline">\(Y_i^a\)</span> denotes the potential outcome for the <span class="math inline">\(i\)</span>-th individual and <span class="math inline">\(\text{Pr}[Y^a = 1]\)</span> denotes the probability of <span class="math inline">\(Y = 1\)</span> under treatment level <span class="math inline">\(a\)</span>).</p>
 <p>Another estimand of interest may be the <em>average treatment effect in the treated</em> (ATT) or the <em>effect of the treatment on the treated</em> (ETT). This compares the treated individuals to the <em>counterfactual scenario had they not been treated</em>. This corresponds to <span class="math display">\[
 \text{ATT} = \frac{\text{Pr}[Y^a = 1 | A = a]}{\text{Pr}[Y^{a = 0} = 1 | A = a]}
 \]</span></p>
@@ -224,10 +260,10 @@ This is usually the target of inference in an experiment with perfect compliance
 \]</span></p>
 <p>The main MSMM used in this post estimates the ATE if the unmeasured confounders <span class="math inline">\(U\)</span> are <em>not effect-measure modifiers</em> (i.e., the impact of treatment <span class="math inline">\(A\)</span> on the ratio scale is the same on <span class="math inline">\(Y\)</span> at all levels of <span class="math inline">\(U\)</span>). If <span class="math inline">\(U\)</span> is an effect modifier, but <span class="math inline">\(Z\)</span> is not, then the MSMM estimate can be interpreted as the <span class="math inline">\(\text{ATT}_{IV}\)</span>.</p>
 <p>Pages 2-3 of <a href="https://projecteuclid.org/journals/statistical-science/volume-26/issue-3/On-Instrumental-Variables-Estimation-of-Causal-Odds-Ratios/10.1214/11-STS360.full">this paper</a> provide a concise yet illuminating discussion of the different effect measures that can be of interest.</p>
-<div class="page-columns page-full"><p>Since risk ratios are <em>collapsible</em> (see <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/bimj.201900297">this excellent paper</a>), the (confounder-adjusted) marginal and conditional estimands are identical<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;which is only the case for risk differences and risk ratios.</p></li></div></div>
-<p>Before writing any code, the main packages used in this post are attached.</p>
+<p>Since risk ratios are <em>collapsible</em> (see <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/bimj.201900297">this excellent paper</a>), the (confounder-adjusted) marginal and conditional estimands are identical<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>3</sup>&nbsp;which is only the case for risk differences and risk ratios.</p></div><p>Before writing any code, the main packages used in this post are attached.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -243,7 +279,7 @@ This is usually the target of inference in an experiment with perfect compliance
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(broom, <span class="at">include.only =</span> <span class="st">"tidy"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
@@ -262,13 +298,13 @@ This is usually the target of inference in an experiment with perfect compliance
 </section>
 <section id="g-estimation-in-a-nutshell" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="g-estimation-in-a-nutshell">G-estimation in a nutshell</h2>
-<div class="page-columns page-full"><p>The first time I read the chapter on g-estimation in the what-if book, it went over my head completely<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Conceptually, it seemed harder than the more popular (g-)methods of <em>g-computation</em> and <em>inverse probability of treatment weighting</em> (IPTW). However, its superiority to g-computation in terms of not being prone to bias due to extrapolation, superiority to IPTW<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> in terms of having less variability (and bias), and relative ease of handling continuous exposures (and continuous instruments) piqued my curiosity<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;May have had something to do with the fact that I was attempting this at 3 AM in between sleep cycles.</p></li><li id="fn5"><p><sup>5</sup>&nbsp;I think this isn’t an issue if <em>overlap</em> (ATO) weights are used instead of the usual ATE weights, as g-estimation gives higher weight to strata with greater overlap, and empty strata don’t contribute to the final estimate.</p></li><li id="fn6"><p><sup>6</sup>&nbsp;I’m basing this on the Dukes, Vansteelandt paper.</p></li></div></div>
-<p>Another advantage is that there’s no need to correctly model the relationship between the confounders <span class="math inline">\(U\)</span> and the outcome <span class="math inline">\(Y\)</span> for the correct estimation of the treatment effect. This would not be the case when using (<em>log-)binomial</em> or <em>poisson</em> regression, where misspecification of the <span class="math inline">\(U-Y\)</span> relationship can bias the estimate for <span class="math inline">\(A\)</span>.</p>
-<div class="page-columns page-full"><p>The essence of g-estimation is simple<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> – once the true effect of the treatment <span class="math inline">\(\psi\)</span> is shaved off from the response variable <span class="math inline">\(Y\)</span>, the residuals <span class="math inline">\(H(\psi) = Y - \psi A = Y^{a = 0}\)</span> should be uncorrelated with the treatment <span class="math inline">\(A\)</span> in the confounder-adjusted propensity model, i.e., <span class="math inline">\(\text{Cov}(A, H(\psi) | U) = 0\)</span><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. This is the same as picking the value of <span class="math inline">\(\psi\)</span> that leads to <span class="math inline">\(\alpha_1 = 0\)</span> in <span class="math inline">\(\mathbb{E}[A | Y^{a=0}, U] = \alpha_0 + \alpha_1 H(\psi) + \sum_{j=2}^k \alpha_j U_{j-1}\)</span><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. For MSMMs, <span class="math inline">\(H(\psi) = Y \text{exp}(- \psi A)\)</span> is used where <span class="math inline">\(\psi\)</span> is the risk ratio on the log scale.</p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;after having grasped it that is</p></li><li id="fn8"><p><sup>8</sup>&nbsp;Cov denotes <em>covariance.</em></p></li><li id="fn9"><p><sup>9</sup>&nbsp;For a binary exposure variable, the <span class="math inline">\(\mathbb{E}[A]\)</span> is replaced by <span class="math inline">\(\text{logit(Pr[A = 1])}\)</span>, where <span class="math inline">\(\text{logit}(p) = \text{log}\Big(\frac{p}{1-p}\Big)\)</span> and <span class="math inline">\(p\)</span> is the probability <span class="math inline">\(\text{Pr}[A = 1]\)</span>.</p></li></div></div>
-<p>This works because of the <em>conditional mean independence</em> assumption — that the exposed and unexposed individuals are exchangeable within levels of <span class="math inline">\(U\)</span> (i.e., <span class="math inline">\(Y^{a = 0} \perp\!\!\!\perp A|U\)</span>) as would be the case for a conditionally randomized experiment. In a marginally randomized experiment, the treatment assigned and received is independent of the potential outcomes, which would not be the case if people with (say) higher levels of <span class="math inline">\(U\)</span> were more likely to take the treatment (<span class="math inline">\(A &gt; 0\)</span>) and have a positive outcome <span class="math inline">\(Y = 1\)</span>. In this scenario, it wouldn’t be possible to say whether it was <span class="math inline">\(A\)</span> or <span class="math inline">\(U\)</span> causing better outcomes. This <em>lack-of-identification</em> is due to confounding between the effect of <span class="math inline">\(U\)</span> on <span class="math inline">\(Y\)</span> and the effect of <span class="math inline">\(A\)</span> on <span class="math inline">\(Y\)</span>.</p>
+<p>The first time I read the chapter on g-estimation in the what-if book, it went over my head completely<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Conceptually, it seemed harder than the more popular (g-)methods of <em>g-computation</em> and <em>inverse probability of treatment weighting</em> (IPTW). However, its superiority to g-computation in terms of not being prone to bias due to extrapolation, superiority to IPTW<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> in terms of having less variability (and bias), and relative ease of handling continuous exposures (and continuous instruments) piqued my curiosity<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>4</sup>&nbsp;May have had something to do with the fact that I was attempting this at 3 AM in between sleep cycles.</p><p><sup>5</sup>&nbsp;I think this isn’t an issue if <em>overlap</em> (ATO) weights are used instead of the usual ATE weights, as g-estimation gives higher weight to strata with greater overlap, and empty strata don’t contribute to the final estimate.</p><p><sup>6</sup>&nbsp;I’m basing this on the Dukes, Vansteelandt paper.</p></div><p>Another advantage is that there’s no need to correctly model the relationship between the confounders <span class="math inline">\(U\)</span> and the outcome <span class="math inline">\(Y\)</span> for the correct estimation of the treatment effect. This would not be the case when using (<em>log-)binomial</em> or <em>poisson</em> regression, where misspecification of the <span class="math inline">\(U-Y\)</span> relationship can bias the estimate for <span class="math inline">\(A\)</span>.</p>
+<p>The essence of g-estimation is simple<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> – once the true effect of the treatment <span class="math inline">\(\psi\)</span> is shaved off from the response variable <span class="math inline">\(Y\)</span>, the residuals <span class="math inline">\(H(\psi) = Y - \psi A = Y^{a = 0}\)</span> should be uncorrelated with the treatment <span class="math inline">\(A\)</span> in the confounder-adjusted propensity model, i.e., <span class="math inline">\(\text{Cov}(A, H(\psi) | U) = 0\)</span><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. This is the same as picking the value of <span class="math inline">\(\psi\)</span> that leads to <span class="math inline">\(\alpha_1 = 0\)</span> in <span class="math inline">\(\mathbb{E}[A | Y^{a=0}, U] = \alpha_0 + \alpha_1 H(\psi) + \sum_{j=2}^k \alpha_j U_{j-1}\)</span><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. For MSMMs, <span class="math inline">\(H(\psi) = Y \text{exp}(- \psi A)\)</span> is used where <span class="math inline">\(\psi\)</span> is the risk ratio on the log scale.</p>
+<div class="no-row-height column-margin column-container"><p><sup>7</sup>&nbsp;after having grasped it that is</p><p><sup>8</sup>&nbsp;Cov denotes <em>covariance.</em></p><p><sup>9</sup>&nbsp;For a binary exposure variable, the <span class="math inline">\(\mathbb{E}[A]\)</span> is replaced by <span class="math inline">\(\text{logit(Pr[A = 1])}\)</span>, where <span class="math inline">\(\text{logit}(p) = \text{log}\Big(\frac{p}{1-p}\Big)\)</span> and <span class="math inline">\(p\)</span> is the probability <span class="math inline">\(\text{Pr}[A = 1]\)</span>.</p></div><p>This works because of the <em>conditional mean independence</em> assumption — that the exposed and unexposed individuals are exchangeable within levels of <span class="math inline">\(U\)</span> (i.e., <span class="math inline">\(Y^{a = 0} \perp\!\!\!\perp A|U\)</span>) as would be the case for a conditionally randomized experiment. In a marginally randomized experiment, the treatment assigned and received is independent of the potential outcomes, which would not be the case if people with (say) higher levels of <span class="math inline">\(U\)</span> were more likely to take the treatment (<span class="math inline">\(A &gt; 0\)</span>) and have a positive outcome <span class="math inline">\(Y = 1\)</span>. In this scenario, it wouldn’t be possible to say whether it was <span class="math inline">\(A\)</span> or <span class="math inline">\(U\)</span> causing better outcomes. This <em>lack-of-identification</em> is due to confounding between the effect of <span class="math inline">\(U\)</span> on <span class="math inline">\(Y\)</span> and the effect of <span class="math inline">\(A\)</span> on <span class="math inline">\(Y\)</span>.</p>
 <p>Suppose the following dataset is available (with a true CRR value of 1.02, 70% treatment-control split, and 40% non-compliance (never-takers))</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">seed =</span> <span class="dv">24</span>, <span class="at">n =</span> <span class="fl">1e5</span>) {</span>
 <span id="cb4-2"><a href="#cb4-2"></a>  </span>
@@ -318,7 +354,7 @@ $ Y      &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 </div>
 <p>For exploring g-estimation with no-unmeasured confounding (since <span class="math inline">\(U\)</span> is measured) in the simple model represented by the <em>directed acyclic graph</em> (DAG) <span class="math inline">\(A \leftarrow U \rightarrow Y\)</span> and <span class="math inline">\(A \rightarrow Y\)</span>, one way of estimating the treatment effect <span class="math inline">\(\psi\)</span> is using <em>grid search</em> which visually looks like this when the estimated coefficient for <span class="math inline">\(\alpha_1\)</span> is plotted on the Y-axis</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>grid_search_coefficient <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.05</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="co"># get the coefficient from the correct and incorrect propensity models</span></span>
@@ -356,12 +392,16 @@ $ Y      &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <span id="cb6-34"><a href="#cb6-34"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>or like this when the <span class="math inline">\(p\)</span>-value is plotted on the Y-axis (on a narrower grid)</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>grid_search_pvalue <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.001</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="co"># get the coefficient from the correct and incorrect propensity models</span></span>
@@ -394,12 +434,16 @@ $ Y      &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <span id="cb7-29"><a href="#cb7-29"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>From both the graphs, it’s evident that the estimate from the correctly specified propensity model is much closer to the true value of 1.02 (or 2% increase when going from <span class="math inline">\(A = a\)</span> to <span class="math inline">\(A = a + 1\)</span>) compared to the estimate from the propensity model without <span class="math inline">\(U\)</span>. Recovering the true effect in the presence of unmeasured confounding would require knowing which non-zero value of <span class="math inline">\(\alpha_1\)</span> (here about -2.5) corresponds to the true value of <span class="math inline">\(\psi\)</span>.</p>
-<div class="page-columns page-full"><p>Grid search can be kinda tedious<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> and computationally inefficient when there are multiple treatment parameters<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>, but <a href="https://academic.oup.com/aje/article/187/5/1079/4930819">this paper</a> shows a neat trick using <em>log-link</em> <em>Gamma Generalized Estimating Equations (GEE)</em> to estimate risk ratios using regression adjustment for the propensity score</p><div class="no-row-height column-margin column-container"><li id="fn10"><p><sup>10</sup>&nbsp;It was annoying to use grid-search with p-values for this setting - if the grid was too coarse so there weren’t any points close to the true value, then the p-values were very close to zero, which explains the fine grid used here. Calling <code>optimize(gest_function, interval = c(-5, 5), maximum = TRUE)</code> where gest_function takes <span class="math inline">\(\psi\)</span> as an input and returns the p-value as the output failed to find the correct value, until the interval was narrowed to (0, 2). The coefficient estimate function wouldn’t work too well either, since risk ratio values less than 1 lead to estimates of <span class="math inline">\(\alpha_1\)</span> to be very close to 0.</p></li><li id="fn11"><p><sup>11</sup>&nbsp;to account for effect-measure modification or heterogeneity of treatment effect</p></li></div></div>
-<div class="cell">
+<p>Grid search can be kinda tedious<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> and computationally inefficient when there are multiple treatment parameters<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>, but <a href="https://academic.oup.com/aje/article/187/5/1079/4930819">this paper</a> shows a neat trick using <em>log-link</em> <em>Gamma Generalized Estimating Equations (GEE)</em> to estimate risk ratios using regression adjustment for the propensity score</p>
+<div class="no-row-height column-margin column-container"><p><sup>10</sup>&nbsp;It was annoying to use grid-search with p-values for this setting - if the grid was too coarse so there weren’t any points close to the true value, then the p-values were very close to zero, which explains the fine grid used here. Calling <code>optimize(gest_function, interval = c(-5, 5), maximum = TRUE)</code> where gest_function takes <span class="math inline">\(\psi\)</span> as an input and returns the p-value as the output failed to find the correct value, until the interval was narrowed to (0, 2). The coefficient estimate function wouldn’t work too well either, since risk ratio values less than 1 lead to estimates of <span class="math inline">\(\alpha_1\)</span> to be very close to 0.</p><p><sup>11</sup>&nbsp;to account for effect-measure modification or heterogeneity of treatment effect</p></div><div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>propensity_scores <span class="ot">&lt;-</span> mgcv<span class="sc">::</span><span class="fu">gam</span>(A <span class="sc">~</span> <span class="fu">s</span>(U, <span class="at">k =</span> <span class="dv">10</span>), <span class="at">data =</span> df_large) <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">fitted</span>()</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
@@ -431,7 +475,7 @@ A             0.01937 0.003600  0.003923   4.936 8e-07
 </div>
 <p>Unfortunately there’s no <em>tidier</em> for objects of class <code>geem</code> in the <code>broom</code> package, but it’s easy enough to write one to extract information from the fitted model as a data frame — see the following code block</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>tidy.geem <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb12-2"><a href="#cb12-2"></a>                      <span class="at">exponentiate =</span> <span class="cn">FALSE</span>, </span>
@@ -504,9 +548,9 @@ A             0.01937 0.003600  0.003923   4.936 8e-07
 </section>
 <section id="g-estimation-with-an-iv" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="g-estimation-with-an-iv">G-estimation with an IV</h2>
-<div class="page-columns page-full"><p>In a randomized trial with perfect compliance, <span class="math inline">\(A\)</span> and <span class="math inline">\(Z\)</span> will be identical so a simple analysis using either one of these will result in an unbiased estimate of the average treatment effect. On the other hand, in the presence of imperfect compliance due to unmeasured confounding, an unadjusted analysis of <span class="math inline">\(A - Y\)</span> will lead to biased estimates of the effect of treatment, and an unadjusted analysis of <span class="math inline">\(Z - Y\)</span> will lead to an estimate of assigning treatment<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> instead of receiving the treatment. Analyzing only <span class="math inline">\(A-Y\)</span>, the estimated treatment effect concentrates around 0.98 on average instead of 1.02</p><div class="no-row-height column-margin column-container"><li id="fn12"><p><sup>12</sup>&nbsp;i.e., the <em>intention-to-treat</em> effect (ITT)</p></li></div></div>
-<div class="cell">
-<details>
+<p>In a randomized trial with perfect compliance, <span class="math inline">\(A\)</span> and <span class="math inline">\(Z\)</span> will be identical so a simple analysis using either one of these will result in an unbiased estimate of the average treatment effect. On the other hand, in the presence of imperfect compliance due to unmeasured confounding, an unadjusted analysis of <span class="math inline">\(A - Y\)</span> will lead to biased estimates of the effect of treatment, and an unadjusted analysis of <span class="math inline">\(Z - Y\)</span> will lead to an estimate of assigning treatment<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> instead of receiving the treatment. Analyzing only <span class="math inline">\(A-Y\)</span>, the estimated treatment effect concentrates around 0.98 on average instead of 1.02</p>
+<div class="no-row-height column-margin column-container"><p><sup>12</sup>&nbsp;i.e., the <em>intention-to-treat</em> effect (ITT)</p></div><div class="cell">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># specify the seed</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
@@ -525,16 +569,16 @@ A             0.01937 0.003600  0.003923   4.936 8e-07
  0.9578  0.9741  0.9815  0.9810  0.9864  1.0035 </code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>If the DAG with relationships <span class="math inline">\(A \leftarrow U \rightarrow Y\)</span> and <span class="math inline">\(Z \rightarrow A \rightarrow Y\)</span> holds but only <span class="math inline">\((Z, A, Y)\)</span> are observed, and <span class="math inline">\(Z\)</span> is a variable that meets the IV conditions<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, the effect of <span class="math inline">\(A\)</span> (<span class="math inline">\(\text{ATE}\)</span> or <span class="math inline">\(\text{ATT}_{IV}\)</span>) can be estimated under some additional assumptions.</p><div class="no-row-height column-margin column-container"><li id="fn13"><p><sup>13</sup>&nbsp;Associated with <span class="math inline">\(A\)</span> (relevance), not associated with any variables in the set <span class="math inline">\(U\)</span> (ignorability), and no direct effect on <span class="math inline">\(Y\)</span> (exclusion restriction)</p></li></div></div>
-<p>The key idea is captured by this (estimating) equation</p>
+<p>If the DAG with relationships <span class="math inline">\(A \leftarrow U \rightarrow Y\)</span> and <span class="math inline">\(Z \rightarrow A \rightarrow Y\)</span> holds but only <span class="math inline">\((Z, A, Y)\)</span> are observed, and <span class="math inline">\(Z\)</span> is a variable that meets the IV conditions<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, the effect of <span class="math inline">\(A\)</span> (<span class="math inline">\(\text{ATE}\)</span> or <span class="math inline">\(\text{ATT}_{IV}\)</span>) can be estimated under some additional assumptions.</p>
+<div class="no-row-height column-margin column-container"><p><sup>13</sup>&nbsp;Associated with <span class="math inline">\(A\)</span> (relevance), not associated with any variables in the set <span class="math inline">\(U\)</span> (ignorability), and no direct effect on <span class="math inline">\(Y\)</span> (exclusion restriction)</p></div><p>The key idea is captured by this (estimating) equation</p>
 <p><span class="math display">\[
 \sum_{i = 1}^n (z_i - \bar{z})\ y_i\ \text{exp}(-\psi\ a_i) = 0
 \]</span></p>
 <p>where <span class="math inline">\(\bar{z}\)</span> denotes the proportion of individuals assigned to the treatment arm.</p>
-<div class="page-columns page-full"><p>Since <span class="math inline">\(Z\)</span> is randomly assigned, it should be balanced with respect to all measured and unmeasured confounders <span class="math inline">\(U\)</span>. But <span class="math inline">\(A\)</span> may not be. So the correct estimate of <span class="math inline">\(\psi\)</span> is the one that leads to zero covariance between the residuals <span class="math inline">\(Y^{a = 0}\)</span> (or <span class="math inline">\(H(\psi)\)</span>) and <span class="math inline">\(Z\)</span><a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Pretty magical, if you ask me.</p><div class="no-row-height column-margin column-container"><li id="fn14"><p><sup>14</sup>&nbsp;If <span class="math inline">\((a_i - \bar{a})\)</span> were to be used instead of <span class="math inline">\((z_i - \bar{z})\)</span>, then the estimate would be the same one as from the <span class="math inline">\(A- Y\)</span> analysis.</p></li></div></div>
-<p>This equation can be coded up as a function which visually looks like this</p>
+<p>Since <span class="math inline">\(Z\)</span> is randomly assigned, it should be balanced with respect to all measured and unmeasured confounders <span class="math inline">\(U\)</span>. But <span class="math inline">\(A\)</span> may not be. So the correct estimate of <span class="math inline">\(\psi\)</span> is the one that leads to zero covariance between the residuals <span class="math inline">\(Y^{a = 0}\)</span> (or <span class="math inline">\(H(\psi)\)</span>) and <span class="math inline">\(Z\)</span><a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Pretty magical, if you ask me.</p>
+<div class="no-row-height column-margin column-container"><p><sup>14</sup>&nbsp;If <span class="math inline">\((a_i - \bar{a})\)</span> were to be used instead of <span class="math inline">\((z_i - \bar{z})\)</span>, then the estimate would be the same one as from the <span class="math inline">\(A- Y\)</span> analysis.</p></div><p>This equation can be coded up as a function which visually looks like this</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>MSNMM_function <span class="ot">&lt;-</span> <span class="cf">function</span>(psi, <span class="at">data =</span> df_large, <span class="at">positive =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb18-2"><a href="#cb18-2"></a>  result <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
@@ -572,11 +616,15 @@ A             0.01937 0.003600  0.003923   4.936 8e-07
 <span id="cb18-34"><a href="#cb18-34"></a>  <span class="fu">ylab</span>(<span class="st">"Covariance between Z and H(\U1D713)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="page-columns page-full"><p>Instead of using grid search, the <code>optimize()</code> function can be used with the absolute value of the covariance to pick the value of <span class="math inline">\(\psi\)</span> that leads to 0 covariance<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn15"><p><sup>15</sup>&nbsp;if the function is flat in the specified interval, the optimization step would return incorrect results (passing `interval = c(3, 5)` returns the value of 3 and an objective function value of 83.8 which is far away from 0)</p></li></div></div>
-<div class="cell">
+</div>
+<p>Instead of using grid search, the <code>optimize()</code> function can be used with the absolute value of the covariance to pick the value of <span class="math inline">\(\psi\)</span> that leads to 0 covariance<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>15</sup>&nbsp;if the function is flat in the specified interval, the optimization step would return incorrect results (passing `interval = c(3, 5)` returns the value of 3 and an objective function value of 83.8 which is far away from 0)</p></div><div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">optimize</span>(<span class="at">f =</span> MSNMM_function, <span class="at">interval =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">maximum =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$minimum
@@ -588,7 +636,7 @@ $objective
 </div>
 <p>This is a slight underestimate (1.013 vs 1.02) — but it seems to be a sampling artifact as the median of 100 simulated values concentrates around 1.02</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>IV_estimates <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(</span>
 <span id="cb21-2"><a href="#cb21-2"></a>  <span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
@@ -609,9 +657,9 @@ $objective
  0.9966  1.0136  1.0206  1.0219  1.0304  1.0536 </code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>It might just be simpler to use the <code>ivglm()</code> function from the <code>ivtools</code> package (see <a href="https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html">this paper</a>) to accomplish the same thing though<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn16"><p><sup>16</sup>&nbsp;which has other advantages like handling multiple instruments and different effect measures</p></li></div></div>
-<div class="cell">
-<details open="">
+<p>It might just be simpler to use the <code>ivglm()</code> function from the <code>ivtools</code> package (see <a href="https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html">this paper</a>) to accomplish the same thing though<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>16</sup>&nbsp;which has other advantages like handling multiple instruments and different effect measures</p></div><div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>IV_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Z <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> df_large)</span>
 <span id="cb23-2"><a href="#cb23-2"></a></span>
@@ -637,7 +685,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 </div>
 </div>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># get the coefficient and CI</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a>glue<span class="sc">::</span><span class="fu">glue</span>(</span>
@@ -652,7 +700,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 </div>
 <p>where it produces nearly the same estimate as above and additionally has the option of plotting the shape of the estimating equations in a neighborhood of the estimate</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># can use ggplot on the output from estfun()</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a><span class="co"># ivtools::estfun(IV_gest, lower = -0.1, upper = 0.1, step = 0.01) %&gt;% </span></span>
@@ -666,7 +714,11 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb27-10"><a href="#cb27-10"></a><span class="fu">plot</span>(ivtools<span class="sc">::</span><span class="fu">estfun</span>(IV_gest, <span class="at">lower =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">upper =</span> <span class="fl">0.1</span>, <span class="at">step =</span> <span class="fl">0.01</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>A caveat is that this approach can sometimes fail when this function has a weird shape in the presence of weak instruments (see <a href="https://academic.oup.com/aje/article/180/1/111/2739174">this paper</a>).</p>
@@ -674,9 +726,9 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <section id="estimating-probabilities" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="estimating-probabilities">Estimating probabilities</h2>
 <p>If we had the model which included <span class="math inline">\(U\)</span> as a covariate, conditional probabilities <span class="math inline">\(\text{Pr}[Y = 1 | A = a, U = u]\)</span> as well as marginal probabilities <span class="math inline">\(\text{Pr}[Y = 1 | A = a]\)</span> (averaged over levels of <span class="math inline">\(U\)</span>) could be generated using the amazing <em>marginaleffects</em> package to perform <em>g-computation</em> with the resulting <em>dose-response curves</em> visualized<em>.</em></p>
-<div class="page-columns page-full"><p>The following plot with conditional dose-response curves at quartiles of <span class="math inline">\(U\)</span> shows that the effect of the treatment with increasing <span class="math inline">\(A\)</span> is increasing across levels of <span class="math inline">\(U\)</span> — which makes sense because the treatment effect is a multiplicative (percent) change relative to the previous level<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn17"><p><sup>17</sup>&nbsp;the effects of <span class="math inline">\(A\)</span> and <span class="math inline">\(U\)</span> are linear on the log scale but not on the transformed probability scale</p></li></div></div>
-<div class="cell">
-<details>
+<p>The following plot with conditional dose-response curves at quartiles of <span class="math inline">\(U\)</span> shows that the effect of the treatment with increasing <span class="math inline">\(A\)</span> is increasing across levels of <span class="math inline">\(U\)</span> — which makes sense because the treatment effect is a multiplicative (percent) change relative to the previous level<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>17</sup>&nbsp;the effects of <span class="math inline">\(A\)</span> and <span class="math inline">\(U\)</span> are linear on the log scale but not on the transformed probability scale</p></div><div class="cell">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># get predicted probabilities from the model at quartiles of U</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a>glm_model <span class="sc">%&gt;%</span></span>
@@ -686,12 +738,16 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>When <span class="math inline">\(U\)</span> is unmeasured, only the marginal dose-response curve can be estimated, and the following plot compares g-computation and g-estimation estimates and their CIs, with the true curve plotted for comparison</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># simulate 100 datasets and take the mean of probabilities under A = 0</span></span>
 <span id="cb29-2"><a href="#cb29-2"></a>baseline_conversion_probability <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(</span>
@@ -775,11 +831,15 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb29-80"><a href="#cb29-80"></a>  <span class="fu">xlab</span>(<span class="st">"A (true curve in gray)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="page-columns page-full"><p>Assuming no-effect modification by <span class="math inline">\(U\)</span>, the point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;assuming consistency</p></li></div></div>
-<p><span class="math display">\[
+</div>
+<p>Assuming no-effect modification by <span class="math inline">\(U\)</span>, the point estimate and the CI endpoints from <code>ivglm</code> are used to first estimate <span class="math inline">\(\text{Pr}[Y = 1 | A = 0]\)</span> (which is the same as <span class="math inline">\(\text{Pr}[Y^{a = 0} = 1]\)</span><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>) by using the following relation</p>
+<div class="no-row-height column-margin column-container"><p><sup>18</sup>&nbsp;assuming consistency</p></div><p><span class="math display">\[
 \text{Pr}[Y^{a = 0} = 1] = \text{Pr}[Y = 1 | A = 0] = \text{E}[Y\ \text{exp}(\psi A)]
 \]</span></p>
 <p>and then using these to get the dose response curves and the following CIs</p>
@@ -803,9 +863,15 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 </section>
 <section id="simulated-data" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="simulated-data">Simulated data</h2>
-<div class="page-columns page-full"><p>The four figures — going clockwise from top left — show 1) the probability of compliance as a function of the confounder <span class="math inline">\(U\)</span> (where <span class="math inline">\(\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]\)</span>), 2) the realized distribution of the treatment levels among those who received the treatment<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> simulated from the truncated <em>Gamma</em> distribution <span class="math inline">\(x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))\)</span>, 3) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(Z\)</span> (which is balanced because of randomization), and 4) balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(A\)</span> (which is <em>not</em> balanced because of confounding by <span class="math inline">\(U\)</span>)</p><div class="no-row-height column-margin column-container"><li id="fn19"><p><sup>19</sup>&nbsp;a value is sampled for each individual, but is realized only if <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(C = 1\)</span> (where <span class="math inline">\(C\)</span> is the compliance indicator)</p></li></div></div>
-<div class="cell">
-<details>
+<p>The four figures — going clockwise from top left — show</p>
+<ol type="1">
+<li><p>the probability of compliance as a function of the confounder <span class="math inline">\(U\)</span> (where <span class="math inline">\(\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]\)</span>)</p></li>
+<li><p>the realized distribution of the treatment levels among those who received the treatment<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> simulated from the truncated <em>Gamma</em> distribution rounded to the nearest integer <span class="math inline">\(x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))\)</span></p></li>
+<li><p>balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(A\)</span> (which is <em>not</em> balanced because of confounding by <span class="math inline">\(U\)</span>), and</p></li>
+<li><p>balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(Z\)</span> (which is balanced because of randomization)</p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><p><sup>19</sup>&nbsp;a value is sampled for each individual, but is realized only if <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(C = 1\)</span> (where <span class="math inline">\(C\)</span> is the compliance indicator)</p></div><div class="cell">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># probability of compliance as a function of the confounder</span></span>
 <span id="cb30-2"><a href="#cb30-2"></a>p_compliance <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
@@ -846,7 +912,11 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <span id="cb30-37"><a href="#cb30-37"></a>                        UZ_plot, UA_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -898,6 +968,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -966,13 +1063,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1102,10 +1201,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1115,8 +1213,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1129,6 +1236,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1172,6 +1398,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1197,6 +1424,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1285,7 +1538,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-27"><a href="#cb31-27"></a>$$</span>
 <span id="cb31-28"><a href="#cb31-28"></a>\text{ATE} = \frac{\text{Pr}<span class="co">[</span><span class="ot">Y^{a + 1} = 1</span><span class="co">]</span>}{\text{Pr}<span class="co">[</span><span class="ot">Y^{a} = 1</span><span class="co">]</span>}</span>
 <span id="cb31-29"><a href="#cb31-29"></a>$$\</span>
-<span id="cb31-30"><a href="#cb31-30"></a>This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population ($Y^a$ denotes the potential outcome under treatment level $a$).</span>
+<span id="cb31-30"><a href="#cb31-30"></a>This is usually the target of inference in an experiment with perfect compliance, and corresponds to setting the treatment level to $A = a + 1$ vs $A = a$ for the full population ($Y_i^a$ denotes the potential outcome for the $i$-th individual and $\text{Pr}<span class="co">[</span><span class="ot">Y^a = 1</span><span class="co">]</span>$ denotes the probability of $Y = 1$ under treatment level $a$).</span>
 <span id="cb31-31"><a href="#cb31-31"></a></span>
 <span id="cb31-32"><a href="#cb31-32"></a>Another estimand of interest may be the *average treatment effect in the treated* (ATT) or the *effect of the treatment on the treated* (ETT). This compares the treated individuals to the *counterfactual scenario had they not been treated*. This corresponds to $$</span>
 <span id="cb31-33"><a href="#cb31-33"></a>\text{ATT} = \frac{\text{Pr}<span class="co">[</span><span class="ot">Y^a = 1 | A = a</span><span class="co">]</span>}{\text{Pr}<span class="co">[</span><span class="ot">Y^{a = 0} = 1 | A = a</span><span class="co">]</span>}</span>
@@ -1829,49 +2082,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-603"><a href="#cb31-603"></a></span>
 <span id="cb31-604"><a href="#cb31-604"></a><span class="fu">## Simulated data</span></span>
 <span id="cb31-605"><a href="#cb31-605"></a></span>
-<span id="cb31-606"><a href="#cb31-606"></a>The four figures --- going clockwise from top left --- show 1) the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$), 2) the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> simulated from the truncated *Gamma* distribution $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$, 3) balance of $U$ across levels of $Z$ (which is balanced because of randomization), and 4) balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$)</span>
+<span id="cb31-606"><a href="#cb31-606"></a>The four figures --- going clockwise from top left --- show</span>
 <span id="cb31-607"><a href="#cb31-607"></a></span>
-<span id="cb31-608"><a href="#cb31-608"></a><span class="ot">[^19]: </span>a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)</span>
+<span id="cb31-608"><a href="#cb31-608"></a><span class="ss">1.  </span>the probability of compliance as a function of the confounder $U$ (where $\text{Pr}<span class="co">[</span><span class="ot">C = 1 | U</span><span class="co">]</span> = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in <span class="co">[</span><span class="ot">0, 10</span><span class="co">]</span>$)</span>
 <span id="cb31-609"><a href="#cb31-609"></a></span>
-<span id="cb31-612"><a href="#cb31-612"></a><span class="in">```{r}</span></span>
-<span id="cb31-613"><a href="#cb31-613"></a><span class="co"># probability of compliance as a function of the confounder</span></span>
-<span id="cb31-614"><a href="#cb31-614"></a>p_compliance <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-615"><a href="#cb31-615"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">y =</span> prob_C)) <span class="sc">+</span></span>
-<span id="cb31-616"><a href="#cb31-616"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb31-617"><a href="#cb31-617"></a>  <span class="fu">ylab</span>(<span class="st">"Compliance probability"</span>) <span class="sc">+</span></span>
-<span id="cb31-618"><a href="#cb31-618"></a>  <span class="fu">coord_cartesian</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb31-619"><a href="#cb31-619"></a></span>
-<span id="cb31-620"><a href="#cb31-620"></a><span class="co"># observed distribution of exposure levels</span></span>
-<span id="cb31-621"><a href="#cb31-621"></a>A_dist <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-622"><a href="#cb31-622"></a>  <span class="fu">filter</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-623"><a href="#cb31-623"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A)) <span class="sc">+</span></span>
-<span id="cb31-624"><a href="#cb31-624"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb31-625"><a href="#cb31-625"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), </span>
-<span id="cb31-626"><a href="#cb31-626"></a>                     <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span>
+<span id="cb31-610"><a href="#cb31-610"></a><span class="ss">2.  </span>the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^19]</span> simulated from the truncated *Gamma* distribution rounded to the nearest integer $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$</span>
+<span id="cb31-611"><a href="#cb31-611"></a></span>
+<span id="cb31-612"><a href="#cb31-612"></a><span class="ss">3.  </span>balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$), and</span>
+<span id="cb31-613"><a href="#cb31-613"></a></span>
+<span id="cb31-614"><a href="#cb31-614"></a><span class="ss">4.  </span>balance of $U$ across levels of $Z$ (which is balanced because of randomization)</span>
+<span id="cb31-615"><a href="#cb31-615"></a></span>
+<span id="cb31-616"><a href="#cb31-616"></a><span class="ot">[^19]: </span>a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)</span>
+<span id="cb31-617"><a href="#cb31-617"></a></span>
+<span id="cb31-620"><a href="#cb31-620"></a><span class="in">```{r}</span></span>
+<span id="cb31-621"><a href="#cb31-621"></a><span class="co"># probability of compliance as a function of the confounder</span></span>
+<span id="cb31-622"><a href="#cb31-622"></a>p_compliance <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-623"><a href="#cb31-623"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">y =</span> prob_C)) <span class="sc">+</span></span>
+<span id="cb31-624"><a href="#cb31-624"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb31-625"><a href="#cb31-625"></a>  <span class="fu">ylab</span>(<span class="st">"Compliance probability"</span>) <span class="sc">+</span></span>
+<span id="cb31-626"><a href="#cb31-626"></a>  <span class="fu">coord_cartesian</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
 <span id="cb31-627"><a href="#cb31-627"></a></span>
-<span id="cb31-628"><a href="#cb31-628"></a><span class="co"># check balance of U across Z</span></span>
-<span id="cb31-629"><a href="#cb31-629"></a><span class="co"># balanced as expected, because Z is a randomization indicator</span></span>
-<span id="cb31-630"><a href="#cb31-630"></a>UZ_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-631"><a href="#cb31-631"></a>  <span class="fu">mutate</span>(<span class="at">Z =</span> <span class="fu">factor</span>(Z, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
-<span id="cb31-632"><a href="#cb31-632"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb31-633"><a href="#cb31-633"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> Z)) <span class="sc">+</span></span>
-<span id="cb31-634"><a href="#cb31-634"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb31-635"><a href="#cb31-635"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb31-636"><a href="#cb31-636"></a></span>
-<span id="cb31-637"><a href="#cb31-637"></a><span class="co"># check balance across (dichotomized version of) A</span></span>
-<span id="cb31-638"><a href="#cb31-638"></a><span class="co"># not balanced because U and A are associated</span></span>
-<span id="cb31-639"><a href="#cb31-639"></a>UA_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
-<span id="cb31-640"><a href="#cb31-640"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb31-641"><a href="#cb31-641"></a>    <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.numeric</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>), </span>
-<span id="cb31-642"><a href="#cb31-642"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
-<span id="cb31-643"><a href="#cb31-643"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treated"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb31-644"><a href="#cb31-644"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb31-645"><a href="#cb31-645"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb31-646"><a href="#cb31-646"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb31-647"><a href="#cb31-647"></a></span>
-<span id="cb31-648"><a href="#cb31-648"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p_compliance, A_dist, </span>
-<span id="cb31-649"><a href="#cb31-649"></a>                        UZ_plot, UA_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb31-650"><a href="#cb31-650"></a><span class="in">```</span></span>
+<span id="cb31-628"><a href="#cb31-628"></a><span class="co"># observed distribution of exposure levels</span></span>
+<span id="cb31-629"><a href="#cb31-629"></a>A_dist <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-630"><a href="#cb31-630"></a>  <span class="fu">filter</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-631"><a href="#cb31-631"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> A)) <span class="sc">+</span></span>
+<span id="cb31-632"><a href="#cb31-632"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb31-633"><a href="#cb31-633"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), </span>
+<span id="cb31-634"><a href="#cb31-634"></a>                     <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span>
+<span id="cb31-635"><a href="#cb31-635"></a></span>
+<span id="cb31-636"><a href="#cb31-636"></a><span class="co"># check balance of U across Z</span></span>
+<span id="cb31-637"><a href="#cb31-637"></a><span class="co"># balanced as expected, because Z is a randomization indicator</span></span>
+<span id="cb31-638"><a href="#cb31-638"></a>UZ_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-639"><a href="#cb31-639"></a>  <span class="fu">mutate</span>(<span class="at">Z =</span> <span class="fu">factor</span>(Z, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb31-640"><a href="#cb31-640"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb31-641"><a href="#cb31-641"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> Z)) <span class="sc">+</span></span>
+<span id="cb31-642"><a href="#cb31-642"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb31-643"><a href="#cb31-643"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb31-644"><a href="#cb31-644"></a></span>
+<span id="cb31-645"><a href="#cb31-645"></a><span class="co"># check balance across (dichotomized version of) A</span></span>
+<span id="cb31-646"><a href="#cb31-646"></a><span class="co"># not balanced because U and A are associated</span></span>
+<span id="cb31-647"><a href="#cb31-647"></a>UA_plot <span class="ot">&lt;-</span> df_large <span class="sc">%&gt;%</span></span>
+<span id="cb31-648"><a href="#cb31-648"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb31-649"><a href="#cb31-649"></a>    <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.numeric</span>(A <span class="sc">&gt;</span> <span class="dv">0</span>), </span>
+<span id="cb31-650"><a href="#cb31-650"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb31-651"><a href="#cb31-651"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Treated"</span>, <span class="st">"Control"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb31-652"><a href="#cb31-652"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> U, <span class="at">color =</span> <span class="st">`</span><span class="at">A (binary)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb31-653"><a href="#cb31-653"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb31-654"><a href="#cb31-654"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb31-655"><a href="#cb31-655"></a></span>
+<span id="cb31-656"><a href="#cb31-656"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p_compliance, A_dist, </span>
+<span id="cb31-657"><a href="#cb31-657"></a>                        UZ_plot, UA_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb31-658"><a href="#cb31-658"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1880,12 +2141,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+    <div class="nav-footer-center">
+<p>akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 

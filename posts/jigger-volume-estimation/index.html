@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -83,7 +83,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -92,13 +98,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -106,10 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Akshat Dwivedi</span>
     </a>
@@ -121,29 +156,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ad1729" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ad1729"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos" rel="" target=""><i class="bi bi-images" role="img">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"> <i class="bi bi-images" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -186,16 +221,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="page-columns page-full"><p>In the fall of 2022, I was gifted a cocktail mixing set for my birthday<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it relatively easy to measure the quantity of drinks that go into a cocktail (e.g., 40 ml of vodka, 10 ml of sugar syrup, etc.).</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;It was put to use immediately and some delicious <a href="https://en.wikipedia.org/wiki/Whiskey_sour">whiskey sours</a> were made.</p></li></div></div>
-<div class="quarto-figure quarto-figure-center">
+
+<p>In the fall of 2022, I was gifted a cocktail mixing set for my birthday<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it relatively easy to measure the quantity of drinks that go into a cocktail (e.g., 40 ml of vodka, 10 ml of sugar syrup, etc.).</p>
+<div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;It was put to use immediately and some delicious <a href="https://en.wikipedia.org/wiki/Whiskey_sour">whiskey sours</a> were made.</p></div><div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="jigger-photo.webp" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Stock photo of a cocktail jigger</figcaption>
+<figcaption>Stock photo of a cocktail jigger</figcaption>
 </figure>
 </div>
 <p>After a couple of months of not having to use my cocktail set due to travelling, I couldn’t remember the volume of either side (i.e., basin) of the jigger, nor could I find the remains of the packaging material for reference. Googling showed that jiggers come in different sizes, so I decided to measure the volume myself.</p>
-<div class="page-columns page-full"><p>Over the next hour or so, I came up with two methods<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;not original, obviously</p></li></div></div>
-<ul>
+<p>Over the next hour or so, I came up with two methods<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="no-row-height column-margin column-container"><p><sup>2</sup>&nbsp;not original, obviously</p></div><ul>
 <li>measure the volume using water and a kitchen digital weighing scale</li>
 <li>measure the dimensions of the two basins and use some middle-school math to calculate the volume</li>
 </ul>
@@ -203,12 +239,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="method-1-weight-based">Method 1: Weight-based</h2>
 <p>The digital kitchen scale I own has this nifty feature where it can account for and automatically subtract the weight of the container so that only the weight of the object of interest is shown.</p>
 <p>The scale measures weight in grams (g), but I was interested in the volume in milliliters (ml). Quick Googling reminded me of the nifty fact I learned and forgot a long time ago, that the weight of 1 g of water is approximately equal to the volume occupied by 1 ml of water.</p>
-<div class="page-columns page-full"><p>Placing the jigger on the scale and ensuring that the scale read zero g, I filled up the larger basin to the top with tap water. The scale showed 51g, which was odd as I was expecting it to show a number that would be a multiple of five (i.e., a number ending with a 0 or a 5)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;although some jigger images online show possible measurements like 22.5 ml (which is 0.75 oz)</p></li></div></div>
-<div class="page-columns page-full"><p>So <em>obviously</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> the next logical step was to take multiple measurements. After making sure to drain the jigger, clean the scale of any spilled water droplets, and ensuring the scale read zero, I took the next measurement which read 48 g. <em>Excellent</em>. I love consistent results.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;obvious to a <em>Statistician</em> or a <em>Data Scientist</em></p></li></div></div>
+<p>Placing the jigger on the scale and ensuring that the scale read zero g, I filled up the larger basin to the top with tap water. The scale showed 51g, which was odd as I was expecting it to show a number that would be a multiple of five (i.e., a number ending with a 0 or a 5)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>3</sup>&nbsp;although some jigger images online show possible measurements like 22.5 ml (which is 0.75 oz)</p><p><sup>4</sup>&nbsp;obvious to a <em>Statistician</em> or a <em>Data Scientist</em></p></div><p>So <em>obviously</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> the next logical step was to take multiple measurements. After making sure to drain the jigger, clean the scale of any spilled water droplets, and ensuring the scale read zero, I took the next measurement which read 48 g. <em>Excellent</em>. I love consistent results.</p>
 <p>So I took another 8 measurements, and repeated this process for the smaller basin of the jigger as well. These measurements are visualized below.</p>
 <p>Each time I filled it to what I perceived to be the top but I got different measurements. I don’t think that this variability is necessarily due to the variability of the digital scale itself but most likely due to the variability in my perception of what counts as ‘filled to the brim’.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(ggplot2)</span>
@@ -234,30 +270,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-22"><a href="#cb1-22"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Basin, <span class="at">scales =</span> <span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Averaging these measurements gave me a volume of 50.1 ml for the big basin and 30.6 ml for the smaller basin.</p>
-<div class="page-columns page-full"><p>Interestingly<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, it also indicates<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> that I usually put anywhere between 48-52 (or 28-32) ml of a drink when I’m supposed to add 50 (or 30) ml.</p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;to me and <em>literally</em> nobody else</p></li><li id="fn6"><p><sup>6</sup>&nbsp;assuming the digital scale is not causing this variability</p></li></div></div>
-</section>
+<p>Interestingly<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, it also indicates<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> that I usually put anywhere between 48-52 (or 28-32) ml of a drink when I’m supposed to add 50 (or 30) ml.</p>
+<div class="no-row-height column-margin column-container"><p><sup>5</sup>&nbsp;to me and <em>literally</em> nobody else</p><p><sup>6</sup>&nbsp;assuming the digital scale is not causing this variability</p></div></section>
 <section id="method-2-dimension-based" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="method-2-dimension-based">Method 2: Dimension-based</h2>
-<div class="page-columns page-full"><p>The shape of a jigger reminded me of a (partial) cone, so I measured<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> the height <span class="math inline">\(h\)</span> from the mouth of each basin to the point where it joins the other basin, and the diameter <span class="math inline">\(2R\)</span> of the mouth of each basin.</p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;using a pair of <em><a href="https://en.wikipedia.org/wiki/Calipers#Digital_caliper">digital calipers</a></em> I <em>totally</em> had lying around the house and did not use this exercise as an excuse to buy</p></li></div></div>
-<p>For the smaller basin, the height <span class="math inline">\(h_s\)</span> was measured as 3.48 cm, and a diameter of 3.9 cm (so a radius <span class="math inline">\(R_s\)</span> of 1.95 cm).</p>
+<p>The shape of a jigger reminded me of a (partial) cone, so I measured<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> the height <span class="math inline">\(h\)</span> from the mouth of each basin to the point where it joins the other basin, and the diameter <span class="math inline">\(2R\)</span> of the mouth of each basin.</p>
+<div class="no-row-height column-margin column-container"><p><sup>7</sup>&nbsp;using a pair of <em><a href="https://en.wikipedia.org/wiki/Calipers#Digital_caliper">digital calipers</a></em> I <em>totally</em> had lying around the house and did not use this exercise as an excuse to buy</p></div><p>For the smaller basin, the height <span class="math inline">\(h_s\)</span> was measured as 3.48 cm, and a diameter of 3.9 cm (so a radius <span class="math inline">\(R_s\)</span> of 1.95 cm).</p>
 <p>For the larger basin, the height <span class="math inline">\(h_l\)</span> was measured as 5.28 cm, and a diameter of 4.18 cm (so a radius <span class="math inline">\(R_l\)</span> of 2.09 cm).</p>
 <p>The radius <span class="math inline">\(r\)</span> of the base where the two basins are attached to each other is <span class="math inline">\(2.78 / 2 = 1.39\)</span>.</p>
-<div class="page-columns page-full"><p>Plugging these into the <a href="https://www.cuemath.com/measurement/volume-of-a-partial-cone/">formula for a partial cone</a><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;<a href="https://brilliant.org/wiki/volume-cone/">here’s</a> a derivation (and <a href="https://math.stackexchange.com/questions/891163/volume-of-a-frustum">another</a>) of the volume of a cone using calculus, which I’ve probably derived in school or university and long since forgotten</p></li></div></div>
-<p><span class="math display">\[V = \frac{1}{3} \times \pi \times h \times \Big(R^2 + Rr + r^2\Big)\]</span></p>
+<p>Plugging these into the <a href="https://www.cuemath.com/measurement/volume-of-a-partial-cone/">formula for a partial cone</a><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>8</sup>&nbsp;<a href="https://brilliant.org/wiki/volume-cone/">here’s</a> a derivation (and <a href="https://math.stackexchange.com/questions/891163/volume-of-a-frustum">another</a>) of the volume of a cone using calculus, which I’ve probably derived in school or university and long since forgotten</p></div><p><span class="math display">\[V = \frac{1}{3} \times \pi \times h \times \Big(R^2 + Rr + r^2\Big)\]</span></p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>cone <span class="ot">&lt;-</span> <span class="cf">function</span>(h, r, R) {</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  (pi <span class="sc">*</span> h <span class="sc">*</span> (R<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (R <span class="sc">*</span> r) <span class="sc">+</span> r<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> <span class="dv">3</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="page-columns page-full"><p>gave a volume<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> of 30.8 ml for the smaller basin and 50.9 for the larger basin which was very similar to the numbers from the other method, but not exactly equal to 30 and 50 ml due to (human) measurement error.</p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;using the conversion factor of 1 cm<sup>3</sup> to 1 ml for volume of water</p></li></div></div>
-<p>A few days after doing all these measurements, I came across a similar (in spirit?) <a href="https://statmodeling.stat.columbia.edu/2023/01/06/god-is-in-every-leaf-of-every-tree-bathroom-scale-edition/">post</a> on a blog I frequent, which inspired me to write this up.</p>
+<p>gave a volume<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> of 30.8 ml for the smaller basin and 50.9 for the larger basin which was very similar to the numbers from the other method, but not exactly equal to 30 and 50 ml due to (human) measurement error.</p>
+<div class="no-row-height column-margin column-container"><p><sup>9</sup>&nbsp;using the conversion factor of 1 cm<sup>3</sup> to 1 ml for volume of water</p></div><p>A few days after doing all these measurements, I came across a similar (in spirit?) <a href="https://statmodeling.stat.columbia.edu/2023/01/06/god-is-in-every-leaf-of-every-tree-bathroom-scale-edition/">post</a> on a blog I frequent, which inspired me to write this up.</p>
 
 
 <!-- -->
@@ -307,6 +347,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -375,13 +442,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -511,10 +580,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -524,8 +592,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -538,6 +615,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -581,6 +777,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -606,6 +803,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -780,12 +1003,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    <div class="nav-footer-center">
+<p>akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></p>
+<div class="toc-actions"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -83,7 +83,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -92,13 +98,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -106,10 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Akshat Dwivedi</span>
     </a>
@@ -121,29 +156,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ad1729" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ad1729"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/akshatd/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos" rel="" target=""><i class="bi bi-images" role="img">
+    <a class="nav-link" href="https://500px.com/p/akshatdwivedi?view=photos"> <i class="bi bi-images" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -203,10 +238,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ignored-complexities" id="toc-ignored-complexities" class="nav-link" data-scroll-target="#ignored-complexities">Ignored complexities</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
 
 
 
@@ -215,13 +251,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>One of the first problems I ever cut my teeth on as a data scientist many years ago was to analyze data from a marketing / advertising campaign to assess the impact of an advertisement (ad) on sales of a certain product.</p>
-<div class="page-columns page-full"><p>It was a simple experimental dataset from a two-arm<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> randomized controlled trial. The most challenging part of that analysis was how to analyze individuals – the so-called <em>non-compliers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <em>–</em> who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;i.e., an experiment with two groups – treatment and control</p></li><li id="fn2"><p><sup>2</sup>&nbsp;in the usual terminology used in the instrumental variable methods literature</p></li></div></div>
-<p>All details below are of a simplified version of the problem similar to the one I worked on, and have no resemblance to the real constraints / numbers / settings from the actual problem. This exact same problem shows up in pretty much every field (marketing, advertising, pharma, tech, psychology, economics, etc.) where experiments are regularly conducted, and the analyses in this post are applicable to those situations as well.</p>
+<p>It was a simple experimental dataset from a two-arm<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> randomized controlled trial. The most challenging part of that analysis was how to analyze individuals – the so-called <em>non-compliers</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <em>–</em> who were assigned to the treatment group eligible to view an ad, but who did not actually end up seeing a single ad.</p>
+<div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;i.e., an experiment with two groups – treatment and control</p><p><sup>2</sup>&nbsp;in the usual terminology used in the instrumental variable methods literature</p></div><p>All details below are of a simplified version of the problem similar to the one I worked on, and have no resemblance to the real constraints / numbers / settings from the actual problem. This exact same problem shows up in pretty much every field (marketing, advertising, pharma, tech, psychology, economics, etc.) where experiments are regularly conducted, and the analyses in this post are applicable to those situations as well.</p>
 </section>
 <section id="problem-description" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="problem-description">Problem description</h2>
-<div class="page-columns page-full"><p>Let’s say a company has been working on updating an existing version of a product, and wants to know whether they should invest in an advertising campaign on a specific channel (say YouTube / Instagram ads) to promote the new product. Since buying ads cost money, the campaign would have to be profitable enough in terms of increased sales to justify the ad spend<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;The advertising company, on the other hand, is more interested in assessing the effectiveness of advertising, so would be happier to see a strong positive effect of advertising.</p></li></div></div>
-<p>The main interest is in (functions of) two quantities – <span class="math inline">\(\text{Pr}[Y^{a=0} = 1]\)</span>, which is the proportion of sales in a population not shown the ad; and <span class="math inline">\(\text{Pr}[Y^{a=1} = 1]\)</span>, which is the proportion of sales in a population which is shown the ad. These can be used to calculate the risk difference / uplift (<span class="math inline">\(\text{Pr}[Y^{a=1} = 1] - \text{Pr}[Y^{a=0} = 1]\)</span>), the risk ratio / relative risk / lift (<span class="math inline">\(\text{Pr}[Y^{a=1} = 1] / \text{Pr}[Y^{a=0} = 1]\)</span>), or any other quantity listed in the tables <a href="https://en.wikipedia.org/wiki/Relative_risk_reduction">here</a>. The risk difference can then be used to calculate the additional profit from showing the ad compared to doing nothing.</p>
+<p>Let’s say a company has been working on updating an existing version of a product, and wants to know whether they should invest in an advertising campaign on a specific channel (say YouTube / Instagram ads) to promote the new product. Since buying ads cost money, the campaign would have to be profitable enough in terms of increased sales to justify the ad spend<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>3</sup>&nbsp;The advertising company, on the other hand, is more interested in assessing the effectiveness of advertising, so would be happier to see a strong positive effect of advertising.</p></div><p>The main interest is in (functions of) two quantities – <span class="math inline">\(\text{Pr}[Y^{a=0} = 1]\)</span>, which is the proportion of sales in a population not shown the ad; and <span class="math inline">\(\text{Pr}[Y^{a=1} = 1]\)</span>, which is the proportion of sales in a population which is shown the ad. These can be used to calculate the risk difference / uplift (<span class="math inline">\(\text{Pr}[Y^{a=1} = 1] - \text{Pr}[Y^{a=0} = 1]\)</span>), the risk ratio / relative risk / lift (<span class="math inline">\(\text{Pr}[Y^{a=1} = 1] / \text{Pr}[Y^{a=0} = 1]\)</span>), or any other quantity listed in the tables <a href="https://en.wikipedia.org/wiki/Relative_risk_reduction">here</a>. The risk difference can then be used to calculate the additional profit from showing the ad compared to doing nothing.</p>
 <p>The cleanest way of estimating these probabilities is through an experiment. First, a target population – say, users of a given product – is identified, and then, this group is randomly split into a treatment and a control group. Individuals assigned to the treatment group are eligible to see an ad for the newer, updated version of the product, and the control group is ineligible to view the ad. The campaign runs for a two week period, where individuals in the treatment group see an ad multiple times. The outcome for this campaign is sales of the newer product in each of the two groups in the six-week period from the start of the campaign.</p>
 <p>Before writing any code, the <code>tidyverse</code> packages is loaded.</p>
 <div class="cell">
@@ -241,7 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>A DAG, or a <em>directed acyclic graph</em> for this problem can be visualized as follows</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dag <span class="ot">&lt;-</span> ggdag<span class="sc">::</span><span class="fu">dagify</span>(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>  A <span class="sc">~</span> Z <span class="sc">+</span> U, </span>
@@ -256,7 +292,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11"></a><span class="fu">plot</span>(dag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>where <span class="math inline">\(Y\)</span> is a binary outcome (bought the newer version of the product or not during the follow-up period), <span class="math inline">\(A\)</span> is a binary treatment variable (saw the ad or not), <span class="math inline">\(Z\)</span> is a binary variable indicating group assignment (i.e., randomly assigned to the treatment or control group), and U is the set of (unmeasured) confounder(s), i.e., one or more variables that both impact whether an individual ends up seeing the ad, and whether they end up buying the newer product or not.</p>
@@ -276,15 +316,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="simulate-data" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="simulate-data">Simulate data</h2>
-<div class="page-columns page-full"><p>Before the question in the previous section can be answered, we need to generate hypothetical data<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> for this fictional ad campaign.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Inspired by a comment on <a href="https://statmodeling.stat.columbia.edu/2019/06/20/how-to-simulate-an-instrumental-variables-problem/">this post</a>, and the Imbens, Rubin 1997 paper linked therein.</p></li></div></div>
-<p>What the following code does is it first partitions the population of 100,000 individuals into an 80-20% mix of <em>compliers</em> and <em>non-compliers</em>. Compliers are the individuals that would watch the ad if they were assigned to the target group. Non-compliers are the individuals who would not comply with the group they’re randomized to. More on this in the IV section below. Then, the potential outcomes for each individual under the two treatments depending on their compliance status are simulated.</p>
+<p>Before the question in the previous section can be answered, we need to generate hypothetical data<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> for this fictional ad campaign.</p>
+<div class="no-row-height column-margin column-container"><p><sup>4</sup>&nbsp;Inspired by a comment on <a href="https://statmodeling.stat.columbia.edu/2019/06/20/how-to-simulate-an-instrumental-variables-problem/">this post</a>, and the Imbens, Rubin 1997 paper linked therein.</p></div><p>What the following code does is it first partitions the population of 100,000 individuals into an 80-20% mix of <em>compliers</em> and <em>non-compliers</em>. Compliers are the individuals that would watch the ad if they were assigned to the target group. Non-compliers are the individuals who would not comply with the group they’re randomized to. More on this in the IV section below. Then, the potential outcomes for each individual under the two treatments depending on their compliance status are simulated.</p>
 <p>If <span class="math inline">\(C_i = 1\)</span> denotes whether individual <span class="math inline">\(i\)</span> is a complier, and <span class="math inline">\(C_i = 0\)</span> otherwise, then <span class="math inline">\(\text{Pr}[Y^{a = 0}_i = 1| C_i = 0] = \text{Pr}[Y^{a = 1}_i = 1| C_i = 0] = 0.1\%\)</span>, where the probability of purchasing the new product is very small among the non-compliers independent of whether they’re assigned to the treatment or the control group.</p>
 <p>Among the compliers, <span class="math inline">\(\text{Pr}[Y^{a = 0}_i = 1| C_i = 1] = 1\%\)</span>, i.e., 1% of the individuals would buy the new product if nobody was shown the ad. If the ad is rolled out to the full population, then <span class="math inline">\(\text{Pr}[Y^{a = 1}_i = 1| C_i = 1] = 11\%\)</span>, which leads to an <em>average treatment effect (ATE)</em> among the compliers of +10 percentage points.</p>
 <p>These individuals are randomly assigned to the treatment (70%) or control (30%) group. Their actual treatment status (i.e., treated or untreated) is a product of the group they’re assigned to and their compliance. Their realized outcome is the outcome corresponding to the group they’re assigned to.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> 100000L,</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">100000</span>L,</span>
 <span id="cb4-2"><a href="#cb4-2"></a>                          <span class="at">pY0 =</span> <span class="fl">0.01</span>,</span>
 <span id="cb4-3"><a href="#cb4-3"></a>                          <span class="at">risk_diff =</span> <span class="fl">0.1</span>, </span>
 <span id="cb4-4"><a href="#cb4-4"></a>                          <span class="at">seed =</span> <span class="dv">23</span>, </span>
@@ -330,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-44"><a href="#cb4-44"></a></span>
 <span id="cb4-45"><a href="#cb4-45"></a><span class="co"># creating these variables as they'll be helpful later on</span></span>
 <span id="cb4-46"><a href="#cb4-46"></a><span class="co"># population size</span></span>
-<span id="cb4-47"><a href="#cb4-47"></a>n <span class="ot">&lt;-</span> 100000L</span>
+<span id="cb4-47"><a href="#cb4-47"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span>L</span>
 <span id="cb4-48"><a href="#cb4-48"></a></span>
 <span id="cb4-49"><a href="#cb4-49"></a><span class="co"># P[Y^0 = 1]</span></span>
 <span id="cb4-50"><a href="#cb4-50"></a>pY0 <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
@@ -375,8 +415,8 @@ complier         0         1
 <h2 class="anchored" data-anchor-id="intention-to-treat-itt">Intention-to-treat (ITT)</h2>
 <p>The <em>intention-to-treat</em> (ITT) effect is the <em>effect of</em> <em>being assigned to the treatment</em> instead of the <em>effect of the treatment itself</em>. These are identical when treatment compliance / adherence is perfect, i.e, when all the individuals only take the treatment they are assigned to, but not otherwise.</p>
 <p>For this problem, the ITT analysis would analyse individuals based on the group they were assigned to, and not the treatment they ultimately received. Those in the treatment group who didn’t see a single ad would be analysed as part of the treatment group rather than being excluded from the analysis, or being analysed as part of the control group.</p>
-<div class="page-columns page-full"><p>An advantage of an ITT analysis is that randomization preserves the balance of confounders in both the treatment and control groups, so the <span class="math inline">\(Z-Y\)</span> association remains unconfounded and a valid, albeit conservative<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> effect of assigning the treatment at the population level. However, this validity would be affected<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> if this ad is rolled out to another target population – a different period in time, or another geographical location – with a different proportion of (non-)compliers<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;Section 22.1 of the what-if book mentions that while the ITT estimate is usually conservative, it’s not guaranteed to be attenuated compared to the <em>per-protocol effect</em> (described in the next section) for <em>1)</em> <em>non-inferiority trials, or 2) if the per-protocol effect is not monotonic for all individuals and non-compliance is high</em>. It also lists other counterarguments (e.g., lack of transportability) against the ITT effect.</p></li><li id="fn6"><p><sup>6</sup>&nbsp;Rerunning the data simulation chunk above with <code>simulate_data(p_compliers = 0.4) %&gt;% mutate(diff = Y1 - Y0) %&gt;% pull(diff) %&gt;% mean()</code> instead of 0.8 leads to an ITT estimate of +4 instead of +8 percentage points, even though the effect of the treatment itself is still +10 percentage points.</p></li><li id="fn7"><p><sup>7</sup>&nbsp;For a garden-variety ad campaign, the proportion of compliers could be effectively random, unless the ad in question is visually appealing, or contentious. On the contrary, for something like a vaccine in a global pandemic, compliance could vary wildly between the trial and rollout at the population level. Source: reading internet discussions between 2021-2022.</p></li></div></div>
-<section id="estimators-models" class="level3">
+<p>An advantage of an ITT analysis is that randomization preserves the balance of confounders in both the treatment and control groups, so the <span class="math inline">\(Z-Y\)</span> association remains unconfounded and a valid, albeit conservative<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> effect of assigning the treatment at the population level. However, this validity would be affected<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> if this ad is rolled out to another target population – a different period in time, or another geographical location – with a different proportion of (non-)compliers<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>5</sup>&nbsp;Section 22.1 of the what-if book mentions that while the ITT estimate is usually conservative, it’s not guaranteed to be attenuated compared to the <em>per-protocol effect</em> (described in the next section) for <em>1)</em> <em>non-inferiority trials, or 2) if the per-protocol effect is not monotonic for all individuals and non-compliance is high</em>. It also lists other counterarguments (e.g., lack of transportability) against the ITT effect.</p><p><sup>6</sup>&nbsp;Rerunning the data simulation chunk above with <code>simulate_data(p_compliers = 0.4) %&gt;% mutate(diff = Y1 - Y0) %&gt;% pull(diff) %&gt;% mean()</code> instead of 0.8 leads to an ITT estimate of +4 instead of +8 percentage points, even though the effect of the treatment itself is still +10 percentage points.</p><p><sup>7</sup>&nbsp;For a garden-variety ad campaign, the proportion of compliers could be effectively random, unless the ad in question is visually appealing, or contentious. On the contrary, for something like a vaccine in a global pandemic, compliance could vary wildly between the trial and rollout at the population level. Source: reading internet discussions between 2021-2022.</p></div><section id="estimators-models" class="level3">
 <h3 class="anchored" data-anchor-id="estimators-models">Estimators / models</h3>
 <p>Since both <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> are binary variables, an estimate of the ITT effect can be obtained by fitting a simple logistic regression model, and using the <code>marginaleffects</code> package to perform <em>g-computation / (marginal / model-based) standardization</em> to get the risk difference (and the associated CIs)</p>
 <div class="cell">
@@ -437,7 +477,7 @@ SE(\hat{p}_1 - \hat{p}_0) = \sqrt{\frac{\hat{p}_0 (1 - \hat{p}_0)}{n_0} + \frac{
 \]</span></p>
 <p>which results in the same standard error</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>var_p0 <span class="ot">&lt;-</span> (<span class="fl">0.008690441</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.008690441</span>)) <span class="sc">/</span> (<span class="dv">261</span> <span class="sc">+</span> <span class="dv">29772</span>)</span>
 <span id="cb17-2"><a href="#cb17-2"></a>var_p1 <span class="ot">&lt;-</span> (<span class="fl">0.089356411</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.089356411</span>)) <span class="sc">/</span> (<span class="dv">6252</span> <span class="sc">+</span> <span class="dv">63715</span>)</span>
@@ -488,7 +528,7 @@ SE(\hat{p}_1 - \hat{p}_0) = \sqrt{\frac{\hat{p}_0 (1 - \hat{p}_0)}{n_0} + \frac{
 </div>
 <p>A priori, we expect the difference to be pretty small with mean of close to 0, but allowing for large differences of +/- 60-70%. We can also visualize these distributions</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">bind_rows</span>(</span>
 <span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbeta</span>(<span class="fl">1e5</span>, <span class="dv">1</span>, <span class="dv">9</span>), <span class="at">cat =</span> <span class="st">"Prior conversion probability"</span>), </span>
@@ -504,7 +544,11 @@ SE(\hat{p}_1 - \hat{p}_0) = \sqrt{\frac{\hat{p}_0 (1 - \hat{p}_0)}{n_0} + \frac{
 <span id="cb25-12"><a href="#cb25-12"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>To get the posterior distribution for conversion in each arm, the counts from the 2x2 contingency table can be plugged into the formula for Beta posterior distribution <span class="math inline">\(\text{Beta}(y + \alpha, n - y + \beta)\)</span>, where <span class="math inline">\(y\)</span> corresponds to the count for <span class="math inline">\(Y = 1\)</span>, and <span class="math inline">\(n-y\)</span> for <span class="math inline">\(Y = 0\)</span>.</p>
@@ -519,7 +563,7 @@ Y       0     1
 </div>
 <p>This gives <span class="math inline">\(p (\alpha_0, \beta_0|y) \sim \text{Beta}(261 + 1, 29772 + 9) = \text{Beta}(262, 29781)\)</span> for the control group, and <span class="math inline">\(p (\alpha_1, \beta_1|y) \sim \text{Beta}(6252 + 1, 63715 + 9) = \text{Beta}(6253, 63724)\)</span> for the treatment group, visualized as follows</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>posterior_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb28-2"><a href="#cb28-2"></a>  <span class="st">"Conversion probability </span><span class="sc">\n</span><span class="st">(control group)"</span>, </span>
@@ -571,7 +615,11 @@ Y       0     1
 <span id="cb28-48"><a href="#cb28-48"></a><span class="fu">plot_posteriors</span>(ITT_posterior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The posterior for the risk difference completely fails to capture the underlying true effect size of +10 percentage points. However, since the dataset is simulated with the potential outcomes <span class="math inline">\(\{Y_{i}^{z = 0},\ Y_{i}^{z = 1}\}\)</span> at the individual level, we can see that the estimate of +8 percentage points is correct for <em>this population</em>.</p>
@@ -587,7 +635,7 @@ Y       0     1
 </div>
 <p>The posterior distribution is summarized via the posterior mean, mode, and 95% (equal-tailed) credible intervals, which are nearly identical to the ones above.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>ITT_risk_difference <span class="ot">&lt;-</span> ITT_posterior <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">filter</span>(cat <span class="sc">==</span> <span class="st">"Risk difference"</span>) </span>
@@ -615,7 +663,7 @@ Y       0     1
 </div>
 <p>Just for fun, the Bayesian posterior distribution is visually compared to the normal approximation and the bootstrap distribution for the risk difference</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>boot_ITT_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indx, ...) {</span>
 <span id="cb33-2"><a href="#cb33-2"></a>  data <span class="ot">&lt;-</span> data[indx, ]</span>
@@ -660,17 +708,21 @@ Y       0     1
 <span id="cb33-41"><a href="#cb33-41"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="page-columns page-full"><p>As expected, despite being philosophically different, all of these methods give nearly identical results (increasing the samples from 999 to 100,000<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> would lead to them being virtually identical), but all of these underestimate the correct treatment effect of +10 percentage points.</p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;Using the boot package here complains about memory issues when trying to set R = 100,000, and I’m too lazy to write a (parallel) map here myself.</p></li></div></div>
-</section>
+</div>
+<p>As expected, despite being philosophically different, all of these methods give nearly identical results (increasing the samples from 999 to 100,000<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> would lead to them being virtually identical), but all of these underestimate the correct treatment effect of +10 percentage points.</p>
+<div class="no-row-height column-margin column-container"><p><sup>8</sup>&nbsp;Using the boot package here complains about memory issues when trying to set R = 100,000, and I’m too lazy to write a (parallel) map here myself.</p></div></section>
 </section>
 <section id="per-protocol-pp" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="per-protocol-pp">Per-protocol (PP)</h2>
 <p>The <em>per-protocol</em> (PP) effect is generated by including all the people who adhere to the <em>protocol</em>, i.e., those with treatment status <span class="math inline">\(A\)</span> identical to the assignment treatment <span class="math inline">\(Z\)</span>. Contrary to the ITT effect from the previous section, this effect is a measure of the effectiveness of the actual treatment itself, although this effect estimate is prone to bias.</p>
-<div class="page-columns page-full"><p>Since it’s not possible for us to measure<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> an individual seeing an ad if they were assigned to the control group, i.e, individuals with <span class="math inline">\(Z = 0, A = 1\)</span>, this would only exclude all the individuals with <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(A = 0\)</span>, i.e., about 14,000 individuals from the treatment group who didn’t see an ad.</p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;An individual in the control group cannot see an ad, if the ad is not shown to the individual.</p></li></div></div>
-<div class="cell">
+<p>Since it’s not possible for us to measure<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> an individual seeing an ad if they were assigned to the control group, i.e, individuals with <span class="math inline">\(Z = 0, A = 1\)</span>, this would only exclude all the individuals with <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(A = 0\)</span>, i.e., about 14,000 individuals from the treatment group who didn’t see an ad.</p>
+<div class="no-row-height column-margin column-container"><p><sup>9</sup>&nbsp;An individual in the control group cannot see an ad, if the ad is not shown to the individual.</p></div><div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>data <span class="sc">%$%</span> <span class="fu">table</span>(A, Z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Z
@@ -714,7 +766,11 @@ Y       0     1
 <span id="cb41-5"><a href="#cb41-5"></a></span>
 <span id="cb41-6"><a href="#cb41-6"></a><span class="fu">plot_posteriors</span>(PP_posterior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The PP effect is exaggerated – albeit by a relatively small margin – compared to both the ITT effect and the true treatment effect of +10 percentage points.</p>
@@ -739,7 +795,11 @@ Y       0     1
 <span id="cb44-5"><a href="#cb44-5"></a></span>
 <span id="cb44-6"><a href="#cb44-6"></a><span class="fu">plot_posteriors</span>(AT_posterior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Like the PP effect, this effect is a measure of the effectiveness of the actual treatment itself. By including the untreated from the treatment group – who had a lower probability of conversion – into the control group, the overall conversion probability in the control group is attenuated thereby leading to an exaggeration of the ATE. Thus, it overestimates the true effect and is likewise exaggerated compared to the ITT effect estimate. It is similarly prone to bias.</p>
@@ -763,17 +823,21 @@ Y       0     1
 </ul>
 <p>The variable <span class="math inline">\(Z\)</span> from the DAG for this problem</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="fu">plot</span>(dag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>seems to fulfill the first three conditions, since individuals are randomly assigned into treatment and control groups. This makes it a <em>causal instrument</em>, as an individual cannot choose to see an ad unless they’re assigned to the treatment group.</p>
-<div class="page-columns page-full"><p>Regarding homogeneity, it can be argued that the assignment of an individual<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> to the group cannot be an effect modifier, since this is done by a random number generator and so should not affect the potential outcomes.</p><div class="no-row-height column-margin column-container"><li id="fn10"><p><sup>10</sup>&nbsp;In the presence of <em>interference</em>, e.g.&nbsp;individuals in the same household being assigned to different groups but affecting each others’ potential outcomes, the unit of assignment and analysis would be at the household level.</p></li></div></div>
-<div class="page-columns page-full"><p>Since the ad is randomized at the individual level, there can never be any defiers (i.e., individuals assigned to the control group can never deliberately switch over to the treatment group). Always takers are also not an option, since people assigned to the control group cannot choose to take the treatment<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>. This essentially leaves the population to be a mix of never-takers and compliers.</p><div class="no-row-height column-margin column-container"><li id="fn11"><p><sup>11</sup>&nbsp;Not that anyone would <em>choose</em> to see an ad.</p></li></div></div>
+<p>Regarding homogeneity, it can be argued that the assignment of an individual<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> to the group cannot be an effect modifier, since this is done by a random number generator and so should not affect the potential outcomes.</p>
+<div class="no-row-height column-margin column-container"><p><sup>10</sup>&nbsp;In the presence of <em>interference</em>, e.g.&nbsp;individuals in the same household being assigned to different groups but affecting each others’ potential outcomes, the unit of assignment and analysis would be at the household level.</p><p><sup>11</sup>&nbsp;Not that anyone would <em>choose</em> to see an ad.</p></div><p>Since the ad is randomized at the individual level, there can never be any defiers (i.e., individuals assigned to the control group can never deliberately switch over to the treatment group). Always takers are also not an option, since people assigned to the control group cannot choose to take the treatment<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>. This essentially leaves the population to be a mix of never-takers and compliers.</p>
 <section id="iv-in-action" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="iv-in-action">IV in action</h3>
 <p>Since the instrument, treatment, and outcome are all binary, we can use the following <em>ratio / Wald estimator</em> for the IV estimand</p>
@@ -792,8 +856,8 @@ A       0     1
   1     0 55950</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>the group of <span class="math inline">\(\text{Pr}[A = 1 | Z = 0]\)</span> is (expected to be) 0, since those assigned to the control group should not be able to see the ad. We can pick a <em>degenerate</em> (Beta) prior distribution<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> with <span class="math inline">\(\alpha = 0,\ \beta &gt; 0\)</span>, e.g., <span class="math inline">\(\text{Beta}(0, 1)\)</span>, which results in a Beta posterior with shape <span class="math inline">\(\alpha = 0 + 0 = 0,\ \beta = 30033 + 1 = 30034\)</span>. Since <span class="math inline">\(\alpha = 0\)</span>, all draws from this posterior distribution are exactly zero.</p><div class="no-row-height column-margin column-container"><li id="fn12"><p><sup>12</sup>&nbsp;Since I’m not using Stan to fit the model here, I can get away with this. Using Stan, I’d pick something like a <span class="math inline">\(\text{Beta}(1, 10000)\)</span> distribution that puts a very small non-zero probability for <span class="math inline">\(\text{Pr}[A = 1 | Z = 0]\)</span>. I don’t know for sure whether the degenerate prior would cause issues for Stan to be honest.</p></li></div></div>
-<div class="cell">
+<p>the group of <span class="math inline">\(\text{Pr}[A = 1 | Z = 0]\)</span> is (expected to be) 0, since those assigned to the control group should not be able to see the ad. We can pick a <em>degenerate</em> (Beta) prior distribution<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> with <span class="math inline">\(\alpha = 0,\ \beta &gt; 0\)</span>, e.g., <span class="math inline">\(\text{Beta}(0, 1)\)</span>, which results in a Beta posterior with shape <span class="math inline">\(\alpha = 0 + 0 = 0,\ \beta = 30033 + 1 = 30034\)</span>. Since <span class="math inline">\(\alpha = 0\)</span>, all draws from this posterior distribution are exactly zero.</p>
+<div class="no-row-height column-margin column-container"><p><sup>12</sup>&nbsp;Since I’m not using Stan to fit the model here, I can get away with this. Using Stan, I’d pick something like a <span class="math inline">\(\text{Beta}(1, 10000)\)</span> distribution that puts a very small non-zero probability for <span class="math inline">\(\text{Pr}[A = 1 | Z = 0]\)</span>. I don’t know for sure whether the degenerate prior would cause issues for Stan to be honest.</p></div><div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="fu">summary</span>(<span class="fu">rbeta</span>(<span class="fl">1e2</span>, <span class="dv">0</span>, <span class="dv">30034</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -810,7 +874,7 @@ A       0     1
 </div>
 <p>Using the counts from the <span class="math inline">\(A-Z\)</span> table above, we get the <span class="math inline">\(\text{Beta}(55957, 14020)\)</span> posterior with <span class="math inline">\(\alpha = 7 + 55950\)</span> and <span class="math inline">\(\beta = 3 + 14017\)</span>. Taking a difference of these two posteriors would leave this posterior unchanged, so we can produce the corresponding IV posterior distribution</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
 <span id="cb52-2"><a href="#cb52-2"></a>compliance_posterior <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="fu">nrow</span>(ITT_risk_difference), <span class="dv">55957</span>, <span class="dv">14020</span>)</span>
@@ -833,7 +897,11 @@ A       0     1
 <span id="cb52-19"><a href="#cb52-19"></a><span class="fu">plot_posteriors</span>(IV_posterior, true_effect_IV)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -850,8 +918,8 @@ A       0     1
 </div>
 </div>
 <p>Compared to the ITT, PP, and AT estimates, the IV estimate is the closest to the true treatment effect of +10 percentage points, which makes sense as all the IV conditions are valid here due to the use of a randomized experiment with the causal instrument <span class="math inline">\(Z\)</span>. However, if any of the conditions (monotonicity, relevance, etc.) were to weaken, this would lead to bias in the IV estimate.</p>
-<div class="page-columns page-full"><p>Some recommend producing bounds<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> for the IV estimate since it’s usually not <em>point identified.</em> For the case of binary <span class="math inline">\(Z, A, Y\)</span>, we can use <code>ivtools::ivbounds()</code> to produce the <em>natural bounds</em> – which are between 8%-28% for the ATE (<code>CRD</code> in the result)</p><div class="no-row-height column-margin column-container"><li id="fn13"><p><sup>13</sup>&nbsp;Note to (future) self: look at the Balke, Pearl 1997 and Swanson et al 2018 papers, and the <code>causaloptim</code> R package.</p></li></div></div>
-<div class="cell">
+<p>Some recommend producing bounds<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> for the IV estimate since it’s usually not <em>point identified.</em> For the case of binary <span class="math inline">\(Z, A, Y\)</span>, we can use <code>ivtools::ivbounds()</code> to produce the <em>natural bounds</em> – which are between 8%-28% for the ATE (<code>CRD</code> in the result)</p>
+<div class="no-row-height column-margin column-container"><p><sup>13</sup>&nbsp;Note to (future) self: look at the Balke, Pearl 1997 and Swanson et al 2018 papers, and the <code>causaloptim</code> R package.</p></div><div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb55-2"><a href="#cb55-2"></a>  ivtools<span class="sc">::</span><span class="fu">ivbounds</span>(<span class="at">data =</span> ., </span>
 <span id="cb55-3"><a href="#cb55-3"></a>                    <span class="at">Z =</span> <span class="st">"Z"</span>, <span class="at">X =</span> <span class="st">"A"</span>, <span class="at">Y =</span> <span class="st">"Y"</span>, </span>
@@ -878,10 +946,10 @@ CRR 10.25255 33.30515
 COR 11.15758 46.46413</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>The width of the bounds is 20 percentage points, which matches the formula for the width<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> – <span class="math inline">\(\text{Pr}[A = 1 | Z = 0] + \text{Pr}[A = 0 | Z = 1]\)</span> – where the former is 0, since we have no defiers, and 20% for the second quantity, which is the proportion of never-takers.</p><div class="no-row-height column-margin column-container"><li id="fn14"><p><sup>14</sup>&nbsp;given in some of the references below</p></li></div></div>
-<p>The slight difference between the true value and the estimate is due to sampling variability, which can be assessed by simulating multiple datasets with different seeds to give a mean ATE <em>very</em> close to +10 percentage points</p>
+<p>The width of the bounds is 20 percentage points, which matches the formula for the width<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> – <span class="math inline">\(\text{Pr}[A = 1 | Z = 0] + \text{Pr}[A = 0 | Z = 1]\)</span> – where the former is 0, since we have no defiers, and 20% for the second quantity, which is the proportion of never-takers.</p>
+<div class="no-row-height column-margin column-container"><p><sup>14</sup>&nbsp;given in some of the references below</p></div><p>The slight difference between the true value and the estimate is due to sampling variability, which can be assessed by simulating multiple datasets with different seeds to give a mean ATE <em>very</em> close to +10 percentage points</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="fu">map_dbl</span>(</span>
 <span id="cb57-2"><a href="#cb57-2"></a>  <span class="at">.x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, </span>
@@ -903,7 +971,7 @@ COR 11.15758 46.46413</code></pre>
 <h2 class="anchored" data-anchor-id="all-the-estimates-in-a-single-plot">All the estimates in a single plot</h2>
 <p>We can look at all four estimates in a single plot</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="fu">list</span>(</span>
 <span id="cb59-2"><a href="#cb59-2"></a>  <span class="st">"Instrumental variable"</span> <span class="ot">=</span> IV_posterior, </span>
@@ -946,7 +1014,11 @@ COR 11.15758 46.46413</code></pre>
 <span id="cb59-39"><a href="#cb59-39"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The IV estimate is the closest to the true treatment effectiveness of +10 percentage points (in gray), with the AT and the PP effects both showing some bias.</p>
@@ -966,8 +1038,8 @@ COR 11.15758 46.46413</code></pre>
 <p><span class="math display">\[
 \text{Pr}[Y = 1] = \sum_z \text{Pr}[Y = 1 | Z = z] \text{Pr}[Z = z]
 \]</span></p>
-<div class="page-columns page-full"><p>where <span class="math inline">\(\text{Pr}[Z = z]\)</span> is the proportion of people assigned to treatment (<span class="math inline">\(Z = 1\)</span>) and control (<span class="math inline">\(Z = 0\)</span>), and the <span class="math inline">\(\text{Pr}[Y = 1 | Z = z]\)</span> is the ITT estimate<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> in each arm. The ITT estimate under the monotonicity assumption can be further decomposed – using the <a href="https://en.wikipedia.org/wiki/Law_of_total_probability"><em>law of total probability</em></a> – into a weighted sum of the conversion probabilities among the compliers and the never-takers<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn15"><p><sup>15</sup>&nbsp;Technically an <em>estimand</em>, but feels odd to type out ‘estimand’ everywhere in this and following paragraphs instead of ‘estimate’.</p></li><li id="fn16"><p><sup>16</sup>&nbsp;The <span class="math inline">\(\text{Pr}[Z = z]\)</span> term in the numerator on the right side of the equation is constant with respect to the summation (over <span class="math inline">\(c\)</span>), so can be pulled out and cancels out the same term in the denominator.</p></li></div></div>
-<p><span class="math display">\[
+<p>where <span class="math inline">\(\text{Pr}[Z = z]\)</span> is the proportion of people assigned to treatment (<span class="math inline">\(Z = 1\)</span>) and control (<span class="math inline">\(Z = 0\)</span>), and the <span class="math inline">\(\text{Pr}[Y = 1 | Z = z]\)</span> is the ITT estimate<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> in each arm. The ITT estimate under the monotonicity assumption can be further decomposed – using the <a href="https://en.wikipedia.org/wiki/Law_of_total_probability"><em>law of total probability</em></a> – into a weighted sum of the conversion probabilities among the compliers and the never-takers<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>15</sup>&nbsp;Technically an <em>estimand</em>, but feels odd to type out ‘estimand’ everywhere in this and following paragraphs instead of ‘estimate’.</p><p><sup>16</sup>&nbsp;The <span class="math inline">\(\text{Pr}[Z = z]\)</span> term in the numerator on the right side of the equation is constant with respect to the summation (over <span class="math inline">\(c\)</span>), so can be pulled out and cancels out the same term in the denominator.</p></div><p><span class="math display">\[
 \text{Pr}[Y = 1 | Z = z] = \sum_c \text{Pr}[Y = 1 | Z = z, C = c] \text{Pr}[C = c | Z = z]
 \]</span></p>
 <p>where <span class="math inline">\(\text{Pr}[C = c | Z = z] = \text{Pr}[C = c]\)</span> because <span class="math inline">\(Z\)</span> is randomly assigned, so <span class="math inline">\(Z \perp\!\!\!\perp C\)</span>, i.e., <span class="math inline">\(Z\)</span> and <span class="math inline">\(C\)</span> are independent.</p>
@@ -1101,8 +1173,8 @@ $ p_treated_compliers &lt;dbl&gt; 0.1126900, 0.1120181, 0.1140685, 0.1099912, 0.
 $ p_control_compliers &lt;dbl&gt; 0.010782542, 0.010295105, 0.011231293, 0.011498576…</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>In principle, any of these probabilities can be replaced with other priors<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> when attempting to <em>transport</em> these estimates to the other scenarios.</p><div class="no-row-height column-margin column-container"><li id="fn17"><p><sup>17</sup>&nbsp;rather than using the observed posteriors as priors.</p></li></div></div>
-<p>For the plot below, there are two dimensions</p>
+<p>In principle, any of these probabilities can be replaced with other priors<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> when attempting to <em>transport</em> these estimates to the other scenarios.</p>
+<div class="no-row-height column-margin column-container"><p><sup>17</sup>&nbsp;rather than using the observed posteriors as priors.</p></div><p>For the plot below, there are two dimensions</p>
 <ul>
 <li><p>compliance with levels set to 50%, 80%, 100%</p></li>
 <li><p>treatment / control split</p>
@@ -1167,7 +1239,7 @@ $ total_profit        &lt;dbl&gt; 416700, 416000, 436900, 405700, 416700, 413200
 </div>
 <p>The posterior predictive distribution for the total profit is visually compared with simulated draws from the data generating process</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>simulated_profit <span class="ot">&lt;-</span> parameter_grid <span class="sc">%&gt;%</span> </span>
 <span id="cb75-2"><a href="#cb75-2"></a>  <span class="fu">expand_grid</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">20</span>)) <span class="sc">%&gt;%</span> </span>
@@ -1220,17 +1292,21 @@ $ total_profit        &lt;dbl&gt; 416700, 416000, 436900, 405700, 416700, 413200
 <span id="cb75-49"><a href="#cb75-49"></a>  <span class="fu">xlab</span>(<span class="st">"Total profit (multiples of 100,000 EUR, per 100,000 individuals)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The middle column shows the total profit distribution for this experiment with a 70-30% split and 80% compliance. In this fictional scenario, the ad campaign has a strong positive impact on the total profits (90,000 under 0% treated and 80% compliance vs 900,000 under 100% treated) so with the gift of hindsight, it could have been rolled out to the full population.</p>
-<div class="page-columns page-full"><p>If you’re wondering why the posterior predictive distribution (black line) in each panel is not centered at the mean of the vertical lines (in maroon), it’s from using the estimated probabilities from the original dataset which differ from the true probabilities because of sampling variability<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;This can be checked by using the true probabilities, i.e., <code>p_compliers = 0.8, pY_nt = 0.001, p_treated_compliers = 0.1, p_control_compliers = 0.01</code> instead of the posterior distributions for these probabilities.</p></li></div></div>
-</section>
+<p>If you’re wondering why the posterior predictive distribution (black line) in each panel is not centered at the mean of the vertical lines (in maroon), it’s from using the estimated probabilities from the original dataset which differ from the true probabilities because of sampling variability<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>18</sup>&nbsp;This can be checked by using the true probabilities, i.e., <code>p_compliers = 0.8, pY_nt = 0.001, p_treated_compliers = 0.1, p_control_compliers = 0.01</code> instead of the posterior distributions for these probabilities.</p></div></section>
 <section id="ignored-complexities" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="ignored-complexities">Ignored complexities</h2>
 <p>In this post, I ignored the complexity where the exposure among the treated – i.e., number of impressions of the ad – would be continuous, possibly something like this</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
 <span id="cb76-2"><a href="#cb76-2"></a><span class="fu">tibble</span>(<span class="at">impressions =</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fl">5e4</span>, <span class="at">shape =</span> <span class="dv">4</span>, <span class="at">scale =</span> <span class="dv">3</span>)), <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
@@ -1242,17 +1318,21 @@ $ total_profit        &lt;dbl&gt; 416700, 416000, 436900, 405700, 416700, 413200
 <span id="cb76-8"><a href="#cb76-8"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>), <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="page-columns page-full"><p>Ignoring the actual impressions effectively assumes <em>treatment variation irrelevance</em>, i.e, seeing 1 impression is as effective as seeing 20 impressions with regards to conversion. This might be fun to explore in a future post on binary instruments, with a continuous exposure<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>. Baiocchi et al.&nbsp;(section 12) describes an analysis with continuous treatments.</p><div class="no-row-height column-margin column-container"><li id="fn19"><p><sup>19</sup>&nbsp;although all references mention that this complicates the analysis</p></li></div></div>
-<p>Issue with handling partial exposures, i.e., people with one or more partial impressions are also not tackled here.</p>
+</div>
+<p>Ignoring the actual impressions effectively assumes <em>treatment variation irrelevance</em>, i.e, seeing 1 impression is as effective as seeing 20 impressions with regards to conversion. This might be fun to explore in a future post on binary instruments, with a continuous exposure<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>. Baiocchi et al.&nbsp;(section 12) describes an analysis with continuous treatments.</p>
+<div class="no-row-height column-margin column-container"><p><sup>19</sup>&nbsp;although all references mention that this complicates the analysis</p></div><p>Issue with handling partial exposures, i.e., people with one or more partial impressions are also not tackled here.</p>
 <p>For building more complex / full Bayesian IV models using brms / Stan, see <a href="https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs">this</a>, <a href="https://avehtari.github.io/ROS-Examples/Sesame/sesame.html">this</a>, <a href="https://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html">this</a>, or <a href="https://rpsychologist.com/adherence-analysis-IV-brms">this</a>.</p>
 </section>
 <section id="references" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div class="page-columns page-full"><p>These are the main references I’m using for this post<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn20"><p><sup>20</sup>&nbsp;although I can’t claim to have read and mastered all these.</p></li></div></div>
-<ul>
+<p>These are the main references I’m using for this post<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><p><sup>20</sup>&nbsp;although I can’t claim to have read and mastered all these.</p></div><ul>
 <li>Simulating data for instrumental variables - <a href="https://statmodeling.stat.columbia.edu/2019/06/20/how-to-simulate-an-instrumental-variables-problem/">Andrew Gelman blog post link</a>, or <a href="https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs">this link</a> to <em>statistical rethinking</em> models implemented using brms</li>
 <li><a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Hernán, Robins</a> - Causal Inference - What if? - Chapters 16 (instrumental variables), and 22 (sections on intention-to-treat and per-protocol analyses)</li>
 <li><a href="https://avehtari.github.io/ROS-Examples/">Gelman, Hill, Vehtari</a> - Regression and other stories, Sections 21.1-21.2</li>
@@ -1324,6 +1404,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
   const toggleColorMode = (alternate) => {
     // Switch the stylesheets
     const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
@@ -1390,13 +1497,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1526,10 +1635,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1539,8 +1647,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1553,6 +1670,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1596,6 +1832,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1621,6 +1858,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1773,7 +2036,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb77-95"><a href="#cb77-95"></a></span>
 <span id="cb77-98"><a href="#cb77-98"></a><span class="in">```{r}</span></span>
 <span id="cb77-99"><a href="#cb77-99"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb77-100"><a href="#cb77-100"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> 100000L,</span>
+<span id="cb77-100"><a href="#cb77-100"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">100000</span>L,</span>
 <span id="cb77-101"><a href="#cb77-101"></a>                          <span class="at">pY0 =</span> <span class="fl">0.01</span>,</span>
 <span id="cb77-102"><a href="#cb77-102"></a>                          <span class="at">risk_diff =</span> <span class="fl">0.1</span>, </span>
 <span id="cb77-103"><a href="#cb77-103"></a>                          <span class="at">seed =</span> <span class="dv">23</span>, </span>
@@ -1819,7 +2082,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb77-143"><a href="#cb77-143"></a></span>
 <span id="cb77-144"><a href="#cb77-144"></a><span class="co"># creating these variables as they'll be helpful later on</span></span>
 <span id="cb77-145"><a href="#cb77-145"></a><span class="co"># population size</span></span>
-<span id="cb77-146"><a href="#cb77-146"></a>n <span class="ot">&lt;-</span> 100000L</span>
+<span id="cb77-146"><a href="#cb77-146"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span>L</span>
 <span id="cb77-147"><a href="#cb77-147"></a></span>
 <span id="cb77-148"><a href="#cb77-148"></a><span class="co"># P[Y^0 = 1]</span></span>
 <span id="cb77-149"><a href="#cb77-149"></a>pY0 <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
@@ -1889,7 +2152,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb77-221"><a href="#cb77-221"></a>  <span class="fu">prop.table</span>(<span class="at">margin =</span> <span class="dv">2</span>)</span>
 <span id="cb77-222"><a href="#cb77-222"></a><span class="in">```</span></span>
 <span id="cb77-223"><a href="#cb77-223"></a></span>
-<span id="cb77-224"><a href="#cb77-224"></a>and taking the difference of $P<span class="co">[</span><span class="ot">Y = 1 | Z</span><span class="co">]</span>$ in the two groups to give the risk difference $\hat{p}_1 - \hat{p}_0$, where $\hat{p}_0 = \text{Pr}[Y = 1 | Z = 0]$ and $\hat{p}_1 = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | Z = 1</span><span class="co">]</span>$</span>
+<span id="cb77-224"><a href="#cb77-224"></a>and taking the difference of $P<span class="co">[</span><span class="ot">Y = 1 | Z</span><span class="co">]</span>$ in the two groups to give the risk difference $\hat{p}_1 - \hat{p}_0$, where $\hat{p}_0 = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | Z = 0</span><span class="co">]</span>$ and $\hat{p}_1 = \text{Pr}<span class="co">[</span><span class="ot">Y = 1 | Z = 1</span><span class="co">]</span>$</span>
 <span id="cb77-225"><a href="#cb77-225"></a></span>
 <span id="cb77-228"><a href="#cb77-228"></a><span class="in">```{r}</span></span>
 <span id="cb77-229"><a href="#cb77-229"></a><span class="fu">round</span>(<span class="fl">0.089356411</span> <span class="sc">-</span> <span class="fl">0.008690441</span>, <span class="dv">4</span>)</span>
@@ -2652,12 +2915,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></div>
+    <div class="nav-footer-center">
+<p>akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 
