@@ -1,7 +1,7 @@
 ---
 title: "How Many Five-Star Ratings Do I Need?"
 date: "2022-08-16"
-categories: [Analysis, Simulation, R]
+categories: [Analysis, Miscellaneous, R]
 toc: false
 code-fold: false
 reference-location: margin
