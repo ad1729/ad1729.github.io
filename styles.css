@@ -1,1 +1,8 @@
 /* css styles */
+
+mjx-container {
+  display: inline-flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
