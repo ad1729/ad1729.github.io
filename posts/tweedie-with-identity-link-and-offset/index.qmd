@@ -253,4 +253,4 @@ Others
 -   Zhang 2013 ([link](https://link.springer.com/article/10.1007/s11222-012-9343-7))
 -   Stan code for Tweedie
     -   <https://discourse.mc-stan.org/t/tweedie-likelihood-compound-poisson-gamma-in-stan/14636>
-    -   <https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13>
+    -   [this gist](https://gist.github.com/MatsuuraKentaro/952b3301686c10adcb13){.uri}
