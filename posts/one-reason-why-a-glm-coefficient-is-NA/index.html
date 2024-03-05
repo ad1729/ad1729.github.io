@@ -265,10 +265,6 @@ Call:
 glm(formula = y ~ age + city + country, family = "binomial", 
     data = simulated_data, weights = N)
 
-Deviance Residuals: 
-      1        2        3        4        5        6  
- 1.1459   0.3555  -1.4512  -1.4069  -0.4309   1.5443  
-
 Coefficients: (1 not defined because of singularities)
                Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept)     -0.8733     0.1876  -4.656 3.23e-06 ***
@@ -333,17 +329,17 @@ Complete :
 cityParis  1           0     -1             -1      </code></pre>
 </div>
 </div>
-<p>leads to different estimates being <code>NA</code>, i.e., the estimate for Paris is now <code>NA</code> and is linearly dependent on the Intercept, country (Germany), and another city (Nice).</p>
+<p>leads to different estimates being <code>NA</code>, i.e., the estimate for Paris is now <code>NA</code> and is linearly dependent on the Intercept, country (Germany), and another city (Nice). This depends on which term enters the model first.</p>
 <p>The simplest solution here is to drop one of the city or country columns, or to build two separate models – one without country, and one without city.</p>
 <p>If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links:</p>
 <ul>
-<li><a href="https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data">https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data</a></li>
-<li><a href="https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting">https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting</a></li>
-<li><a href="https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model">https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model</a></li>
-<li>Second bullet point from the answer: <a href="https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm">https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm</a></li>
-<li><a href="https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue">https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue</a></li>
-<li><a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html">https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html</a></li>
-<li><a href="https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact">https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact</a></li>
+<li><a href="https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data" class="uri">https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data</a></li>
+<li><a href="https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting" class="uri">https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting</a></li>
+<li><a href="https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model" class="uri">https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model</a></li>
+<li>Second bullet point from the answer: <a href="https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm" class="uri">https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm</a></li>
+<li><a href="https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue" class="uri">https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue</a></li>
+<li><a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html" class="uri">https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html</a></li>
+<li><a href="https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact" class="uri">https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact</a></li>
 </ul>
 
 
@@ -940,82 +936,83 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-4"><a href="#cb13-4"></a><span class="an">categories:</span><span class="co"> [R, GLM, Multicollinearity]</span></span>
 <span id="cb13-5"><a href="#cb13-5"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
 <span id="cb13-6"><a href="#cb13-6"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co">---</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a></span>
-<span id="cb13-9"><a href="#cb13-9"></a>TL;DR: Use the _alias_ function in R to check if you have _nested factors_ (predictors) in your data</span>
-<span id="cb13-10"><a href="#cb13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11"></a>Recently while fitting a logistic regression model, some of the coefficients estimated by the model were <span class="in">`NA`</span>. Initially I thought it was due to _separation_<span class="ot">[^1]</span>, as that's the most common issue I usually face when fitting unregularized models on data.</span>
-<span id="cb13-12"><a href="#cb13-12"></a></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="ot">[^1]: </span>see <span class="co">[</span><span class="ot">this</span><span class="co">]</span>(https://en.wikipedia.org/wiki/Separation_(statistics)) Wikipedia article, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/11109/how-to-deal-with-perfect-separation-in-logistic-regression)</span> stats.stackexchange.com thread (and the associated links in the sidebar)</span>
-<span id="cb13-14"><a href="#cb13-14"></a></span>
-<span id="cb13-15"><a href="#cb13-15"></a>However, googling<span class="ot">[^2]</span> threw up many threads on multicollinearity and anyway, separation usually leads to nonsensical estimates like $1.5 \times 10^8$ instead of <span class="in">`NA`</span>.</span>
-<span id="cb13-16"><a href="#cb13-16"></a></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="ot">[^2]: </span>in this day and age of _ChatGPT_, I know</span>
-<span id="cb13-18"><a href="#cb13-18"></a></span>
-<span id="cb13-19"><a href="#cb13-19"></a>After combing through many stackexchange threads, I discovered the <span class="co">[</span><span class="ot">_alias_</span><span class="co">](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/alias.html)</span> function in R from <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/13465/how-to-deal-with-an-error-such-as-coefficients-14-not-defined-because-of-singu)</span> thread, which was pretty handy at identifying the problematic column(s).</span>
-<span id="cb13-20"><a href="#cb13-20"></a></span>
-<span id="cb13-21"><a href="#cb13-21"></a>It's interesting that the alias documentation doesn't mention anything about GLMs (<span class="in">`glm()`</span>) but this does work on <span class="in">`glm(..., family = "binomial")`</span> model objects<span class="ot">[^3]</span>.</span>
-<span id="cb13-22"><a href="#cb13-22"></a></span>
-<span id="cb13-23"><a href="#cb13-23"></a><span class="ot">[^3]: </span>possibly since the <span class="in">`class`</span> of a <span class="in">`glm`</span> object is <span class="in">`c("glm", "lm")`</span></span>
-<span id="cb13-24"><a href="#cb13-24"></a></span>
-<span id="cb13-25"><a href="#cb13-25"></a>The rest of this post explores this issue and its resolution using aggregated test data, where the city variable is intentionally nested within the country variable. </span>
-<span id="cb13-26"><a href="#cb13-26"></a></span>
-<span id="cb13-29"><a href="#cb13-29"></a><span class="in">```{r}</span></span>
-<span id="cb13-30"><a href="#cb13-30"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb13-31"><a href="#cb13-31"></a></span>
-<span id="cb13-32"><a href="#cb13-32"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb13-33"><a href="#cb13-33"></a>  <span class="sc">~</span>age, <span class="sc">~</span>city, <span class="sc">~</span>country, <span class="sc">~</span>y, <span class="sc">~</span>N,</span>
-<span id="cb13-34"><a href="#cb13-34"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">30</span>, <span class="dv">100</span>,</span>
-<span id="cb13-35"><a href="#cb13-35"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">20</span>, <span class="dv">100</span>,</span>
-<span id="cb13-36"><a href="#cb13-36"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">23</span>, <span class="dv">100</span>,</span>
-<span id="cb13-37"><a href="#cb13-37"></a>  <span class="st">"30+"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">12</span>, <span class="dv">100</span>,</span>
-<span id="cb13-38"><a href="#cb13-38"></a>  <span class="st">"30+"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">11</span>, <span class="dv">100</span>,</span>
-<span id="cb13-39"><a href="#cb13-39"></a>  <span class="st">"30+"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">27</span>, <span class="dv">100</span></span>
-<span id="cb13-40"><a href="#cb13-40"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-41"><a href="#cb13-41"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> y <span class="sc">/</span> N)</span>
-<span id="cb13-42"><a href="#cb13-42"></a></span>
-<span id="cb13-43"><a href="#cb13-43"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> city <span class="sc">+</span> country, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb13-44"><a href="#cb13-44"></a></span>
-<span id="cb13-45"><a href="#cb13-45"></a><span class="fu">summary</span>(model)</span>
-<span id="cb13-46"><a href="#cb13-46"></a><span class="in">```</span></span>
-<span id="cb13-47"><a href="#cb13-47"></a></span>
-<span id="cb13-48"><a href="#cb13-48"></a>The estimate for Germany is <span class="in">`NA`</span>. Calling the alias function on this GLM model shows that the dummy variable of Germany is _linearly dependent_ on (a subset of) the other columns.</span>
-<span id="cb13-49"><a href="#cb13-49"></a></span>
-<span id="cb13-52"><a href="#cb13-52"></a><span class="in">```{r}</span></span>
-<span id="cb13-53"><a href="#cb13-53"></a><span class="fu">alias</span>(model)</span>
-<span id="cb13-54"><a href="#cb13-54"></a><span class="in">```</span></span>
-<span id="cb13-55"><a href="#cb13-55"></a></span>
-<span id="cb13-56"><a href="#cb13-56"></a>This means that the column for Germany is redundant in this _design matrix_ (or the _model matrix_), as the values of Germany (the pattern of 0s and 1s) can be perfectly predicted / recreated by combining the Intercept, Nice, and Paris columns using the coefficients from the output of <span class="in">`alias()`</span>. This is why the perfect <span class="co">[</span><span class="ot">multicollinearity</span><span class="co">](https://en.wikipedia.org/wiki/Multicollinearity)</span> in this case leads to an <span class="in">`NA`</span> coefficient.</span>
-<span id="cb13-57"><a href="#cb13-57"></a></span>
-<span id="cb13-60"><a href="#cb13-60"></a><span class="in">```{r}</span></span>
-<span id="cb13-61"><a href="#cb13-61"></a><span class="co"># countryGermany and Germany are identical</span></span>
-<span id="cb13-62"><a href="#cb13-62"></a><span class="fu">model.matrix</span>(<span class="sc">~</span> ., <span class="at">data =</span> simulated_data) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-63"><a href="#cb13-63"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb13-64"><a href="#cb13-64"></a>  <span class="fu">select</span>(<span class="sc">-</span>y, <span class="sc">-</span>N, <span class="sc">-</span><span class="st">`</span><span class="at">age30+</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-65"><a href="#cb13-65"></a>  <span class="fu">mutate</span>(<span class="at">Germany =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">-</span> cityNice <span class="sc">-</span> cityParis)</span>
-<span id="cb13-66"><a href="#cb13-66"></a><span class="in">```</span></span>
-<span id="cb13-67"><a href="#cb13-67"></a></span>
-<span id="cb13-68"><a href="#cb13-68"></a>Another interesting observation is that changing the order of the variables</span>
-<span id="cb13-69"><a href="#cb13-69"></a></span>
-<span id="cb13-72"><a href="#cb13-72"></a><span class="in">```{r}</span></span>
-<span id="cb13-73"><a href="#cb13-73"></a><span class="co"># here country comes before city</span></span>
-<span id="cb13-74"><a href="#cb13-74"></a><span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> country <span class="sc">+</span> city, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-75"><a href="#cb13-75"></a>  <span class="fu">alias</span>()</span>
-<span id="cb13-76"><a href="#cb13-76"></a><span class="in">```</span></span>
-<span id="cb13-77"><a href="#cb13-77"></a></span>
-<span id="cb13-78"><a href="#cb13-78"></a>leads to different estimates being <span class="in">`NA`</span>, i.e., the estimate for Paris is now <span class="in">`NA`</span> and is linearly dependent on the Intercept, country (Germany), and another city (Nice). This depends on which term enters the model first.</span>
-<span id="cb13-79"><a href="#cb13-79"></a></span>
-<span id="cb13-80"><a href="#cb13-80"></a>The simplest solution here is to drop one of the city or country columns, or to build two separate models -- one without country, and one without city.</span>
-<span id="cb13-81"><a href="#cb13-81"></a></span>
-<span id="cb13-82"><a href="#cb13-82"></a>If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links: </span>
-<span id="cb13-83"><a href="#cb13-83"></a></span>
-<span id="cb13-84"><a href="#cb13-84"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data</span><span class="co">](https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data)</span></span>
-<span id="cb13-85"><a href="#cb13-85"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting</span><span class="co">](https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting)</span></span>
-<span id="cb13-86"><a href="#cb13-86"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model</span><span class="co">](https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model)</span></span>
-<span id="cb13-87"><a href="#cb13-87"></a><span class="ss">- </span>Second bullet point from the answer: <span class="co">[</span><span class="ot">https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm</span><span class="co">](https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm)</span></span>
-<span id="cb13-88"><a href="#cb13-88"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue</span><span class="co">](https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue)</span></span>
-<span id="cb13-89"><a href="#cb13-89"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html</span><span class="co">](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)</span></span>
-<span id="cb13-90"><a href="#cb13-90"></a><span class="ss">- </span><span class="co">[</span><span class="ot">https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact</span><span class="co">](https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact)</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="an">image:</span><span class="co"> "aliased-effect.png"</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">---</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a></span>
+<span id="cb13-10"><a href="#cb13-10"></a>TL;DR: Use the *alias* function in R to check if you have *nested factors* (predictors) in your data</span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>Recently while fitting a logistic regression model, some of the coefficients estimated by the model were <span class="in">`NA`</span>. Initially I thought it was due to *separation*<span class="ot">[^1]</span>, as that's the most common issue I usually face when fitting unregularized models on data.</span>
+<span id="cb13-13"><a href="#cb13-13"></a></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="ot">[^1]: </span>see <span class="co">[</span><span class="ot">this</span><span class="co">]</span>(https://en.wikipedia.org/wiki/Separation_(statistics)) Wikipedia article, or <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/11109/how-to-deal-with-perfect-separation-in-logistic-regression)</span> stats.stackexchange.com thread (and the associated links in the sidebar)</span>
+<span id="cb13-15"><a href="#cb13-15"></a></span>
+<span id="cb13-16"><a href="#cb13-16"></a>However, googling<span class="ot">[^2]</span> threw up many threads on multicollinearity and anyway, separation usually leads to nonsensical estimates like $1.5 \times 10^8$ instead of <span class="in">`NA`</span>.</span>
+<span id="cb13-17"><a href="#cb13-17"></a></span>
+<span id="cb13-18"><a href="#cb13-18"></a><span class="ot">[^2]: </span>in this day and age of *ChatGPT*, I know</span>
+<span id="cb13-19"><a href="#cb13-19"></a></span>
+<span id="cb13-20"><a href="#cb13-20"></a>After combing through many stackexchange threads, I discovered the <span class="co">[</span><span class="ot">*alias*</span><span class="co">](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/alias.html)</span> function in R from <span class="co">[</span><span class="ot">this</span><span class="co">](https://stats.stackexchange.com/questions/13465/how-to-deal-with-an-error-such-as-coefficients-14-not-defined-because-of-singu)</span> thread, which was pretty handy at identifying the problematic column(s).</span>
+<span id="cb13-21"><a href="#cb13-21"></a></span>
+<span id="cb13-22"><a href="#cb13-22"></a>It's interesting that the alias documentation doesn't mention anything about GLMs (<span class="in">`glm()`</span>) but this does work on <span class="in">`glm(..., family = "binomial")`</span> model objects<span class="ot">[^3]</span>.</span>
+<span id="cb13-23"><a href="#cb13-23"></a></span>
+<span id="cb13-24"><a href="#cb13-24"></a><span class="ot">[^3]: </span>possibly since the <span class="in">`class`</span> of a <span class="in">`glm`</span> object is <span class="in">`c("glm", "lm")`</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a></span>
+<span id="cb13-26"><a href="#cb13-26"></a>The rest of this post explores this issue and its resolution using aggregated test data, where the city variable is intentionally nested within the country variable.</span>
+<span id="cb13-27"><a href="#cb13-27"></a></span>
+<span id="cb13-30"><a href="#cb13-30"></a><span class="in">```{r}</span></span>
+<span id="cb13-31"><a href="#cb13-31"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-32"><a href="#cb13-32"></a></span>
+<span id="cb13-33"><a href="#cb13-33"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb13-34"><a href="#cb13-34"></a>  <span class="sc">~</span>age, <span class="sc">~</span>city, <span class="sc">~</span>country, <span class="sc">~</span>y, <span class="sc">~</span>N,</span>
+<span id="cb13-35"><a href="#cb13-35"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">30</span>, <span class="dv">100</span>,</span>
+<span id="cb13-36"><a href="#cb13-36"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">20</span>, <span class="dv">100</span>,</span>
+<span id="cb13-37"><a href="#cb13-37"></a>  <span class="st">"&lt; 30"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">23</span>, <span class="dv">100</span>,</span>
+<span id="cb13-38"><a href="#cb13-38"></a>  <span class="st">"30+"</span>, <span class="st">"Paris"</span>, <span class="st">"France"</span>, <span class="dv">12</span>, <span class="dv">100</span>,</span>
+<span id="cb13-39"><a href="#cb13-39"></a>  <span class="st">"30+"</span>, <span class="st">"Nice"</span>, <span class="st">"France"</span>, <span class="dv">11</span>, <span class="dv">100</span>,</span>
+<span id="cb13-40"><a href="#cb13-40"></a>  <span class="st">"30+"</span>, <span class="st">"Berlin"</span>, <span class="st">"Germany"</span>, <span class="dv">27</span>, <span class="dv">100</span></span>
+<span id="cb13-41"><a href="#cb13-41"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-42"><a href="#cb13-42"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> y <span class="sc">/</span> N)</span>
+<span id="cb13-43"><a href="#cb13-43"></a></span>
+<span id="cb13-44"><a href="#cb13-44"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> city <span class="sc">+</span> country, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb13-45"><a href="#cb13-45"></a></span>
+<span id="cb13-46"><a href="#cb13-46"></a><span class="fu">summary</span>(model)</span>
+<span id="cb13-47"><a href="#cb13-47"></a><span class="in">```</span></span>
+<span id="cb13-48"><a href="#cb13-48"></a></span>
+<span id="cb13-49"><a href="#cb13-49"></a>The estimate for Germany is <span class="in">`NA`</span>. Calling the alias function on this GLM model shows that the dummy variable of Germany is *linearly dependent* on (a subset of) the other columns.</span>
+<span id="cb13-50"><a href="#cb13-50"></a></span>
+<span id="cb13-53"><a href="#cb13-53"></a><span class="in">```{r}</span></span>
+<span id="cb13-54"><a href="#cb13-54"></a><span class="fu">alias</span>(model)</span>
+<span id="cb13-55"><a href="#cb13-55"></a><span class="in">```</span></span>
+<span id="cb13-56"><a href="#cb13-56"></a></span>
+<span id="cb13-57"><a href="#cb13-57"></a>This means that the column for Germany is redundant in this *design matrix* (or the *model matrix*), as the values of Germany (the pattern of 0s and 1s) can be perfectly predicted / recreated by combining the Intercept, Nice, and Paris columns using the coefficients from the output of <span class="in">`alias()`</span>. This is why the perfect <span class="co">[</span><span class="ot">multicollinearity</span><span class="co">](https://en.wikipedia.org/wiki/Multicollinearity)</span> in this case leads to an <span class="in">`NA`</span> coefficient.</span>
+<span id="cb13-58"><a href="#cb13-58"></a></span>
+<span id="cb13-61"><a href="#cb13-61"></a><span class="in">```{r}</span></span>
+<span id="cb13-62"><a href="#cb13-62"></a><span class="co"># countryGermany and Germany are identical</span></span>
+<span id="cb13-63"><a href="#cb13-63"></a><span class="fu">model.matrix</span>(<span class="sc">~</span> ., <span class="at">data =</span> simulated_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-64"><a href="#cb13-64"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-65"><a href="#cb13-65"></a>  <span class="fu">select</span>(<span class="sc">-</span>y, <span class="sc">-</span>N, <span class="sc">-</span><span class="st">`</span><span class="at">age30+</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-66"><a href="#cb13-66"></a>  <span class="fu">mutate</span>(<span class="at">Germany =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">-</span> cityNice <span class="sc">-</span> cityParis)</span>
+<span id="cb13-67"><a href="#cb13-67"></a><span class="in">```</span></span>
+<span id="cb13-68"><a href="#cb13-68"></a></span>
+<span id="cb13-69"><a href="#cb13-69"></a>Another interesting observation is that changing the order of the variables</span>
+<span id="cb13-70"><a href="#cb13-70"></a></span>
+<span id="cb13-73"><a href="#cb13-73"></a><span class="in">```{r}</span></span>
+<span id="cb13-74"><a href="#cb13-74"></a><span class="co"># here country comes before city</span></span>
+<span id="cb13-75"><a href="#cb13-75"></a><span class="fu">glm</span>(y <span class="sc">~</span> age <span class="sc">+</span> country <span class="sc">+</span> city, <span class="at">weights =</span> N, <span class="at">data =</span> simulated_data, <span class="at">family =</span> <span class="st">"binomial"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-76"><a href="#cb13-76"></a>  <span class="fu">alias</span>()</span>
+<span id="cb13-77"><a href="#cb13-77"></a><span class="in">```</span></span>
+<span id="cb13-78"><a href="#cb13-78"></a></span>
+<span id="cb13-79"><a href="#cb13-79"></a>leads to different estimates being <span class="in">`NA`</span>, i.e., the estimate for Paris is now <span class="in">`NA`</span> and is linearly dependent on the Intercept, country (Germany), and another city (Nice). This depends on which term enters the model first.</span>
+<span id="cb13-80"><a href="#cb13-80"></a></span>
+<span id="cb13-81"><a href="#cb13-81"></a>The simplest solution here is to drop one of the city or country columns, or to build two separate models -- one without country, and one without city.</span>
+<span id="cb13-82"><a href="#cb13-82"></a></span>
+<span id="cb13-83"><a href="#cb13-83"></a>If the goal is to estimate coefficients for both the city and country variables, then a mixed model with nested effects might be the right rabbit hole to go down, assuming they both have more than 10 levels or so. See the following links:</span>
+<span id="cb13-84"><a href="#cb13-84"></a></span>
+<span id="cb13-85"><a href="#cb13-85"></a><span class="ss">-   </span><span class="ot">&lt;https://stats.stackexchange.com/questions/197977/analyzing-nested-categorical-data&gt;</span></span>
+<span id="cb13-86"><a href="#cb13-86"></a><span class="ss">-   </span><span class="ot">&lt;https://stats.stackexchange.com/questions/79360/mixed-effects-model-with-nesting&gt;</span></span>
+<span id="cb13-87"><a href="#cb13-87"></a><span class="ss">-   </span><span class="ot">&lt;https://stats.stackexchange.com/questions/372257/how-do-you-deal-with-nested-variables-in-a-regression-model&gt;</span></span>
+<span id="cb13-88"><a href="#cb13-88"></a><span class="ss">-   </span>Second bullet point from the answer: <span class="ot">&lt;https://stats.stackexchange.com/questions/243811/how-to-model-nested-fixed-factor-with-glmm&gt;</span></span>
+<span id="cb13-89"><a href="#cb13-89"></a><span class="ss">-   </span><span class="ot">&lt;https://stackoverflow.com/questions/70537291/lmer-model-failed-to-converge-with-1-negative-eigenvalue&gt;</span></span>
+<span id="cb13-90"><a href="#cb13-90"></a><span class="ss">-   </span><span class="ot">&lt;https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html&gt;</span></span>
+<span id="cb13-91"><a href="#cb13-91"></a><span class="ss">-   </span><span class="ot">&lt;https://stackoverflow.com/questions/40723196/why-do-i-get-na-coefficients-and-how-does-lm-drop-reference-level-for-interact&gt;</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
