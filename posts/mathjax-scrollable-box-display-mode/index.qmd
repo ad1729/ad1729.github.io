@@ -1,0 +1,99 @@
+---
+title: "Scrollable box for long math equations on mobile"
+date: "2024-03-05"
+categories: [Quarto]
+code-fold: show
+toc-expand: true
+reference-location: margin
+lightbox: true
+image: "0-equation-overflowing-on-mobile-browser-cropped.png"
+---
+
+While writing new posts, I preview them on (Google) Chrome on my laptop before publishing. The three people who read my blog posts usually read them on mobile. So one fine day I decided to check what the posts look like on mobile, and I found something mildly annoying
+
+![](1-equation-overflowing-on-mobile-browser-cropped.png){fig-align="center"}
+
+The long math equation makes the page wider on mobile and adds whitespace to the rest of the page. This is not the case with code and output blocks, which are automatically put in scrollable containers if their width is larger than the screen width.
+
+Which made me wonder --- how can I do this for math equations as well? It definitely seemed possible from looking at Wikipedia. Thus began a three-day journey into the dark art of tweaking CSS files.
+
+The most helpful thing I learned in this process is [how to](https://superuser.com/a/1214830) (pre)view posts --- as they would show on mobile screens --- on a laptop browser[^1]
+
+[^1]: What's cool is that it's possible to see how it would render on different handsets.
+
+![](2-equation-overflowing-on-mobile-browser.png){fig-align="center"}
+
+Until `quarto` 1.4, there seems to be no parameter that can put a scrollable box around the math equations (for code it's as simple as specifying `code-overflow: scroll` in the YAML post header, or more generally, the `_metadata.yml` [file](https://github.com/ad1729/ad1729.github.io/blob/b0b84cd350cfdba694695e4191090ed6c9e0d1d2/posts/_metadata.yml#L27)).
+
+After some googling, I came across [this solution](https://github.com/quarto-dev/quarto-cli/discussions/2170#discussioncomment-3502760)
+
+``` css
+:::{style="overflow-x:auto;overflow-y:hidden;"}
+$$
+... long equation goes here ...
+$$
+:::
+```
+
+but I wanted something that would automatically apply to all posts.
+
+The `styles.css` [file in the root directory](https://github.com/ad1729/ad1729.github.io/blob/49320af2a7c99f90bddb22e1ba9e614b1e944a53/styles.css) seemed to be the place to specify that MathJax should render long equations in scrollable containers. Based on [this stackoverflow answer](https://stackoverflow.com/a/65381823), I added the following code to the styles.css file (`mjx-container` is recommended for MathJax version 3, which is what `Quarto` [seems to be using](https://github.com/quarto-dev/quarto-cli/discussions/4916#discussioncomment-5394182))
+
+``` css
+mjx-container {
+  display: inline-flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+```
+
+This fixed the equation overflow issue on Firefox[^2] (version 123.0)
+
+[^2]: which has 'mobile mode' as well in developer tools
+
+![](3-after-overflow-insufficient-fix-firefox.png){fig-align="center"}
+
+but left ugly scroll bars in inline math in Chrome both on mobile (see the scroll bar under $\beta_0$)
+
+![](4-after-overflow-insufficient-fix-chrome.png){fig-align="center"}
+
+and on desktop[^3]
+
+[^3]: (version 122.0.6261.94)
+
+![](5-annoying-inline-scrollbars-on-chrome-desktop.png){fig-align="center"}
+
+which looks horrible. Changing to `display: inline-grid` didn't lead to any visible changes, and to `display: block` led to all inline math getting rendered in separate blocks.
+
+After some more googling, I came across [this suggestion](https://github.com/quarto-dev/quarto-cli/discussions/6018#discussioncomment-6267739)
+
+``` css
+.MathJax {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+```
+
+which fixed the unnecessary inline scroll bar issue (on Chrome)
+
+![](6-fixed-inline-scrollbars-chrome-desktop.png){fig-align="center"}
+
+and continued to have scroll bars for long display mode math equations (on Chrome)
+
+![](7-after-overflow-fix-chrome-mobile.png){fig-align="center" width="400"}
+
+However, this was not an ideal solution, as any long inline math equation on mobile would now overflow the page
+
+![](8-inline-math-overflowing-page-chrome-mobile.png){fig-align="center" width="400"}
+
+whereas scroll-bar-on-inline-overflow would've been ideal, if it didn't put unnecessary scroll bars elsewhere
+
+![](9-inline-math-scrollbar-chrome-mobile.png){fig-align="center" width="400"}
+
+Since I was a bit sick of this exercise, it was quite simple to track down the few long inline equations in some of the already published posts and change them from inline to display mode so they wouldn't overflow the page[^4], and add a note to self to not use long inline equations for future posts.
+
+[^4]: which may still overflow on very small (mobile) screens
+
+To recap, the ideal solution would've been one that puts scroll bars on long inline and display math equations if they overflow the screen (depending on the device type), but not put scroll bars where the text clearly fits on screen.
