@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/mathjax-scrollable-box-display-mode/index.html",
       "/posts/g-estimation-of-MSMM-with-an-IV/index.html",
       "/posts/spelling-bee/index.html",
       "/posts/instrumental-variable-in-RCT/index.html",
