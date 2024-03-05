@@ -1,7 +1,6 @@
 /* css styles */
 
-mjx-container {
-  display: inline-flex;
+.MathJax {
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
