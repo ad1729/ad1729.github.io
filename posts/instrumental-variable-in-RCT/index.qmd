@@ -83,7 +83,11 @@ Before the question in the previous section can be answered, we need to generate
 
 What the following code does is it first partitions the population of 100,000 individuals into an 80-20% mix of *compliers* and *non-compliers*. Compliers are the individuals that would watch the ad if they were assigned to the target group. Non-compliers are the individuals who would not comply with the group they're randomized to. More on this in the IV section below. Then, the potential outcomes for each individual under the two treatments depending on their compliance status are simulated.
 
-If $C_i = 1$ denotes whether individual $i$ is a complier, and $C_i = 0$ otherwise, then $\text{Pr}[Y^{a = 0}_i = 1| C_i = 0] = \text{Pr}[Y^{a = 1}_i = 1| C_i = 0] = 0.1\%$, where the probability of purchasing the new product is very small among the non-compliers independent of whether they're assigned to the treatment or the control group.
+If $C_i = 1$ denotes whether individual $i$ is a complier, and $C_i = 0$ otherwise, then
+
+$$
+\text{Pr}[Y^{a = 0}_i = 1| C_i = 0] = \text{Pr}[Y^{a = 1}_i = 1| C_i = 0] = 0.1\%
+$$where the probability of purchasing the new product is very small among the non-compliers independent of whether they're assigned to the treatment or the control group.
 
 Among the compliers, $\text{Pr}[Y^{a = 0}_i = 1| C_i = 1] = 1\%$, i.e., 1% of the individuals would buy the new product if nobody was shown the ad. If the ad is rolled out to the full population, then $\text{Pr}[Y^{a = 1}_i = 1| C_i = 1] = 11\%$, which leads to an *average treatment effect (ATE)* among the compliers of +10 percentage points.
 
@@ -284,7 +288,19 @@ To get the posterior distribution for conversion in each arm, the counts from th
 data %$% table(Y, Z)
 ```
 
-This gives $p (\alpha_0, \beta_0|y) \sim \text{Beta}(261 + 1, 29772 + 9) = \text{Beta}(262, 29781)$ for the control group, and $p (\alpha_1, \beta_1|y) \sim \text{Beta}(6252 + 1, 63715 + 9) = \text{Beta}(6253, 63724)$ for the treatment group, visualized as follows
+This gives
+
+$$
+p (\alpha_0, \beta_0|y) \sim \text{Beta}(261 + 1, 29772 + 9) = \text{Beta}(262, 29781)
+$$
+
+for the control group, and
+
+$$
+p (\alpha_1, \beta_1|y) \sim \text{Beta}(6252 + 1, 63715 + 9) = \text{Beta}(6253, 63724)
+$$
+
+for the treatment group, visualized as follows
 
 ```{r}
 #| code-fold: true
@@ -495,7 +511,8 @@ For an instrumental variable analysis to be valid, we need an *instrument* (say 
 -   *Exclusion restriction* -- have no direct impact on the outcome $Y$, only an indirect effect entirely mediated via the treatment $A$
 
 -   *(Weak) Homogeneity* -- for a binary $Z-A$ system, if $Z$ is not an *effect modifier* of the $A-Y$ relationship, i.e.,\
-    $\mathbb{E}[Y^{a = 1} - Y^{a = 0} | Z = 1, A = a] = \mathbb{E}[Y^{a = 1} - Y^{a = 0} | Z = 0, A = a]$ then the IV estimate can be interpreted as the *average treatment effect among the treated (ATT)* in the population. If the ATT is identical to the *ATU(ntreated),* then the IV estimate can be interpreted as the *ATE in the population.* Other homogeneity conditions are described in section 16.3 of the what-if book. Appendix 2.1 of the Hernán, Robins 2006 paper has some stuff on this too.
+    $$\mathbb{E}[Y^{a = 1} - Y^{a = 0} | Z = 1, A = a] = \mathbb{E}[Y^{a = 1} - Y^{a = 0} | Z = 0, A = a]$$\
+    then the IV estimate can be interpreted as the *average treatment effect among the treated (ATT)* in the population. If the ATT is identical to the *ATU(ntreated),* then the IV estimate can be interpreted as the *ATE in the population.* Other homogeneity conditions are described in section 16.3 of the what-if book. Appendix 2.1 of the Hernán, Robins 2006 paper has some stuff on this too.
 
 -   *Monotonicity* - The trial population can be partitioned into four-latent subgroups / *prinicipal strata* defined by a combination of $A, Z$ - *always takers, compliers, never-takers, and defiers*. Always (or never) takers are people who would always (or never) take the treatment independent of group assignment. Compliers would comply with the treatment corresponding to the group they are assigned to. Defiers would do the opposite to the group they're assigned to. In the absence of defiers and always takers, the IV estimand is the *complier average causal effect (CACE)* or the *local average treatment effect (LATE).* This can be written as
 
@@ -538,7 +555,7 @@ To fit this Beta-binomial model to the data, we can use the posterior distributi
 data %$% table(A, Z)
 ```
 
-the group of $\text{Pr}[A = 1 | Z = 0]$ is (expected to be) 0, since those assigned to the control group should not be able to see the ad. We can pick a *degenerate* (Beta) prior distribution[^12] with $\alpha = 0,\ \beta > 0$, e.g., $\text{Beta}(0, 1)$, which results in a Beta posterior with shape $\alpha = 0 + 0 = 0,\ \beta = 30033 + 1 = 30034$. Since $\alpha = 0$, all draws from this posterior distribution are exactly zero.
+the group of $\text{Pr}[A = 1 | Z = 0]$ is (expected to be) 0, since those assigned to the control group should not be able to see the ad. We can pick a *degenerate* (Beta) prior distribution[^12] with $\alpha = 0,\ \beta > 0$, e.g., $\text{Beta}(0, 1)$, which results in a Beta posterior with shape parameters $\alpha = 0 + 0 = 0$ and $\beta = 30033 + 1 = 30034$. Since $\alpha = 0$, all draws from this posterior distribution are exactly zero.
 
 [^12]: Since I'm not using Stan to fit the model here, I can get away with this. Using Stan, I'd pick something like a $\text{Beta}(1, 10000)$ distribution that puts a very small non-zero probability for $\text{Pr}[A = 1 | Z = 0]$. I don't know for sure whether the degenerate prior would cause issues for Stan to be honest.
 
@@ -745,7 +762,11 @@ prop_compliers %>%
   summary()
 ```
 
-For the probability of conversion among the never takers, we can calculate this from information among the untreated assigned to the treatment group. A $\text{Beta}(1, 1)$ prior can be assumed here to get the following $\text{Beta}(18 + 1, 13999 + 1) = \text{Beta}(19, 14000)$ posterior
+For the probability of conversion among the never takers, we can calculate this from information among the untreated assigned to the treatment group. A $\text{Beta}(1, 1)$ prior can be assumed here to get the following posterior
+
+$$
+\text{Beta}(18 + 1, 13999 + 1) = \text{Beta}(19, 14000)
+$$
 
 ```{r}
 data %>% filter(A != Z) %$% table(Y)

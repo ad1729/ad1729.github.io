@@ -79,13 +79,17 @@ The first time I read the chapter on g-estimation in the what-if book, it went o
 
 Another advantage is that there's no need to correctly model the relationship between the confounders $U$ and the outcome $Y$ for the correct estimation of the treatment effect. This would not be the case when using (*log-)binomial* or *poisson* regression, where misspecification of the $U-Y$ relationship can bias the estimate for $A$.
 
-The essence of g-estimation is simple[^7] -- once the true effect of the treatment $\psi$ is shaved off from the response variable $Y$, the residuals $H(\psi) = Y - \psi A = Y^{a = 0}$ should be uncorrelated with the treatment $A$ in the confounder-adjusted propensity model, i.e., $\text{Cov}(A, H(\psi) | U) = 0$[^8]. This is the same as picking the value of $\psi$ that leads to $\alpha_1 = 0$ in $\mathbb{E}[A | Y^{a=0}, U] = \alpha_0 + \alpha_1 H(\psi) + \sum_{j=2}^k \alpha_j U_{j-1}$[^9]. For MSMMs, $H(\psi) = Y \text{exp}(- \psi A)$ is used where $\psi$ is the risk ratio on the log scale.
+The essence of g-estimation is simple[^7] -- once the true effect of the treatment $\psi$ is shaved off from the response variable $Y$, the residuals $H(\psi) = Y - \psi A = Y^{a = 0}$ should be uncorrelated with the treatment $A$ in the confounder-adjusted propensity model, i.e., $\text{Cov}(A, H(\psi) | U) = 0$[^8]. This is the same as picking the value of $\psi$ that leads to $\alpha_1 = 0$ in
 
 [^7]: after having grasped it that is
 
 [^8]: Cov denotes *covariance.*
 
-[^9]: For a binary exposure variable, the $\mathbb{E}[A]$ is replaced by $\text{logit(Pr[A = 1])}$, where $\text{logit}(p) = \text{log}\Big(\frac{p}{1-p}\Big)$ and $p$ is the probability $\text{Pr}[A = 1]$.
+$$
+\mathbb{E}[A | Y^{a=0}, U] = \alpha_0 + \alpha_1 H(\psi) + \sum_{j=2}^k \alpha_j U_{j-1}
+$$
+
+where $\mathbb{E}[A]$ is replaced by $\text{logit(Pr[A = 1])}$ for a binary exposure variable, $\text{logit}(p) = \text{log}\Big(\frac{p}{1-p}\Big)$, and $p$ is the probability $\text{Pr}[A = 1]$. For MSMMs, $H(\psi) = Y \text{exp}(- \psi A)$ is used where $\psi$ is the risk ratio on the log scale.
 
 This works because of the *conditional mean independence* assumption --- that the exposed and unexposed individuals are exchangeable within levels of $U$ (i.e., $Y^{a = 0} \perp\!\!\!\perp A|U$) as would be the case for a conditionally randomized experiment. In a marginally randomized experiment, the treatment assigned and received is independent of the potential outcomes, which would not be the case if people with (say) higher levels of $U$ were more likely to take the treatment ($A > 0$) and have a positive outcome $Y = 1$. In this scenario, it wouldn't be possible to say whether it was $A$ or $U$ causing better outcomes. This *lack-of-identification* is due to confounding between the effect of $U$ on $Y$ and the effect of $A$ on $Y$.
 
@@ -200,11 +204,11 @@ grid_search_pvalue %>%
 
 From both the graphs, it's evident that the estimate from the correctly specified propensity model is much closer to the true value of 1.02 (or 2% increase when going from $A = a$ to $A = a + 1$) compared to the estimate from the propensity model without $U$. Recovering the true effect in the presence of unmeasured confounding would require knowing which non-zero value of $\alpha_1$ (here about -2.5) corresponds to the true value of $\psi$.
 
-Grid search can be kinda tedious[^10] and computationally inefficient when there are multiple treatment parameters[^11], but [this paper](https://academic.oup.com/aje/article/187/5/1079/4930819) shows a neat trick using *log-link* *Gamma Generalized Estimating Equations (GEE)* to estimate risk ratios using regression adjustment for the propensity score
+Grid search can be kinda tedious[^9] and computationally inefficient when there are multiple treatment parameters[^10], but [this paper](https://academic.oup.com/aje/article/187/5/1079/4930819) shows a neat trick using *log-link* *Gamma Generalized Estimating Equations (GEE)* to estimate risk ratios using regression adjustment for the propensity score
 
-[^10]: It was annoying to use grid-search with p-values for this setting - if the grid was too coarse so there weren't any points close to the true value, then the p-values were very close to zero, which explains the fine grid used here. Calling `optimize(gest_function, interval = c(-5, 5), maximum = TRUE)` where gest_function takes $\psi$ as an input and returns the p-value as the output failed to find the correct value, until the interval was narrowed to (0, 2). The coefficient estimate function wouldn't work too well either, since risk ratio values less than 1 lead to estimates of $\alpha_1$ to be very close to 0.
+[^9]: It was annoying to use grid-search with p-values for this setting - if the grid was too coarse so there weren't any points close to the true value, then the p-values were very close to zero, which explains the fine grid used here. Calling `optimize(gest_function, interval = c(-5, 5), maximum = TRUE)` where gest_function takes $\psi$ as an input and returns the p-value as the output failed to find the correct value, until the interval was narrowed to (0, 2). The coefficient estimate function wouldn't work too well either, since risk ratio values less than 1 lead to estimates of $\alpha_1$ to be very close to 0.
 
-[^11]: to account for effect-measure modification or heterogeneity of treatment effect
+[^10]: to account for effect-measure modification or heterogeneity of treatment effect
 
 ```{r}
 #| code-fold: false
@@ -286,9 +290,9 @@ But what if $U$ is unmeasured?
 
 ## G-estimation with an IV
 
-In a randomized trial with perfect compliance, $A$ and $Z$ will be identical so a simple analysis using either one of these will result in an unbiased estimate of the average treatment effect. On the other hand, in the presence of imperfect compliance due to unmeasured confounding, an unadjusted analysis of $A - Y$ will lead to biased estimates of the effect of treatment, and an unadjusted analysis of $Z - Y$ will lead to an estimate of assigning treatment[^12] instead of receiving the treatment. Analyzing only $A-Y$, the estimated treatment effect concentrates around 0.98 on average instead of 1.02
+In a randomized trial with perfect compliance, $A$ and $Z$ will be identical so a simple analysis using either one of these will result in an unbiased estimate of the average treatment effect. On the other hand, in the presence of imperfect compliance due to unmeasured confounding, an unadjusted analysis of $A - Y$ will lead to biased estimates of the effect of treatment, and an unadjusted analysis of $Z - Y$ will lead to an estimate of assigning treatment[^11] instead of receiving the treatment. Analyzing only $A-Y$, the estimated treatment effect concentrates around 0.98 on average instead of 1.02
 
-[^12]: i.e., the *intention-to-treat* effect (ITT)
+[^11]: i.e., the *intention-to-treat* effect (ITT)
 
 ```{r}
 # specify the seed
@@ -304,9 +308,9 @@ seq(1, 100, 1) %>%
   summary()
 ```
 
-If the DAG with relationships $A \leftarrow U \rightarrow Y$ and $Z \rightarrow A \rightarrow Y$ holds but only $(Z, A, Y)$ are observed, and $Z$ is a variable that meets the IV conditions[^13], the effect of $A$ ($\text{ATE}$ or $\text{ATT}_{IV}$) can be estimated under some additional assumptions.
+If the DAG with relationships $A \leftarrow U \rightarrow Y$ and $Z \rightarrow A \rightarrow Y$ holds but only $(Z, A, Y)$ are observed, and $Z$ is a variable that meets the IV conditions[^12], the effect of $A$ ($\text{ATE}$ or $\text{ATT}_{IV}$) can be estimated under some additional assumptions.
 
-[^13]: Associated with $A$ (relevance), not associated with any variables in the set $U$ (ignorability), and no direct effect on $Y$ (exclusion restriction)
+[^12]: Associated with $A$ (relevance), not associated with any variables in the set $U$ (ignorability), and no direct effect on $Y$ (exclusion restriction)
 
 The key idea is captured by this (estimating) equation
 
@@ -316,9 +320,9 @@ $$
 
 where $\bar{z}$ denotes the proportion of individuals assigned to the treatment arm.
 
-Since $Z$ is randomly assigned, it should be balanced with respect to all measured and unmeasured confounders $U$. But $A$ may not be. So the correct estimate of $\psi$ is the one that leads to zero covariance between the residuals $Y^{a = 0}$ (or $H(\psi)$) and $Z$[^14]. Pretty magical, if you ask me.
+Since $Z$ is randomly assigned, it should be balanced with respect to all measured and unmeasured confounders $U$. But $A$ may not be. So the correct estimate of $\psi$ is the one that leads to zero covariance between the residuals $Y^{a = 0}$ (or $H(\psi)$) and $Z$[^13]. Pretty magical, if you ask me.
 
-[^14]: If $(a_i - \bar{a})$ were to be used instead of $(z_i - \bar{z})$, then the estimate would be the same one as from the $A- Y$ analysis.
+[^13]: If $(a_i - \bar{a})$ were to be used instead of $(z_i - \bar{z})$, then the estimate would be the same one as from the $A- Y$ analysis.
 
 This equation can be coded up as a function which visually looks like this
 
@@ -359,9 +363,9 @@ IV_grid %>%
   ylab("Covariance between Z and H(\U1D713)")
 ```
 
-Instead of using grid search, the `optimize()` function can be used with the absolute value of the covariance to pick the value of $\psi$ that leads to 0 covariance[^15]
+Instead of using grid search, the `optimize()` function can be used with the absolute value of the covariance to pick the value of $\psi$ that leads to 0 covariance[^14]
 
-[^15]: if the function is flat in the specified interval, the optimization step would return incorrect results (passing \`interval = c(3, 5)\` returns the value of 3 and an objective function value of 83.8 which is far away from 0)
+[^14]: if the function is flat in the specified interval, the optimization step would return incorrect results (passing \`interval = c(3, 5)\` returns the value of 3 and an objective function value of 83.8 which is far away from 0)
 
 ```{r}
 #| code-fold: false
@@ -387,9 +391,9 @@ IV_estimates <- map_dbl(
 IV_estimates %>% exp() %>% summary()
 ```
 
-It might just be simpler to use the `ivglm()` function from the `ivtools` package (see [this paper](https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html)) to accomplish the same thing though[^16]
+It might just be simpler to use the `ivglm()` function from the `ivtools` package (see [this paper](https://www.degruyter.com/document/doi/10.1515/em-2018-0024/html)) to accomplish the same thing though[^15]
 
-[^16]: which has other advantages like handling multiple instruments and different effect measures
+[^15]: which has other advantages like handling multiple instruments and different effect measures
 
 ```{r}
 #| code-fold: show
@@ -437,9 +441,9 @@ A caveat is that this approach can sometimes fail when this function has a weird
 
 If we had the model which included $U$ as a covariate, conditional probabilities $\text{Pr}[Y = 1 | A = a, U = u]$ as well as marginal probabilities $\text{Pr}[Y = 1 | A = a]$ (averaged over levels of $U$) could be generated using the amazing *marginaleffects* package to perform *g-computation* with the resulting *dose-response curves* visualized*.*
 
-The following plot with conditional dose-response curves at quartiles of $U$ shows that the effect of the treatment with increasing $A$ is increasing across levels of $U$ --- which makes sense because the treatment effect is a multiplicative (percent) change relative to the previous level[^17]
+The following plot with conditional dose-response curves at quartiles of $U$ shows that the effect of the treatment with increasing $A$ is increasing across levels of $U$ --- which makes sense because the treatment effect is a multiplicative (percent) change relative to the previous level[^16]
 
-[^17]: the effects of $A$ and $U$ are linear on the log scale but not on the transformed probability scale
+[^16]: the effects of $A$ and $U$ are linear on the log scale but not on the transformed probability scale
 
 ```{r}
 # get predicted probabilities from the model at quartiles of U
@@ -535,9 +539,9 @@ bind_rows(
   xlab("A (true curve in gray)")
 ```
 
-Assuming no-effect modification by $U$, the point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^18]) by using the following relation
+Assuming no-effect modification by $U$, the point estimate and the CI endpoints from `ivglm` are used to first estimate $\text{Pr}[Y = 1 | A = 0]$ (which is the same as $\text{Pr}[Y^{a = 0} = 1]$[^17]) by using the following relation
 
-[^18]: assuming consistency
+[^17]: assuming consistency
 
 $$
 \text{Pr}[Y^{a = 0} = 1] = \text{Pr}[Y = 1 | A = 0] = \text{E}[Y\ \text{exp}(\psi A)]
@@ -573,15 +577,16 @@ This post is based on the following references
 
 The four figures --- going clockwise from top left --- show
 
-1.  the probability of compliance as a function of the confounder $U$ (where $\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$)
+1.  the probability of compliance as a function of the confounder $U$\
+    \$\$\\text{Pr}\[C = 1 \| U\] = 1 / (1 + \\text{exp}(-2 + 0.5)) u,\\ u \\in \[0, 10\]\$\$
 
-2.  the realized distribution of the treatment levels among those who received the treatment[^19] simulated from the truncated *Gamma* distribution rounded to the nearest integer $x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$
+2.  the realized distribution of the treatment levels among those who received the treatment[^18] simulated from the truncated *Gamma* distribution rounded to the nearest integer $$x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$$
 
 3.  balance of $U$ across levels of $A$ (which is *not* balanced because of confounding by $U$), and
 
 4.  balance of $U$ across levels of $Z$ (which is balanced because of randomization)
 
-[^19]: a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)
+[^18]: a value is sampled for each individual, but is realized only if $Z = 1$ and $C = 1$ (where $C$ is the compliance indicator)
 
 ```{r}
 # probability of compliance as a function of the confounder
