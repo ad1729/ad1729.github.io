@@ -14,7 +14,7 @@ This project contains all the files for the blog.
 
 -   For R - When the post is ready for editing / proofreading, rename the file to `index.qmd`
 
--   Save the image shown on the main page with these parameters
+-   Save the image shown on the main page with these parameters, if generated via ggplot
 
     ```         
     ggsave(plot = plot_object, filename = "plot_name.png",
@@ -25,6 +25,8 @@ This project contains all the files for the blog.
 -   Run `quarto preview` in the terminal, or click the Render button and see the post in the Viewer pane within RStudio. Same works for VS Code.
 
 -   When satisfied with the result, send `Ctrl+C` to the terminal to cancel `quarto preview`
+
+    -   For previewing how a page would look on mobile, press \`Ctrl + Shift + I\` to access developer tools and click the mobile icon (same on Chrome and Firefox). Ideally nothing should be overflowing the page and creating lots of unnecessary whitespace on the page.
 
 -   For converting the final ipynb file, this command should be run from the terminal
 
