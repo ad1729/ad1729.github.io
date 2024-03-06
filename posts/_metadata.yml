@@ -27,3 +27,15 @@ format:
     code-overflow: scroll
     code-tools: true
     footnotes-hover: true
+
+comments:
+  giscus:
+    repo: ad1729/ad1729.github.io
+    category: Announcements
+    mapping: title
+    reactions-enabled: false
+    # loading: lazy
+    input-position: top
+    theme:
+      light: light
+      dark: dark_dimmed
