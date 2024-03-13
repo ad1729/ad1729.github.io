@@ -578,7 +578,7 @@ This post is based on the following references
 The four figures --- going clockwise from top left --- show
 
 1.  the probability of compliance as a function of the confounder $U$\
-    \$\$\\text{Pr}\[C = 1 \| U\] = 1 / (1 + \\text{exp}(-2 + 0.5)) u,\\ u \\in \[0, 10\]\$\$
+    \$\$\\text{Pr}\[C = 1 \| U\] = 1 / (1 + \\text{exp}(-2 + 0.5 u)),\\ u \\in \[0, 10\]\$\$
 
 2.  the realized distribution of the treatment levels among those who received the treatment[^18] simulated from the truncated *Gamma* distribution rounded to the nearest integer $$x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$$
 
