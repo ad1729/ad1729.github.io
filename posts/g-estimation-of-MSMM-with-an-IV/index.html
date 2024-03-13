@@ -870,7 +870,7 @@ A  0.01310    0.01065    1.23    0.219</code></pre>
 <p>The four figures — going clockwise from top left — show</p>
 <ol type="1">
 <li><p>the probability of compliance as a function of the confounder <span class="math inline">\(U\)</span><br>
-$$\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5)) u,\ u \in [0, 10]$$</p></li>
+$$\text{Pr}[C = 1 | U] = 1 / (1 + \text{exp}(-2 + 0.5 u)),\ u \in [0, 10]$$</p></li>
 <li><p>the realized distribution of the treatment levels among those who received the treatment<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> simulated from the truncated <em>Gamma</em> distribution rounded to the nearest integer <span class="math display">\[x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))\]</span></p></li>
 <li><p>balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(A\)</span> (which is <em>not</em> balanced because of confounding by <span class="math inline">\(U\)</span>), and</p></li>
 <li><p>balance of <span class="math inline">\(U\)</span> across levels of <span class="math inline">\(Z\)</span> (which is balanced because of randomization)</p></li>
@@ -2098,7 +2098,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-610"><a href="#cb31-610"></a>The four figures --- going clockwise from top left --- show</span>
 <span id="cb31-611"><a href="#cb31-611"></a></span>
 <span id="cb31-612"><a href="#cb31-612"></a><span class="ss">1.  </span>the probability of compliance as a function of the confounder $U$\</span>
-<span id="cb31-613"><a href="#cb31-613"></a>    \$\$<span class="sc">\\</span>text{Pr}<span class="sc">\[</span>C = 1 \| U<span class="sc">\]</span> = 1 / (1 + <span class="sc">\\</span>text{exp}(-2 + 0.5)) u,<span class="sc">\\</span> u <span class="sc">\\</span>in <span class="sc">\[</span>0, 10<span class="sc">\]</span>\$\$</span>
+<span id="cb31-613"><a href="#cb31-613"></a>    \$\$<span class="sc">\\</span>text{Pr}<span class="sc">\[</span>C = 1 \| U<span class="sc">\]</span> = 1 / (1 + <span class="sc">\\</span>text{exp}(-2 + 0.5 u)),<span class="sc">\\</span> u <span class="sc">\\</span>in <span class="sc">\[</span>0, 10<span class="sc">\]</span>\$\$</span>
 <span id="cb31-614"><a href="#cb31-614"></a></span>
 <span id="cb31-615"><a href="#cb31-615"></a><span class="ss">2.  </span>the realized distribution of the treatment levels among those who received the treatment<span class="ot">[^18]</span> simulated from the truncated *Gamma* distribution rounded to the nearest integer $$x_i \sim \text{max}(1, \text{min}(\Gamma(\text{shape} = 5,\ \text{scale} = 4), 100))$$</span>
 <span id="cb31-616"><a href="#cb31-616"></a></span>
