@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Akshat Dwivedi -</title>
+<title>Akshat Dwivedi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +24,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -81,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
@@ -100,6 +99,7 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -210,11 +210,6 @@ window.Quarto = {
 <div class="listing-subtitle">
 <a href="./posts/mathjax-scrollable-box-display-mode/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
-Quarto
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/mathjax-scrollable-box-display-mode/index.html" class="no-external">While writing new posts, I preview them on (Google) Chrome on my laptop before publishing. The three people who read my blog posts usually read them on mobile. So one fine…</a>
 </div>
@@ -224,10 +219,13 @@ Quarto
 <div class="listing-date">
 Mar 5, 2024
 </div>
+<div class="metadata-value listing-word-count">
+541 words
+</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Causal Inference,Instrumental Variables,G-estimation,G-computation,GEE,R" data-listing-date-sort="1707433200000" data-listing-file-modified-sort="1710319955127" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4928">
+<div class="quarto-post image-right" data-index="1" data-categories="Causal Inference,Instrumental Variables,G-estimation,G-computation,GEE,R" data-listing-date-sort="1707433200000" data-listing-file-modified-sort="1710328575790" data-listing-date-modified-sort="1710284400000" data-listing-reading-time-sort="25" data-listing-word-count-sort="4928">
 <div class="thumbnail">
 <p><a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external"></a></p><a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external">
 <p><img src="./posts/g-estimation-of-MSMM-with-an-IV/image-MSMM-IV.png" class="thumbnail-image"></p>
@@ -240,26 +238,6 @@ Mar 5, 2024
 <div class="listing-subtitle">
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
-Causal Inference
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Instrumental Variables'); return false;">
-Instrumental Variables
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('G-estimation'); return false;">
-G-estimation
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('G-computation'); return false;">
-G-computation
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GEE'); return false;">
-GEE
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external">In a previous post, I used the <em>ratio estimator</em> and the method of <em>instrumental variables</em> (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</a>
 </div>
@@ -268,6 +246,9 @@ R
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external">
 <div class="listing-date">
 Feb 9, 2024
+</div>
+<div class="metadata-value listing-word-count">
+4,928 words
 </div>
 </a>
 </div>
@@ -285,11 +266,6 @@ Feb 9, 2024
 <div class="listing-subtitle">
 <a href="./posts/spelling-bee/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
-Python
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/spelling-bee/index.html" class="no-external">All the previous posts on this blog have been in R. But sometimes I want to program in another language – Python, Scala, etc. So in the process of setting up and testing…<em></em><sup></sup></a>
 </div>
@@ -298,6 +274,9 @@ Python
 <a href="./posts/spelling-bee/index.html" class="no-external">
 <div class="listing-date">
 Oct 8, 2023
+</div>
+<div class="metadata-value listing-word-count">
+1,038 words
 </div>
 </a>
 </div>
@@ -315,20 +294,6 @@ Oct 8, 2023
 <div class="listing-subtitle">
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
-Causal Inference
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Instrumental Variables'); return false;">
-Instrumental Variables
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Advertising'); return false;">
-Advertising
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external">This (longer-than-expected) post compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset. Along the way, it goes off…</a>
 </div>
@@ -337,6 +302,9 @@ R
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external">
 <div class="listing-date">
 Sep 28, 2023
+</div>
+<div class="metadata-value listing-word-count">
+8,856 words
 </div>
 </a>
 </div>
@@ -354,17 +322,6 @@ Sep 28, 2023
 <div class="listing-subtitle">
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Tweedie'); return false;">
-Tweedie
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Offset'); return false;">
-Offset
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external">This post explores several things:</a>
 </div>
@@ -373,6 +330,9 @@ Offset
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external">
 <div class="listing-date">
 Jul 30, 2023
+</div>
+<div class="metadata-value listing-word-count">
+1,962 words
 </div>
 </a>
 </div>
@@ -390,17 +350,6 @@ Jul 30, 2023
 <div class="listing-subtitle">
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GLM'); return false;">
-GLM
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Multicollinearity'); return false;">
-Multicollinearity
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external">TL;DR: Use the <em>alias</em> function in R to check if you have <em>nested factors</em> (predictors) in your data</a>
 </div>
@@ -409,6 +358,9 @@ Multicollinearity
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external">
 <div class="listing-date">
 Mar 31, 2023
+</div>
+<div class="metadata-value listing-word-count">
+540 words
 </div>
 </a>
 </div>
@@ -426,17 +378,6 @@ Mar 31, 2023
 <div class="listing-subtitle">
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GLM'); return false;">
-GLM
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GEE'); return false;">
-GEE
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external">TL;DR: The geepack R package doesn’t do what it doesn’t claim to do</a>
 </div>
@@ -445,6 +386,9 @@ GEE
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external">
 <div class="listing-date">
 Mar 20, 2023
+</div>
+<div class="metadata-value listing-word-count">
+2,828 words
 </div>
 </a>
 </div>
@@ -462,17 +406,6 @@ Mar 20, 2023
 <div class="listing-subtitle">
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
-Miscellaneous
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Measurement'); return false;">
-Measurement
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external">In the fall of 2022, I was gifted a cocktail mixing set for my birthday<sup>1</sup> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it…</a>
 </div>
@@ -481,6 +414,9 @@ R
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external">
 <div class="listing-date">
 Jan 9, 2023
+</div>
+<div class="metadata-value listing-word-count">
+968 words
 </div>
 </a>
 </div>
@@ -498,17 +434,6 @@ Jan 9, 2023
 <div class="listing-subtitle">
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
-Analysis
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
-Miscellaneous
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external">In the fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</a>
 </div>
@@ -517,6 +442,9 @@ R
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external">
 <div class="listing-date">
 Aug 16, 2022
+</div>
+<div class="metadata-value listing-word-count">
+786 words
 </div>
 </a>
 </div>
@@ -534,11 +462,6 @@ Aug 16, 2022
 <div class="listing-subtitle">
 <a href="./posts/hello-world/index.html" class="no-external"></a>
 </div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
-Miscellaneous
-</div>
-</div>
 <div class="listing-description">
 <a href="./posts/hello-world/index.html" class="no-external">This first post is to check whether the features I want for this blog work as desired.</a>
 </div>
@@ -547,6 +470,9 @@ Miscellaneous
 <a href="./posts/hello-world/index.html" class="no-external">
 <div class="listing-date">
 Aug 1, 2022
+</div>
+<div class="metadata-value listing-word-count">
+112 words
 </div>
 </a>
 </div>
@@ -779,6 +705,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/akshat\.blog");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1095,7 +1041,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
 <p>akshat.blog © 2022-2024 Akshat Dwivedi. Built with <a href="https://www.quarto.org">Quarto</a> and <a href="https://pages.github.com">GitHub Pages</a>. Read the <a href="https://github.com/ad1729/ad1729.github.io/LICENSE.md">license.</a></p>
-<div class="toc-actions"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/ad1729/ad1729.github.io/blob/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ad1729/ad1729.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
@@ -1105,4 +1051,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
