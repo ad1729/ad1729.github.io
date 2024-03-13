@@ -9,7 +9,6 @@ listing:
   max-items: 100
   page-size: 20
   #fields: [image, date, title, description, reading-time, word-count]
-  fields: [image, date, title, description, word-count]
 page-layout: full
 title-block-banner: false
 ---
