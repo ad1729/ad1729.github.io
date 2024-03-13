@@ -1,16 +1,16 @@
 ---
-title: ""
 listing:
+  type: default
   contents: posts
   sort: "date desc"
-  type: default
-  categories: true
+  categories: numbered
   sort-ui: false
   filter-ui: false
-  max-items: 10
-  page-size: 10
+  max-items: 100
+  page-size: 20
+  #fields: [image, date, title, description, reading-time, word-count]
+  fields: [image, date, title, description, word-count]
 page-layout: full
 title-block-banner: false
 ---
-
 

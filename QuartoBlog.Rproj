@@ -16,3 +16,7 @@ AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
 QuitChildProcessesOnExit: Yes
+
+PythonType: virtualenv
+PythonVersion: 3.10.12
+PythonPath: blogpyenv/bin/python3

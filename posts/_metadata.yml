@@ -10,13 +10,15 @@ title-block-banner: true
 # Default for table of contents
 toc: true
 toc-title: Table of contents
-toc-location: right
+toc-location: left
+toc-expand: true
 
 # Default knitr options
 execute:
   echo: true
   message: true
   warning: true
+  cache: false
 
 # Fold code by default
 format:
@@ -26,7 +28,6 @@ format:
     code-copy: hover
     code-overflow: scroll
     code-tools: true
-    footnotes-hover: true
 
 comments:
   giscus:
