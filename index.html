@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
@@ -210,6 +210,11 @@ window.Quarto = {
 <div class="listing-subtitle">
 <a href="./posts/mathjax-scrollable-box-display-mode/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
+Quarto
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/mathjax-scrollable-box-display-mode/index.html" class="no-external">While writing new posts, I preview them on (Google) Chrome on my laptop before publishing. The three people who read my blog posts usually read them on mobile. So one fine…</a>
 </div>
@@ -218,9 +223,6 @@ window.Quarto = {
 <a href="./posts/mathjax-scrollable-box-display-mode/index.html" class="no-external">
 <div class="listing-date">
 Mar 5, 2024
-</div>
-<div class="metadata-value listing-word-count">
-541 words
 </div>
 </a>
 </div>
@@ -238,6 +240,26 @@ Mar 5, 2024
 <div class="listing-subtitle">
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
+Causal Inference
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Instrumental Variables'); return false;">
+Instrumental Variables
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('G-estimation'); return false;">
+G-estimation
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('G-computation'); return false;">
+G-computation
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('GEE'); return false;">
+GEE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external">In a previous post, I used the <em>ratio estimator</em> and the method of <em>instrumental variables</em> (IV) to estimate the effect of showing an ad on sales from a fictitious ad campaign.</a>
 </div>
@@ -246,9 +268,6 @@ Mar 5, 2024
 <a href="./posts/g-estimation-of-MSMM-with-an-IV/index.html" class="no-external">
 <div class="listing-date">
 Feb 9, 2024
-</div>
-<div class="metadata-value listing-word-count">
-4,928 words
 </div>
 </a>
 </div>
@@ -266,6 +285,11 @@ Feb 9, 2024
 <div class="listing-subtitle">
 <a href="./posts/spelling-bee/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/spelling-bee/index.html" class="no-external">All the previous posts on this blog have been in R. But sometimes I want to program in another language – Python, Scala, etc. So in the process of setting up and testing…<em></em><sup></sup></a>
 </div>
@@ -274,9 +298,6 @@ Feb 9, 2024
 <a href="./posts/spelling-bee/index.html" class="no-external">
 <div class="listing-date">
 Oct 8, 2023
-</div>
-<div class="metadata-value listing-word-count">
-1,038 words
 </div>
 </a>
 </div>
@@ -294,6 +315,20 @@ Oct 8, 2023
 <div class="listing-subtitle">
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
+Causal Inference
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Instrumental Variables'); return false;">
+Instrumental Variables
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Advertising'); return false;">
+Advertising
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external">This (longer-than-expected) post compares intention-to-treat, per-protocol, as-treated, and instrumental variable analyses on a simulated dataset. Along the way, it goes off…</a>
 </div>
@@ -302,9 +337,6 @@ Oct 8, 2023
 <a href="./posts/instrumental-variable-in-RCT/index.html" class="no-external">
 <div class="listing-date">
 Sep 28, 2023
-</div>
-<div class="metadata-value listing-word-count">
-8,856 words
 </div>
 </a>
 </div>
@@ -322,6 +354,17 @@ Sep 28, 2023
 <div class="listing-subtitle">
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Tweedie'); return false;">
+Tweedie
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Offset'); return false;">
+Offset
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external">This post explores several things:</a>
 </div>
@@ -330,9 +373,6 @@ Sep 28, 2023
 <a href="./posts/tweedie-with-identity-link-and-offset/index.html" class="no-external">
 <div class="listing-date">
 Jul 30, 2023
-</div>
-<div class="metadata-value listing-word-count">
-1,962 words
 </div>
 </a>
 </div>
@@ -350,6 +390,17 @@ Jul 30, 2023
 <div class="listing-subtitle">
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('GLM'); return false;">
+GLM
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Multicollinearity'); return false;">
+Multicollinearity
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external">TL;DR: Use the <em>alias</em> function in R to check if you have <em>nested factors</em> (predictors) in your data</a>
 </div>
@@ -358,9 +409,6 @@ Jul 30, 2023
 <a href="./posts/one-reason-why-a-glm-coefficient-is-NA/index.html" class="no-external">
 <div class="listing-date">
 Mar 31, 2023
-</div>
-<div class="metadata-value listing-word-count">
-540 words
 </div>
 </a>
 </div>
@@ -378,6 +426,17 @@ Mar 31, 2023
 <div class="listing-subtitle">
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('GLM'); return false;">
+GLM
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('GEE'); return false;">
+GEE
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external">TL;DR: The geepack R package doesn’t do what it doesn’t claim to do</a>
 </div>
@@ -386,9 +445,6 @@ Mar 31, 2023
 <a href="./posts/gee-on-aggregated-data/index.html" class="no-external">
 <div class="listing-date">
 Mar 20, 2023
-</div>
-<div class="metadata-value listing-word-count">
-2,828 words
 </div>
 </a>
 </div>
@@ -406,6 +462,17 @@ Mar 20, 2023
 <div class="listing-subtitle">
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
+Miscellaneous
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Measurement'); return false;">
+Measurement
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external">In the fall of 2022, I was gifted a cocktail mixing set for my birthday<sup>1</sup> which included a cocktail jigger. A jigger is an essential tool for mixing cocktails as it makes it…</a>
 </div>
@@ -414,9 +481,6 @@ Mar 20, 2023
 <a href="./posts/jigger-volume-estimation/index.html" class="no-external">
 <div class="listing-date">
 Jan 9, 2023
-</div>
-<div class="metadata-value listing-word-count">
-968 words
 </div>
 </a>
 </div>
@@ -434,6 +498,17 @@ Jan 9, 2023
 <div class="listing-subtitle">
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
+Analysis
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
+Miscellaneous
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external">In the fall of 2021, a friend who runs her own business sent me this picture with the accompanying question:</a>
 </div>
@@ -442,9 +517,6 @@ Jan 9, 2023
 <a href="./posts/how-many-ratings-do-i-need/index.html" class="no-external">
 <div class="listing-date">
 Aug 16, 2022
-</div>
-<div class="metadata-value listing-word-count">
-786 words
 </div>
 </a>
 </div>
@@ -462,6 +534,11 @@ Aug 16, 2022
 <div class="listing-subtitle">
 <a href="./posts/hello-world/index.html" class="no-external"></a>
 </div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Miscellaneous'); return false;">
+Miscellaneous
+</div>
+</div>
 <div class="listing-description">
 <a href="./posts/hello-world/index.html" class="no-external">This first post is to check whether the features I want for this blog work as desired.</a>
 </div>
@@ -470,9 +547,6 @@ Aug 16, 2022
 <a href="./posts/hello-world/index.html" class="no-external">
 <div class="listing-date">
 Aug 1, 2022
-</div>
-<div class="metadata-value listing-word-count">
-112 words
 </div>
 </a>
 </div>
