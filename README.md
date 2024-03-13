@@ -28,7 +28,7 @@ This project contains all the files for the blog.
 
     -   For previewing how a page would look on mobile, press \`Ctrl + Shift + I\` to access developer tools and click the mobile icon (same on Chrome and Firefox). Ideally nothing should be overflowing the page and creating lots of unnecessary whitespace on the page.
 
--   For converting the final ipynb file, this command should be run from the terminal
+-   For converting the final ipynb file, this command should be run from the terminal (also see [this](https://quarto.org/docs/projects/code-execution.html#notebooks))
 
     ```         
     quarto convert posts/<post_dir>/ignored.ipynb --output posts/<post_dir>/index.qmd
