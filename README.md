@@ -17,10 +17,12 @@ This project contains all the files for the blog.
 -   Save the image shown on the main page with these parameters, if generated via ggplot
 
     ```         
-    ggsave(plot = plot_object, filename = "plot_name.png",
+    ggsave(plot = plot_object, filename = "<plot_name>.png",
            device = "png", units = "px", width = 900, height = 800, dpi = 180,
-           path = fs::path("posts", "subdirectory"))
+           path = fs::path("posts", "<subdirectory>"))
     ```
+
+    `plot_name` and `subdirectory` should be modified for each post. The dpi can be modified if the plot has some issues.
 
 -   Run `quarto preview` in the terminal, or click the Render button and see the post in the Viewer pane within RStudio. Same works for VS Code.
 
