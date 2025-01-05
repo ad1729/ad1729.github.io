@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/fitting-tweedie-models-to-claims-data/index.html",
       "/posts/simulating-survival-data-with-non-PH-and-cure/index.html",
       "/posts/mathjax-scrollable-box-display-mode/index.html",
       "/posts/g-estimation-of-MSMM-with-an-IV/index.html",

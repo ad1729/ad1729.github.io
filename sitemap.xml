@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://akshat.blog/posts/tweedie-with-identity-link-and-offset/index.html</loc>
-    <lastmod>2024-03-02T17:42:17.001Z</lastmod>
+    <lastmod>2024-09-28T11:03:43.490Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/simulating-survival-data-with-non-PH-and-cure/index.html</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://akshat.blog/posts/instrumental-variable-in-RCT/index.html</loc>
-    <lastmod>2024-03-05T03:40:41.723Z</lastmod>
+    <lastmod>2024-09-28T11:00:49.706Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/hello-world/index.html</loc>
@@ -22,15 +22,19 @@
   </url>
   <url>
     <loc>https://akshat.blog/posts/g-estimation-of-MSMM-with-an-IV/index.html</loc>
-    <lastmod>2024-03-13T11:16:15.790Z</lastmod>
+    <lastmod>2024-09-28T11:00:06.892Z</lastmod>
+  </url>
+  <url>
+    <loc>https://akshat.blog/index.html</loc>
+    <lastmod>2024-03-13T16:44:56.488Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/about.html</loc>
     <lastmod>2023-07-30T19:00:10.702Z</lastmod>
   </url>
   <url>
-    <loc>https://akshat.blog/index.html</loc>
-    <lastmod>2024-03-13T16:44:56.488Z</lastmod>
+    <loc>https://akshat.blog/posts/fitting-tweedie-models-to-claims-data/index.html</loc>
+    <lastmod>2025-01-05T05:46:34.886Z</lastmod>
   </url>
   <url>
     <loc>https://akshat.blog/posts/gee-on-aggregated-data/index.html</loc>
