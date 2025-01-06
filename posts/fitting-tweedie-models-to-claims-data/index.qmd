@@ -1,7 +1,7 @@
 ---
 title: "Sampling from the poor man's posterior distribution of parameters from models fitted to claims data"
 date: "2025-01-05"
-#last-modified-date: "2025-01-05"
+last-modified-date: "2025-01-06"
 categories: [Bayesian, Bootstrap, Insurance, R, Tweedie]
 image: "tweedie_bootstrap_plot.png"
 code-fold: true
@@ -9,7 +9,7 @@ code-fold: true
 
 This post is about fitting a handful of different models to a subset of a popular car-insurance claims data available online. Plausible future data values can be simulated from the fitted models and used for downstream tasks. Simulated values from the fitted models can also be compared with the actual observed data as a sanity check.
 
-I've never worked in the field of insurance, but I've been wanting to dive into Tweedie models for a while, since non-negative (response) variables with lots of zeroes and positive skew are pretty common and show up in many diverse discplines such across the social sciences, insurance, biology, etc.
+I've never worked in the field of insurance, but I've been wanting to dive into Tweedie models for a while, since non-negative (response) variables with lots of zeroes and positive skew are pretty common and show up in many diverse disciplines such across the social sciences, insurance, biology, etc.
 
 What piqued my interest in insurance data is that the response variable can additionally have very large "outliers". In other fields, outliers resulting from corrupted data or measurement errors can be discarded from the analysis, or robust estimators / loss functions can be used for modelling. However, in such settings, it may not necessarily make sense to discard such values because they likely represent the true cost of damages from accidents[^1] — which an insurer may be on the hook for.
 
@@ -246,7 +246,7 @@ nonparametric_bootstrap_totals %>%
   )
 ```
 
-The empiricial (cumulative) distribution function (EDF or eCDF) for the bootstrap distribution of the total claim amount from the population under unit exposure is shown above. The strong multimodality shows up as bumps in the eCDF but these seem pretty minor.
+The empirical (cumulative) distribution function (EDF or eCDF) for the bootstrap distribution of the total claim amount from the population under unit exposure is shown above. The strong multimodality shows up as bumps in the eCDF but these seem pretty minor.
 
 This approach ignores all the predictors in the data, and assumes that everyone has the same risk and spreads out that risk across every individual equally. However, it's expected that the risk may differ across factors such as driver's age, car model characteristics, region, etc. For this, we need more advanced approaches in the form of regression models.
 
@@ -282,13 +282,7 @@ tweedie_intercept_only <- glm(
 summary(tweedie_intercept_only)
 ```
 
-So our best guess for the distribution of $Y_i^*$'s from the Tweedie class of models is
-
-$$
-\text{Tweedie}(\mu = 217.78..., \phi = 25966.83..., p = 1.6...)
-$$
-
-(where the ellipses indicate truncation). These estimates for $\hat\mu_{\text{int}}$ and $\hat\phi_{\text{int}}$ will be used again, so they're stored as variables.
+So our best guess for the distribution of $Y_i^*$'s from the Tweedie class of models is $\text{Tweedie}(\mu = 217.78..., \phi = 25966.83..., p = 1.6...)$ (where the ellipses indicate truncation). These estimates for $\hat\mu_{\text{int}}$ and $\hat\phi_{\text{int}}$ will be used again, so they're stored as variables.
 
 ```{r}
 #| code-fold: false
