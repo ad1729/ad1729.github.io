@@ -1,7 +1,7 @@
 ---
 title: "Sampling from the poor man's posterior distribution of parameters from models fitted to claims data"
 date: "2025-01-05"
-last-modified-date: "2025-01-06"
+date-modified: "2025-01-06"
 categories: [Bayesian, Bootstrap, Insurance, R, Tweedie]
 image: "tweedie_bootstrap_plot.png"
 code-fold: true
