@@ -2,7 +2,7 @@
 title: "Using an obscure causal inference method to estimate treatment effects with the help of another less obscure causal inference method"
 date: "2024-02-09"
 date-modified: "2024-03-13"
-categories: [Causal Inference, Experimentation, Instrumental Variables, G-estimation, G-computation, GEE, R]
+categories: [Advertising, Causal Inference, Experimentation, Instrumental Variables, G-estimation, G-computation, GEE, R]
 image: "image-MSMM-IV.png"
 ---
 
