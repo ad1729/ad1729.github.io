@@ -188,9 +188,9 @@ window.Quarto = {
     <div class="quarto-title column-body">
       <div class="quarto-title-block"><div><h1 class="title">How should the untreated in the treatment group from an experiment be analyzed?</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
                                 <div class="quarto-categories">
+                <div class="quarto-category">Advertising</div>
                 <div class="quarto-category">Causal Inference</div>
                 <div class="quarto-category">Instrumental Variables</div>
-                <div class="quarto-category">Advertising</div>
                 <div class="quarto-category">R</div>
               </div>
                   </div>
@@ -267,11 +267,11 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.2     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.2     ✔ tibble    3.2.1
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-✔ purrr     1.0.1     
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
@@ -431,10 +431,13 @@ complier         0         1
 <span id="cb8-3"><a href="#cb8-3"></a>  marginaleffects<span class="sc">::</span><span class="fu">avg_comparisons</span>(<span class="at">variables =</span> <span class="st">"Z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Term Contrast Estimate Std. Error  z Pr(&gt;|z|)   S  2.5 % 97.5 %
-    Z    1 - 0   0.0807     0.0012 67   &lt;0.001 Inf 0.0783  0.083
+ Estimate Std. Error  z Pr(&gt;|z|)   S  2.5 % 97.5 %
+   0.0807     0.0012 67   &lt;0.001 Inf 0.0783  0.083
 
-Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high </code></pre>
+Term: Z
+Type:  response 
+Comparison: mean(1) - mean(0)
+Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, predicted_lo, predicted_hi, predicted </code></pre>
 </div>
 </div>
 <p>or by fitting an <em>identity-link logistic regression</em> where the estimated coefficient for <span class="math inline">\(Z\)</span> can be directly interpreted as the risk difference</p>
@@ -1988,7 +1991,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div class="sourceCode" id="cb77" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb77-1"><a href="#cb77-1"></a><span class="co">---</span></span>
 <span id="cb77-2"><a href="#cb77-2"></a><span class="an">title:</span><span class="co"> "How should the untreated in the treatment group from an experiment be analyzed?"</span></span>
 <span id="cb77-3"><a href="#cb77-3"></a><span class="an">date:</span><span class="co"> "2023-09-28"</span></span>
-<span id="cb77-4"><a href="#cb77-4"></a><span class="an">categories:</span><span class="co"> [Causal Inference, Instrumental Variables, R]</span></span>
+<span id="cb77-4"><a href="#cb77-4"></a><span class="an">categories:</span><span class="co"> [Advertising, Causal Inference, Instrumental Variables, R]</span></span>
 <span id="cb77-5"><a href="#cb77-5"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
 <span id="cb77-6"><a href="#cb77-6"></a><span class="an">toc-expand:</span><span class="co"> true</span></span>
 <span id="cb77-7"><a href="#cb77-7"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
