@@ -178,6 +178,17 @@
       ],
       "Hash": "f38a72a419b91faac0ce5d9eee04c120"
     },
+    "S7": {
+      "Package": "S7",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "5deb66b3ae702137e1f4162c11861e76"
+    },
     "SparseM": {
       "Package": "SparseM",
       "Version": "1.84-2",
@@ -570,6 +581,18 @@
         "utils"
       ],
       "Hash": "d7e13f49c19103ece9e58ad2d83a7354"
+    },
+    "carrier": {
+      "Package": "carrier",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "lobstr",
+        "rlang"
+      ],
+      "Hash": "bd5d91e184d9e4b3c8247ea75eb0b838"
     },
     "casebase": {
       "Package": "casebase",
@@ -1059,6 +1082,19 @@
       ],
       "Hash": "54ed3ea01b11e81a86544faaecfef8e2"
     },
+    "eha": {
+      "Package": "eha",
+      "Version": "2.11.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "graphics",
+        "stats",
+        "survival"
+      ],
+      "Hash": "45ea796b282a5be368d10ab0d63e569e"
+    },
     "ellipsis": {
       "Package": "ellipsis",
       "Version": "0.3.2",
@@ -1453,9 +1489,28 @@
       ],
       "Hash": "384b388bd9155468d2c851846ee69f9f"
     },
+    "ggh4x": {
+      "Package": "ggh4x",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "S7",
+        "cli",
+        "ggplot2",
+        "grid",
+        "gtable",
+        "lifecycle",
+        "rlang",
+        "scales",
+        "stats",
+        "vctrs"
+      ],
+      "Hash": "024c1c1d5894bf313a1625b167984f2e"
+    },
     "ggplot2": {
       "Package": "ggplot2",
-      "Version": "3.5.1",
+      "Version": "3.5.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1476,7 +1531,7 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "44c6a2f8202d5b7e878ea274b1092426"
+      "Hash": "7ad64861e028a777d7d67ff83231b548"
     },
     "ggraph": {
       "Package": "ggraph",
@@ -2191,6 +2246,17 @@
       ],
       "Hash": "785ef8e22389d4a7634c6c944f2dc07d"
     },
+    "mirai": {
+      "Package": "mirai",
+      "Version": "2.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "nanonext"
+      ],
+      "Hash": "197314588929cab57dcc02b7c1f59e82"
+    },
     "modelr": {
       "Package": "modelr",
       "Version": "0.1.11",
@@ -2256,6 +2322,16 @@
         "stats"
       ],
       "Hash": "77c61d51ce0f36e3c1a76e6b295aab31"
+    },
+    "nanonext": {
+      "Package": "nanonext",
+      "Version": "1.6.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "3616336d212a29d0ef856f387aa4983b"
     },
     "nleqslv": {
       "Package": "nleqslv",
@@ -2624,7 +2700,7 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "1.0.2",
+      "Version": "1.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2635,7 +2711,7 @@
         "rlang",
         "vctrs"
       ],
-      "Hash": "1cba04a4e9414bdefc9dcaa99649a8dc"
+      "Hash": "9240cfb47489133f809918a0d3cc60cb"
     },
     "qgam": {
       "Package": "qgam",
@@ -3272,6 +3348,18 @@
         "utils"
       ],
       "Hash": "5aaa9cbaf4aba20f8e06fdea1850a398"
+    },
+    "survsim": {
+      "Package": "survsim",
+      "Version": "1.1.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "eha",
+        "statmod"
+      ],
+      "Hash": "fe88d968352f45d144cdf35e88297335"
     },
     "sys": {
       "Package": "sys",
